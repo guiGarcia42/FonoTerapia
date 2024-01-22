@@ -1,0 +1,29 @@
+name: fono_terapia
+description: Um aplicativo para pacientes treinar a fala.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 0.0.1+1
+
+environment:
+  sdk: '>=2.19.4 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  shared_preferences: ^2.2.2
+  google_fonts: ^6.1.0
+  animated_card: ^2.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+  - assets/images/
