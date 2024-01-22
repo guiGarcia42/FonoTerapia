@@ -22,7 +22,13 @@ class HomePage extends StatelessWidget {
             Container(
               width: size.width,
               height: size.height * 0.40,
-              color: AppColors.orange,
+              decoration: BoxDecoration(
+                gradient: RadialGradient(
+                  colors: [AppColors.lightOrange, AppColors.darkOrange],
+                  center: Alignment.center,
+                  radius: 0.7,
+                )
+              ),
             ),
             Stack(
               children: [
