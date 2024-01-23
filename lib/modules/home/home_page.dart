@@ -80,7 +80,7 @@ class HomePage extends StatelessWidget {
                         vertical: size.height * 0.025,
                       ),
                       child: Text(
-                        "Atividades Terapeuticas para a Afasia",
+                        "Atividades Terapêuticas para a Afasia",
                         textAlign: TextAlign.center,
                         style: TextStyles.titleHome,
                       ),

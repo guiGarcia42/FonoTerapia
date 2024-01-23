@@ -9,7 +9,7 @@ class TextStyles {
     color: AppColors.darkGray,
   );
   static final title = GoogleFonts.lexendDeca(
-    fontSize: 40,
+    fontSize: 35,
     fontWeight: FontWeight.w600,
     color: AppColors.background,
   );
@@ -25,6 +25,11 @@ class TextStyles {
   );
   static final textRegular = GoogleFonts.inter(
     fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.darkGray,
+  );
+  static final menuOptionDescription = GoogleFonts.lexendDeca(
+    fontSize: 20,
     fontWeight: FontWeight.w500,
     color: AppColors.darkGray,
   );
