@@ -20,7 +20,7 @@ class FloatingIconCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          padding: const EdgeInsets.all(15),
           child: Icon(
             icon,
             color: AppColors.background,

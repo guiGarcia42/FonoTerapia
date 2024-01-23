@@ -8,9 +8,25 @@ class TextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.darkGray,
   );
+  static final title = GoogleFonts.lexendDeca(
+    fontSize: 40,
+    fontWeight: FontWeight.w600,
+    color: AppColors.background,
+  );
+  static final buttonText = GoogleFonts.lexendDeca(
+    fontSize: 30,
+    fontWeight: FontWeight.w600,
+    color: AppColors.background,
+  );
   static final buttonDescription = GoogleFonts.lexendDeca(
     fontSize: 15,
     fontWeight: FontWeight.w700,
     color: AppColors.darkGray,
   );
+  static final textRegular = GoogleFonts.inter(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.darkGray,
+  );
+
 }

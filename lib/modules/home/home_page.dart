@@ -23,12 +23,11 @@ class HomePage extends StatelessWidget {
               width: size.width,
               height: size.height * 0.40,
               decoration: BoxDecoration(
-                gradient: RadialGradient(
-                  colors: [AppColors.lightOrange, AppColors.darkOrange],
-                  center: Alignment.center,
-                  radius: 0.7,
-                )
-              ),
+                  gradient: RadialGradient(
+                colors: [AppColors.lightOrange, AppColors.darkOrange],
+                center: Alignment.center,
+                radius: 0.7,
+              )),
             ),
             Stack(
               children: [
@@ -72,12 +71,14 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(AppImages.logomini, height: 60),
+                  Image.asset(AppImages.logomini, height: size.height * 0.1),
                   AnimatedCard(
                     direction: AnimatedCardDirection.bottom,
                     child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: size.width * 0.2,
+                        vertical: size.height * 0.025,
+                      ),
                       child: Text(
                         "Atividades Terapeuticas para a Afasia",
                         textAlign: TextAlign.center,
@@ -89,17 +90,19 @@ class HomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       IconButtonWithDescription(
+                        size: size,
                         icon: Icons.info_outline,
                         description: "Sobre",
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, "/about");
+                          Navigator.pushNamed(context, "/about");
                         },
                       ),
                       IconButtonWithDescription(
+                        size: size,
                         icon: Icons.arrow_circle_right_outlined,
                         description: "Iniciar",
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, "/menu");
+                          Navigator.pushNamed(context, "/menu");
                         },
                       ),
                     ],

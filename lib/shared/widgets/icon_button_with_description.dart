@@ -3,11 +3,14 @@ import 'package:fono_terapia/shared/themes/app_colors.dart';
 import 'package:fono_terapia/shared/themes/app_text_styles.dart';
 
 class IconButtonWithDescription extends StatelessWidget {
+  final Size size;
   final IconData icon;
   final String description;
   final VoidCallback onPressed;
+  
 
   const IconButtonWithDescription({
+    required this.size,
     required this.icon,
     required this.description,
     required this.onPressed,
@@ -21,6 +24,7 @@ class IconButtonWithDescription extends StatelessWidget {
         ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
+            elevation: 10,
             padding:
                 EdgeInsets.zero,
             shape: RoundedRectangleBorder(
@@ -29,12 +33,12 @@ class IconButtonWithDescription extends StatelessWidget {
             backgroundColor: AppColors.darkGray,
           ),
           child: SizedBox(
-            width: 100,
+            width: size.width * 0.25,
             child: Center(
               child: Icon(
                 icon,
                 color: AppColors.background,
-                size: 60,
+                size: size.height * 0.1,
               ),
             ),
           ),
