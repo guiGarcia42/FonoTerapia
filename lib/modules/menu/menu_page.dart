@@ -4,6 +4,8 @@ import 'package:fono_terapia/shared/themes/app_images.dart';
 import 'package:fono_terapia/shared/themes/app_text_styles.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 
+import '../../shared/widgets/picture_button_with_description.dart';
+
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
 
@@ -41,51 +43,17 @@ class MenuPage extends StatelessWidget {
                       left: 15, right: 15, top: 30, bottom: 20),
                   child: GridView.count(
                     crossAxisCount: 2,
+                    childAspectRatio: 0.9,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Image.asset(AppImages.logomini, height: size.height * 0.2),
-                          Text("Compreensão Auditiva",
-                          style: TextStyles.menuOptionDescription,
-                          textAlign: TextAlign.center,
-                          maxLines: 2,)
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Image.asset(AppImages.logomini, height: size.height * 0.2),
-                          Text("Compreensão Escrita",
-                          style: TextStyles.menuOptionDescription,
-                          textAlign: TextAlign.center,
-                          maxLines: 2)
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(AppImages.logomini, height: size.height * 0.2),
-                          Text("Escrita",
-                          style: TextStyles.menuOptionDescription,
-                          textAlign: TextAlign.center,
-                          maxLines: 2)
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(AppImages.logomini, height: size.height * 0.2),
-                          Text("Nomeação",
-                          style: TextStyles.menuOptionDescription,
-                          textAlign: TextAlign.center,
-                          maxLines: 2)
-                        ],
+                      PictureButtonWithDescription(
+                        description: "Compreensão Auditiva",
+                        imagePath: AppImages.logomini,
+                        size: size,
+                        onTap: () {},
                       ),
                       
-          
                     ],
                   ),
                 ),
