@@ -32,7 +32,7 @@ class AboutPage extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 45, bottom: 15),
                   child: Text(
                     "Sobre",
-                    style: TextStyles.title,
+                    style: TextStyles.titleMenu,
                   ),
                 ),
                 Image.asset(

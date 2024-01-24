@@ -3,7 +3,6 @@ import 'package:fono_terapia/shared/themes/app_colors.dart';
 import 'package:fono_terapia/shared/themes/app_images.dart';
 import 'package:fono_terapia/shared/themes/app_text_styles.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
-
 import '../../shared/widgets/picture_button_with_description.dart';
 
 class MenuPage extends StatelessWidget {
@@ -33,7 +32,7 @@ class MenuPage extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 45),
                 child: Text(
                   "Menu de Atividades Terapêuticas",
-                  style: TextStyles.title,
+                  style: TextStyles.titleMenu,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -51,9 +50,42 @@ class MenuPage extends StatelessWidget {
                         description: "Compreensão Auditiva",
                         imagePath: AppImages.logomini,
                         size: size,
-                        onTap: () {},
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          '/option',
+                          arguments: 0,
+                        ),
                       ),
-                      
+                      PictureButtonWithDescription(
+                        description: "Compreensão Escrita",
+                        imagePath: AppImages.logomini,
+                        size: size,
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          '/option',
+                          arguments: 1,
+                        ),
+                      ),
+                      PictureButtonWithDescription(
+                        description: "Escrita",
+                        imagePath: AppImages.logomini,
+                        size: size,
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          '/option',
+                          arguments: 2,
+                        ),
+                      ),
+                      PictureButtonWithDescription(
+                        description: "Nomeação",
+                        imagePath: AppImages.logomini,
+                        size: size,
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          '/option',
+                          arguments: 3,
+                        ),
+                      ),
                     ],
                   ),
                 ),

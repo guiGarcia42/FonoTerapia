@@ -8,8 +8,13 @@ class TextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.darkGray,
   );
-  static final title = GoogleFonts.lexendDeca(
+  static final titleMenu = GoogleFonts.lexendDeca(
     fontSize: 35,
+    fontWeight: FontWeight.w600,
+    color: AppColors.background,
+  );
+  static final titleOption = GoogleFonts.lexendDeca(
+    fontSize: 30,
     fontWeight: FontWeight.w600,
     color: AppColors.background,
   );

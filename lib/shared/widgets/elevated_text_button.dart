@@ -30,7 +30,7 @@ class ElevatedTextButton extends StatelessWidget {
         backgroundColor: AppColors.darkGray,
       ),
       child: SizedBox(
-        width: size.width * 0.5, 
+        width: size.width * 0.4, 
         height: 60,
         child: Center(
           child: Text(
