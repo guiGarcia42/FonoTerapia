@@ -11,12 +11,14 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final aspectRatioFactor = size.width / 400;
     return Scaffold(
-      body: Stack(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: size.width,
-            height: size.height * 0.25,
+            height: size.height * 0.20,
             decoration: BoxDecoration(
               gradient: RadialGradient(
                 colors: [AppColors.lightOrange, AppColors.darkOrange],
@@ -24,83 +26,81 @@ class MenuPage extends StatelessWidget {
                 radius: 0.7,
               ),
             ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 45),
+            child: SafeArea(
+              child: Center(
                 child: Text(
                   "Menu de Atividades Terapêuticas",
                   style: TextStyles.titleMenu,
                   textAlign: TextAlign.center,
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15, right: 15, top: 30, bottom: 20),
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.9,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    children: [
-                      PictureButtonWithDescription(
-                        description: "Compreensão Auditiva",
-                        imagePath: AppImages.logomini,
-                        size: size,
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          '/option',
-                          arguments: 0,
-                        ),
-                      ),
-                      PictureButtonWithDescription(
-                        description: "Compreensão Escrita",
-                        imagePath: AppImages.logomini,
-                        size: size,
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          '/option',
-                          arguments: 1,
-                        ),
-                      ),
-                      PictureButtonWithDescription(
-                        description: "Escrita",
-                        imagePath: AppImages.logomini,
-                        size: size,
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          '/option',
-                          arguments: 2,
-                        ),
-                      ),
-                      PictureButtonWithDescription(
-                        description: "Nomeação",
-                        imagePath: AppImages.logomini,
-                        size: size,
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          '/option',
-                          arguments: 3,
-                        ),
-                      ),
-                    ],
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: size.height * 0.005,
+                horizontal: size.height * 0.005,
+              ),
+              child: GridView.count(
+                crossAxisCount: 2,
+                childAspectRatio: 0.975 * aspectRatioFactor,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
+                children: [
+                  PictureButtonWithDescription(
+                    description: "Compreensão Auditiva",
+                    imagePath: AppImages.logomini,
+                    size: size,
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      '/option',
+                      arguments: 0,
+                    ),
                   ),
-                ),
+                  PictureButtonWithDescription(
+                    description: "Compreensão Escrita",
+                    imagePath: AppImages.logomini,
+                    size: size,
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      '/option',
+                      arguments: 1,
+                    ),
+                  ),
+                  PictureButtonWithDescription(
+                    description: "Escrita",
+                    imagePath: AppImages.logomini,
+                    size: size,
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      '/option',
+                      arguments: 2,
+                    ),
+                  ),
+                  PictureButtonWithDescription(
+                    description: "Nomeação",
+                    imagePath: AppImages.logomini,
+                    size: size,
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      '/option',
+                      arguments: 3,
+                    ),
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: ElevatedTextButton(
-                  size: size,
-                  text: "Voltar",
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
+            child: ElevatedTextButton(
+              size: size,
+              text: "Voltar",
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ),
         ],
       ),

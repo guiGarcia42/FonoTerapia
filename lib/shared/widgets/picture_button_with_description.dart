@@ -22,9 +22,10 @@ class PictureButtonWithDescription extends StatelessWidget {
       onTap: onTap,
       child: Column(
         children: [
-          Image.asset(
-            imagePath,
-            height: size.height * 0.2,
+          Expanded(
+            child: Image.asset(
+              imagePath,
+            ),
           ),
           Text(
             description,

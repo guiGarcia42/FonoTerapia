@@ -94,12 +94,12 @@ List<List<MenuOption>> buildMenuOptionsList(BuildContext context) {
         onTap: () => Navigator.pushNamed(context, '/game', arguments: 0),
       ),
       MenuOption(
-        description: "Escrever o nome da imagem",
+        description: "Repetição",
         imagePath: AppImages.logomini,
         onTap: () => Navigator.pushNamed(context, '/game', arguments: 1),
       ),
       MenuOption(
-        description: "Repetição",
+        description: "Escrever o nome da imagem",
         imagePath: AppImages.logomini,
         onTap: () => Navigator.pushNamed(context, '/game', arguments: 2),
       ),

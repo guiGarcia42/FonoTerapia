@@ -28,7 +28,7 @@ class TextStyles {
     fontWeight: FontWeight.w700,
     color: AppColors.darkGray,
   );
-  static final textRegular = GoogleFonts.inter(
+  static final textRegular = GoogleFonts.lexendDeca(
     fontSize: 16,
     fontWeight: FontWeight.w500,
     color: AppColors.darkGray,
