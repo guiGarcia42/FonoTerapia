@@ -16,12 +16,12 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then((_) {
-    runApp(MyApp());
+    runApp(FonoTerapiaApp());
   });
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+class FonoTerapiaApp extends StatelessWidget {
+  FonoTerapiaApp({super.key});
 
   @override
   Widget build(BuildContext context) {
