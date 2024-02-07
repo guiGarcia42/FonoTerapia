@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fono_terapia/shared/model/menu_option.dart';
 import 'package:fono_terapia/shared/themes/app_colors.dart';
 import 'package:fono_terapia/shared/themes/app_text_styles.dart';
 import 'package:fono_terapia/shared/utils/data.dart';
@@ -11,7 +10,7 @@ class OptionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<List<MenuOption>> menuOptionsList = buildMenuOptionsList(context);
+    final menuOptionsList = buildMenuOptionsList(context);
     final arguments = ModalRoute.of(context)?.settings.arguments as int;
     final size = MediaQuery.of(context).size;
     final aspectRatioFactor = size.width / 400;
@@ -33,7 +32,7 @@ class OptionPage extends StatelessWidget {
             child: SafeArea(
               child: Center(
                 child: Text(
-                  menuTitles[arguments],
+                  menuOptionsList[arguments].title,
                   style: TextStyles.titleOption,
                   textAlign: TextAlign.center,
                 ),
@@ -47,7 +46,7 @@ class OptionPage extends StatelessWidget {
                 horizontal: size.height * 0.005,
               ),
               child: GridView.builder(
-                itemCount: menuOptionsList[arguments].length,
+                itemCount: menuOptionsList[arguments].options.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 0.975 * aspectRatioFactor,
@@ -55,7 +54,7 @@ class OptionPage extends StatelessWidget {
                   mainAxisSpacing: 5,
                 ),
                 itemBuilder: (_, index) {
-                  final menuOption = menuOptionsList[arguments][index];
+                  final menuOption = menuOptionsList[arguments].options[index];
 
                   return PictureButtonWithDescription(
                     description: menuOption.description,

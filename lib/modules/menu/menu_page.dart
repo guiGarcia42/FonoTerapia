@@ -12,6 +12,7 @@ class MenuPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final aspectRatioFactor = size.width / 400;
+    
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
