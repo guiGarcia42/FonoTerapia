@@ -70,7 +70,7 @@ class MenuPage extends StatelessWidget {
                     ),
                   ),
                   PictureButtonWithDescription(
-                    description: "Escrita",
+                    description: "Nomeação Escrita",
                     imagePath: AppImages.logomini,
                     size: size,
                     onTap: () => Navigator.pushNamed(
@@ -80,7 +80,7 @@ class MenuPage extends StatelessWidget {
                     ),
                   ),
                   PictureButtonWithDescription(
-                    description: "Nomeação",
+                    description: "Nomeação Oral",
                     imagePath: AppImages.logomini,
                     size: size,
                     onTap: () => Navigator.pushNamed(

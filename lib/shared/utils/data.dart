@@ -9,28 +9,39 @@ class MenuCategory {
   MenuCategory(this.title, this.options);
 }
 
+const String aboutUs = """Fonoaudióloga há mais de 20 anos, atuando na reabilitação de adultos com Afasia, Demências, Disartria, Apraxia e Disfagia. Durante minha trajetória profissional, sempre percebi a carência de recursos adequados para estimular a linguagem em adultos. Motivada por essa lacuna, surgiu a ideia de desenvolver o aplicativo FonoTerapia, concebido como uma ferramenta destinada aos fonoaudiólogos que trabalham na reabilitação de adultos.\n
+Além de minha vasta experiência clínica, atualmente sou doutoranda na UNIFESP - Baixada Santista em Ciências da Saúde. Possuo graduação em Fonoaudiologia pela UNIFESP (2002), especialização em Linguagem do Adulto e do Idoso pela USP (2003) e mestrado em Interdisciplinar em Ciências da Saúde pela UNIFESP (2020).""";
+
+const String contacts = """Instagram: @Fono.jugonzalez
+Email: gonzalezdiazjuliana@gmail.com
+Telefone(Whatsapp): (13) 98143-0426""";
+
+const String contactsDev = """Guilherme Garcia
+Email: gui123.garcia@gmail.com
+Telefone(Whatsapp): (11) 97262-2224""";
+
 List<MenuCategory> buildMenuOptionsList(BuildContext context) {
   return [
     MenuCategory(
       "Compreensão Auditiva",
       [
         MenuOption(
-          description: "Ouvir e escolher a palavra",
+          description: "Ouvir e escolher a imagem",
           imagePath: AppImages.logomini,
           onTap: () => navigateToGame(context, 0),
         ),
         MenuOption(
-          description: "Ouvir e escolher a imagem",
+          description: "Ler e responder sim ou não",
           imagePath: AppImages.logomini,
           onTap: () => navigateToGame(context, 1),
         ),
         MenuOption(
-          description: "Ouvir e escolher a letra",
+          description: "Pares Mínimos: Ouvir e escolher a imagem",
           imagePath: AppImages.logomini,
           onTap: () => navigateToGame(context, 2),
         ),
         MenuOption(
-          description: "Ouvir e escrever a palavra",
+          description: "Sentenças: Ouvir e escolher a imagem",
           imagePath: AppImages.logomini,
           onTap: () => navigateToGame(context, 3),
         ),
@@ -45,34 +56,44 @@ List<MenuCategory> buildMenuOptionsList(BuildContext context) {
           onTap: () => navigateToGame(context, 0),
         ),
         MenuOption(
-          description: "Ver e escolher a palavra",
+          description: "Ver a imagem e escolher a palavra",
           imagePath: AppImages.logomini,
           onTap: () => navigateToGame(context, 1),
         ),
         MenuOption(
-          description: "Emparelhar maiúsculas e minúsculas",
+          description: "Ler e responder sim ou não",
           imagePath: AppImages.logomini,
           onTap: () => navigateToGame(context, 2),
         ),
         MenuOption(
-          description: "Ler e responder sim ou não",
-          imagePath: AppImages.logomini,
-          onTap: () => navigateToGame(context, 3),
-        ),
-        MenuOption(
-          description: "Ouvir e escolher a letra",
-          imagePath: AppImages.logomini,
-          onTap: () => navigateToGame(context, 4),
-        ),
-        MenuOption(
           description: "Ouvir e escolher a palavra",
           imagePath: AppImages.logomini,
-          onTap: () => navigateToGame(context, 5),
+          onTap: () => navigateToGame(context, 3),
         ),
       ],
     ),
     MenuCategory(
-      "Escrita",
+      "Nomeação Oral",
+      [
+        MenuOption(
+          description: "Falar o nome da imagem",
+          imagePath: AppImages.logomini,
+          onTap: () => navigateToGame(context, 0),
+        ),
+        MenuOption(
+          description: "Sentenças: Descrever imagem",
+          imagePath: AppImages.logomini,
+          onTap: () => navigateToGame(context, 1),
+        ),
+        MenuOption(
+          description: "Repetição de palavras",
+          imagePath: AppImages.logomini,
+          onTap: () => navigateToGame(context, 2),
+        ),
+      ],
+    ),
+    MenuCategory(
+      "Nomeação Escrita",
       [
         MenuOption(
           description: "Escrever o nome da imagem",
@@ -85,27 +106,7 @@ List<MenuCategory> buildMenuOptionsList(BuildContext context) {
           onTap: () => navigateToGame(context, 1),
         ),
         MenuOption(
-          description: "Escrever a letra ditada",
-          imagePath: AppImages.logomini,
-          onTap: () => navigateToGame(context, 2),
-        ),
-      ],
-    ),
-    MenuCategory(
-      "Nomeação",
-      [
-        MenuOption(
-          description: "Nomeação oral",
-          imagePath: AppImages.logomini,
-          onTap: () => navigateToGame(context, 0),
-        ),
-        MenuOption(
-          description: "Repetição",
-          imagePath: AppImages.logomini,
-          onTap: () => navigateToGame(context, 1),
-        ),
-        MenuOption(
-          description: "Escrever o nome da imagem",
+          description: "Ouvir e escrever a letra",
           imagePath: AppImages.logomini,
           onTap: () => navigateToGame(context, 2),
         ),
