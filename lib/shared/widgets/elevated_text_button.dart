@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:fono_terapia/shared/themes/app_colors.dart';
-import 'package:fono_terapia/shared/themes/app_text_styles.dart';
 
 class ElevatedTextButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  final Size size;
+  final double widthRatio;
+  final TextStyle textStyle;
 
 
   const ElevatedTextButton({
     super.key,
-    required this.size,
+    required this.widthRatio,
     required this.text,
     required this.onPressed,
+    required this.textStyle
   });
 
   
@@ -30,12 +31,13 @@ class ElevatedTextButton extends StatelessWidget {
         backgroundColor: AppColors.darkGray,
       ),
       child: SizedBox(
-        width: size.width * 0.4, 
-        height: 60,
+        width: widthRatio, 
+        height: 50,
         child: Center(
           child: Text(
             text,
-            style: TextStyles.buttonText,
+            style: textStyle,
+            maxLines: 1,
           ),
         ),
       ),

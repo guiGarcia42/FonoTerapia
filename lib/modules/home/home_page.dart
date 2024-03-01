@@ -72,7 +72,7 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(AppImages.logomini, height: size.height * 0.1),
+                  Image.asset(AppImages.logoMini, height: size.height * 0.1),
                   AnimatedCard(
                     direction: AnimatedCardDirection.bottom,
                     child: Padding(

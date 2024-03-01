@@ -27,22 +27,22 @@ List<MenuCategory> buildMenuOptionsList(BuildContext context) {
       [
         MenuOption(
           description: "Ouvir e escolher a imagem",
-          imagePath: AppImages.logomini,
+          imagePath: AppImages.logoMini,
           onTap: () => navigateToGame(context, 0),
         ),
         MenuOption(
           description: "Ler e responder sim ou não",
-          imagePath: AppImages.logomini,
+          imagePath: AppImages.logoMini,
           onTap: () => navigateToGame(context, 1),
         ),
         MenuOption(
           description: "Pares Mínimos: Ouvir e escolher a imagem",
-          imagePath: AppImages.logomini,
+          imagePath: AppImages.logoMini,
           onTap: () => navigateToGame(context, 2),
         ),
         MenuOption(
           description: "Sentenças: Ouvir e escolher a imagem",
-          imagePath: AppImages.logomini,
+          imagePath: AppImages.logoMini,
           onTap: () => navigateToGame(context, 3),
         ),
       ],
@@ -52,22 +52,22 @@ List<MenuCategory> buildMenuOptionsList(BuildContext context) {
       [
         MenuOption(
           description: "Ler e escolher a imagem",
-          imagePath: AppImages.logomini,
+          imagePath: AppImages.logoMini,
           onTap: () => navigateToGame(context, 0),
         ),
         MenuOption(
           description: "Ver a imagem e escolher a palavra",
-          imagePath: AppImages.logomini,
+          imagePath: AppImages.logoMini,
           onTap: () => navigateToGame(context, 1),
         ),
         MenuOption(
           description: "Ler e responder sim ou não",
-          imagePath: AppImages.logomini,
+          imagePath: AppImages.logoMini,
           onTap: () => navigateToGame(context, 2),
         ),
         MenuOption(
           description: "Ouvir e escolher a palavra",
-          imagePath: AppImages.logomini,
+          imagePath: AppImages.logoMini,
           onTap: () => navigateToGame(context, 3),
         ),
       ],
@@ -77,17 +77,17 @@ List<MenuCategory> buildMenuOptionsList(BuildContext context) {
       [
         MenuOption(
           description: "Falar o nome da imagem",
-          imagePath: AppImages.logomini,
+          imagePath: AppImages.logoMini,
           onTap: () => navigateToGame(context, 0),
         ),
         MenuOption(
           description: "Sentenças: Descrever imagem",
-          imagePath: AppImages.logomini,
+          imagePath: AppImages.logoMini,
           onTap: () => navigateToGame(context, 1),
         ),
         MenuOption(
           description: "Repetição de palavras",
-          imagePath: AppImages.logomini,
+          imagePath: AppImages.logoMini,
           onTap: () => navigateToGame(context, 2),
         ),
       ],
@@ -97,17 +97,17 @@ List<MenuCategory> buildMenuOptionsList(BuildContext context) {
       [
         MenuOption(
           description: "Escrever o nome da imagem",
-          imagePath: AppImages.logomini,
+          imagePath: AppImages.logoMini,
           onTap: () => navigateToGame(context, 0),
         ),
         MenuOption(
           description: "Ouvir e escrever a palavra",
-          imagePath: AppImages.logomini,
+          imagePath: AppImages.logoMini,
           onTap: () => navigateToGame(context, 1),
         ),
         MenuOption(
           description: "Ouvir e escrever a letra",
-          imagePath: AppImages.logomini,
+          imagePath: AppImages.logoMini,
           onTap: () => navigateToGame(context, 2),
         ),
       ],

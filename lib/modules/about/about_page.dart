@@ -66,7 +66,8 @@ class AboutPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(bottom: size.height * 0.02),
             child: ElevatedTextButton(
-              size: size,
+              widthRatio: size.width * 0.4,
+              textStyle: TextStyles.buttonText,
               text: "Voltar",
               onPressed: () {
                 Navigator.pop(context);

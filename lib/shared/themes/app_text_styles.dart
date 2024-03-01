@@ -18,8 +18,18 @@ class TextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.background,
   );
+  static final titleDialog = GoogleFonts.lexendDeca(
+    fontSize: 25,
+    fontWeight: FontWeight.w600,
+    color: AppColors.background,
+  );
   static final buttonText = GoogleFonts.lexendDeca(
     fontSize: 30,
+    fontWeight: FontWeight.w600,
+    color: AppColors.background,
+  );
+  static final buttonTextDialog = GoogleFonts.lexendDeca(
+    fontSize: 20,
     fontWeight: FontWeight.w600,
     color: AppColors.background,
   );

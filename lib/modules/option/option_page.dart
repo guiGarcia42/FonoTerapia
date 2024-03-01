@@ -72,17 +72,23 @@ class OptionPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedTextButton(
-                  size: size,
+                  widthRatio: size.width * 0.4,
+                  textStyle: TextStyles.buttonText,
                   text: "Voltar",
                   onPressed: () {
                     Navigator.pop(context);
                   },
                 ),
                 ElevatedTextButton(
-                  size: size,
+                  widthRatio: size.width * 0.4,
+                  textStyle: TextStyles.buttonText,
                   text: "Histórico",
                   onPressed: () {
-                    Navigator.pushNamed(context, '/history');
+                    Navigator.pushNamed(
+                      context,
+                      '/history',
+                      arguments: arguments,
+                    );
                   },
                 ),
               ],

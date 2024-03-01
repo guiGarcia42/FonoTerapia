@@ -51,7 +51,7 @@ class MenuPage extends StatelessWidget {
                 children: [
                   PictureButtonWithDescription(
                     description: "Compreensão Auditiva",
-                    imagePath: AppImages.logomini,
+                    imagePath: AppImages.logoCompreensaoAuditiva,
                     size: size,
                     onTap: () => Navigator.pushNamed(
                       context,
@@ -61,7 +61,7 @@ class MenuPage extends StatelessWidget {
                   ),
                   PictureButtonWithDescription(
                     description: "Compreensão Escrita",
-                    imagePath: AppImages.logomini,
+                    imagePath: AppImages.logoCompreensaoEscrita,
                     size: size,
                     onTap: () => Navigator.pushNamed(
                       context,
@@ -71,7 +71,7 @@ class MenuPage extends StatelessWidget {
                   ),
                   PictureButtonWithDescription(
                     description: "Nomeação Escrita",
-                    imagePath: AppImages.logomini,
+                    imagePath: AppImages.logoNomeacaoEscrita,
                     size: size,
                     onTap: () => Navigator.pushNamed(
                       context,
@@ -81,7 +81,7 @@ class MenuPage extends StatelessWidget {
                   ),
                   PictureButtonWithDescription(
                     description: "Nomeação Oral",
-                    imagePath: AppImages.logomini,
+                    imagePath: AppImages.logoNomeacaoOral,
                     size: size,
                     onTap: () => Navigator.pushNamed(
                       context,
@@ -96,7 +96,8 @@ class MenuPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
             child: ElevatedTextButton(
-              size: size,
+              widthRatio: size.width * 0.4,
+              textStyle: TextStyles.buttonText,
               text: "Voltar",
               onPressed: () {
                 Navigator.pop(context);
