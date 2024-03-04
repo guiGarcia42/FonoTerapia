@@ -7,12 +7,12 @@ import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 class CategoryFilterDialog extends StatefulWidget {
   const CategoryFilterDialog({
     super.key,
-    required this.menuOptionsList,
+    required this.subCategories,
     required this.checkedStates,
     required this.size,
   });
 
-  final List<SubCategory> menuOptionsList;
+  final List<SubCategory> subCategories;
   final List<bool> checkedStates;
   final Size size;
 
@@ -29,7 +29,7 @@ class _CategoryFilterDialogState extends State<CategoryFilterDialog> {
 
     if (widget.checkedStates.isEmpty) {
       _checkedStates = List.generate(
-        widget.menuOptionsList.length,
+        widget.subCategories.length,
         (_) => false,
       );
     } else {
@@ -54,13 +54,13 @@ class _CategoryFilterDialogState extends State<CategoryFilterDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: List.generate(
-            widget.menuOptionsList.length,
+            widget.subCategories.length,
             (index) {
-              final option = widget.menuOptionsList[index];
+              final subCategory = widget.subCategories[index];
 
               return CheckboxListTile(
                 title: Text(
-                  option.name,
+                  subCategory.name,
                   style: TextStyles.textRegular,
                 ),
                 value: _checkedStates[index],

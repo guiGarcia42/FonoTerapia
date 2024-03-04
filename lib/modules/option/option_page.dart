@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:fono_terapia/app_startup.dart';
+import 'package:fono_terapia/database/dao/category_dao.dart';
+import 'package:fono_terapia/database/dao/sub_category_dao.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
-import 'package:fono_terapia/shared/utils/data.dart';
+import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 import 'package:fono_terapia/shared/widgets/picture_button_with_description.dart';
 
 class OptionPage extends StatelessWidget {
-  const OptionPage({super.key});
+  const OptionPage({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    final menuOptionsList = buildCategoriesList(context);
-    final arguments = ModalRoute.of(context)?.settings.arguments as int;
     final size = MediaQuery.of(context).size;
     final aspectRatioFactor = size.width / 400;
+    final categoryId = ModalRoute.of(context)?.settings.arguments as int;
 
     return Scaffold(
       body: Column(
@@ -32,7 +34,7 @@ class OptionPage extends StatelessWidget {
             child: SafeArea(
               child: Center(
                 child: Text(
-                  menuOptionsList[arguments].name,
+                  CategoryDao.categoryNames[categoryId - 1],
                   style: TextStyles.titleOption,
                   textAlign: TextAlign.center,
                 ),
@@ -45,23 +47,40 @@ class OptionPage extends StatelessWidget {
                 vertical: size.height * 0.005,
                 horizontal: size.height * 0.005,
               ),
-              child: GridView.builder(
-                itemCount: menuOptionsList[arguments].subCategoriesList.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.975 * aspectRatioFactor,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5,
-                ),
-                itemBuilder: (_, index) {
-                  final menuOption = menuOptionsList[arguments].subCategoriesList[index];
+              child: FutureBuilder<List<SubCategory>>(
+                future: SubCategoryDao().findAll(database),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Erro ao carregar dados'));
+                  } else {
+                    final subCategories = snapshot.data!;
 
-                  return PictureButtonWithDescription(
-                    description: menuOption.name,
-                    imagePath: menuOption.imagePath,
-                    size: size,
-                    onTap: menuOption.onTap,
-                  );
+                    return GridView.builder(
+                      itemCount: subCategories.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.975 * aspectRatioFactor,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5,
+                      ),
+                      itemBuilder: (_, index) {
+                        final subCategory = subCategories[index];
+
+                        return PictureButtonWithDescription(
+                          description: subCategory.name,
+                          imagePath: subCategory.imagePath,
+                          size: size,
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            '/game',
+                            arguments: subCategory.id,
+                          ),
+                        );
+                      },
+                    );
+                  }
                 },
               ),
             ),
@@ -87,7 +106,7 @@ class OptionPage extends StatelessWidget {
                     Navigator.pushNamed(
                       context,
                       '/history',
-                      arguments: arguments,
+                      arguments: categoryId,
                     );
                   },
                 ),

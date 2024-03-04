@@ -3,13 +3,13 @@ class GameComponent {
   final String component;
   final String imagePath;
   final String audioPath;
-  final bool isSentence;
+  final int section;
 
   GameComponent({
     required this.id,
     required this.component,
     required this.imagePath,
     required this.audioPath,
-    required this.isSentence,
+    required this.section,
 });
 }

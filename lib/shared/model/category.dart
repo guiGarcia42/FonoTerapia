@@ -1,13 +1,11 @@
-import 'package:fono_terapia/shared/model/sub_category.dart';
-
 class Category {
   final int id;
   final String name;
-  final List<SubCategory> subCategoriesList;
+  final String imagePath;
 
   Category(
     this.id,
     this.name,
-    this.subCategoriesList,
+    this.imagePath
   );
 }
