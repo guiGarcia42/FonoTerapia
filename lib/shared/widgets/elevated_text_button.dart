@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fono_terapia/shared/themes/app_colors.dart';
+import 'package:fono_terapia/shared/assets/app_colors.dart';
 
 class ElevatedTextButton extends StatelessWidget {
   final String text;

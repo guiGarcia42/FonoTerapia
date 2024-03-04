@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fono_terapia/shared/model/menu_option.dart';
-import 'package:fono_terapia/shared/themes/app_colors.dart';
-import 'package:fono_terapia/shared/themes/app_text_styles.dart';
+import 'package:fono_terapia/shared/model/sub_category.dart';
+import 'package:fono_terapia/shared/assets/app_colors.dart';
+import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 
 class CategoryFilterDialog extends StatefulWidget {
@@ -12,7 +12,7 @@ class CategoryFilterDialog extends StatefulWidget {
     required this.size,
   });
 
-  final List<MenuOption> menuOptionsList;
+  final List<SubCategory> menuOptionsList;
   final List<bool> checkedStates;
   final Size size;
 
@@ -60,7 +60,7 @@ class _CategoryFilterDialogState extends State<CategoryFilterDialog> {
 
               return CheckboxListTile(
                 title: Text(
-                  option.description,
+                  option.name,
                   style: TextStyles.textRegular,
                 ),
                 value: _checkedStates[index],

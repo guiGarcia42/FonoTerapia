@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fono_terapia/shared/themes/app_colors.dart';
-import 'package:fono_terapia/shared/themes/app_images.dart';
+import 'package:fono_terapia/shared/assets/app_colors.dart';
+import 'package:fono_terapia/shared/assets/app_images.dart';
 
 class AppStartup extends StatefulWidget {
   const AppStartup({super.key});

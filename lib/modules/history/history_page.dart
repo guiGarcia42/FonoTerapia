@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fono_terapia/shared/themes/app_colors.dart';
-import 'package:fono_terapia/shared/themes/app_text_styles.dart';
+import 'package:fono_terapia/shared/assets/app_colors.dart';
+import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/utils/data.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 
@@ -18,7 +18,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final menuOptionsList = buildMenuOptionsList(context);
+    final menuOptionsList = buildCategoriesList(context);
     final arguments = ModalRoute.of(context)?.settings.arguments as int;
     final size = MediaQuery.of(context).size;
 
@@ -26,7 +26,7 @@ class _HistoryPageState extends State<HistoryPage> {
       final List<bool>? result = await showDialog<List<bool>>(
         context: context,
         builder: (context) => CategoryFilterDialog(
-            menuOptionsList: menuOptionsList[arguments].options,
+            menuOptionsList: menuOptionsList[arguments].subCategoriesList,
             checkedStates: checkedStates,
             size: size),
       );

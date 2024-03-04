@@ -15,15 +15,19 @@ dependencies:
   shared_preferences: ^2.2.2
   google_fonts: ^6.1.0
   animated_card: ^2.0.0
+  path: ^1.8.3
+  sqflite: ^2.3.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
 
 flutter:
   uses-material-design: true
 
   assets:
-  - assets/images/
+  - assets/app_images/
+  - assets/db_images/
+  - assets/db_audios/

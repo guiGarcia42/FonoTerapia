@@ -6,7 +6,7 @@ import 'package:fono_terapia/modules/history/history_page.dart';
 import 'package:fono_terapia/modules/home/home_page.dart';
 import 'package:fono_terapia/modules/menu/menu_page.dart';
 import 'package:fono_terapia/modules/option/option_page.dart';
-import 'package:fono_terapia/shared/themes/app_colors.dart';
+import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'app_startup.dart';
 
 void main() {

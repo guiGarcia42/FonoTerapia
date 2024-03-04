@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fono_terapia/shared/themes/app_colors.dart';
-import 'package:fono_terapia/shared/themes/app_text_styles.dart';
+import 'package:fono_terapia/shared/assets/app_colors.dart';
+import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/utils/data.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 import 'package:fono_terapia/shared/widgets/picture_button_with_description.dart';
@@ -10,7 +10,7 @@ class OptionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final menuOptionsList = buildMenuOptionsList(context);
+    final menuOptionsList = buildCategoriesList(context);
     final arguments = ModalRoute.of(context)?.settings.arguments as int;
     final size = MediaQuery.of(context).size;
     final aspectRatioFactor = size.width / 400;
@@ -32,7 +32,7 @@ class OptionPage extends StatelessWidget {
             child: SafeArea(
               child: Center(
                 child: Text(
-                  menuOptionsList[arguments].title,
+                  menuOptionsList[arguments].name,
                   style: TextStyles.titleOption,
                   textAlign: TextAlign.center,
                 ),
@@ -46,7 +46,7 @@ class OptionPage extends StatelessWidget {
                 horizontal: size.height * 0.005,
               ),
               child: GridView.builder(
-                itemCount: menuOptionsList[arguments].options.length,
+                itemCount: menuOptionsList[arguments].subCategoriesList.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 0.975 * aspectRatioFactor,
@@ -54,10 +54,10 @@ class OptionPage extends StatelessWidget {
                   mainAxisSpacing: 5,
                 ),
                 itemBuilder: (_, index) {
-                  final menuOption = menuOptionsList[arguments].options[index];
+                  final menuOption = menuOptionsList[arguments].subCategoriesList[index];
 
                   return PictureButtonWithDescription(
-                    description: menuOption.description,
+                    description: menuOption.name,
                     imagePath: menuOption.imagePath,
                     size: size,
                     onTap: menuOption.onTap,

@@ -1,6 +1,6 @@
 import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
-import 'package:fono_terapia/shared/themes/app_colors.dart';
+import 'package:fono_terapia/shared/assets/app_colors.dart';
 
 class FloatingIconCard extends StatelessWidget {
   final IconData icon;
