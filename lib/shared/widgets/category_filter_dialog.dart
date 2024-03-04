@@ -59,7 +59,10 @@ class _CategoryFilterDialogState extends State<CategoryFilterDialog> {
               final option = widget.menuOptionsList[index];
 
               return CheckboxListTile(
-                title: Text(option.description),
+                title: Text(
+                  option.description,
+                  style: TextStyles.textRegular,
+                ),
                 value: _checkedStates[index],
                 onChanged: (value) {
                   setState(() {
