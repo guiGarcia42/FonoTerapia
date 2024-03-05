@@ -1,4 +1,5 @@
-const String aboutUs = """Fonoaudióloga há mais de 20 anos, atuando na reabilitação de adultos com Afasia, Demências, Disartria, Apraxia e Disfagia. Durante minha trajetória profissional, sempre percebi a carência de recursos adequados para estimular a linguagem em adultos. Motivada por essa lacuna, surgiu a ideia de desenvolver o aplicativo FonoTerapia, concebido como uma ferramenta destinada aos fonoaudiólogos que trabalham na reabilitação de adultos.\n
+const String aboutUs =
+    """Fonoaudióloga há mais de 20 anos, atuando na reabilitação de adultos com Afasia, Demências, Disartria, Apraxia e Disfagia. Durante minha trajetória profissional, sempre percebi a carência de recursos adequados para estimular a linguagem em adultos. Motivada por essa lacuna, surgiu a ideia de desenvolver o aplicativo FonoTerapia, concebido como uma ferramenta destinada aos fonoaudiólogos que trabalham na reabilitação de adultos.\n
 Além de minha vasta experiência clínica, atualmente sou doutoranda na UNIFESP - Baixada Santista em Ciências da Saúde. Possuo graduação em Fonoaudiologia pela UNIFESP (2002), especialização em Linguagem do Adulto e do Idoso pela USP (2003) e mestrado em Interdisciplinar em Ciências da Saúde pela UNIFESP (2020).""";
 
 const String contacts = """Instagram: @Fono.jugonzalez
@@ -8,6 +9,8 @@ Telefone(Whatsapp): (13) 98143-0426""";
 const String contactsDev = """Guilherme Garcia
 Email: gui123.garcia@gmail.com
 Telefone(Whatsapp): (11) 97262-2224""";
+
+enum Levels { facil, medio, dificil }
 
 // List<Category> buildCategoriesList(BuildContext context) {
 //   return [

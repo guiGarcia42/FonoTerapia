@@ -16,7 +16,17 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  List<bool> checkedStates = [];
+  late List<bool> checkedStates;
+  late DateTime firstDate;
+  late DateTime currentDate;
+
+  @override
+  void initState() {
+    super.initState();
+    checkedStates = [];
+    firstDate = DateTime(2024, 3, 1);
+    currentDate = DateTime.now();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +53,7 @@ class _HistoryPageState extends State<HistoryPage> {
         backgroundColor: AppColors.darkOrange,
       ),
       body: FutureBuilder<List<SubCategory>>(
-        future: SubCategoryDao().findAll(database),
+        future: SubCategoryDao().findWhere(database, categoryId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -51,7 +61,6 @@ class _HistoryPageState extends State<HistoryPage> {
             return Center(child: Text('Erro ao carregar dados'));
           } else {
             final subCategories = snapshot.data!;
-            List<bool> checkedStates = [];
 
             Future<void> openCategoryFilterDialog() async {
               final List<bool>? result = await showDialog<List<bool>>(
@@ -68,6 +77,30 @@ class _HistoryPageState extends State<HistoryPage> {
               }
             }
 
+            Future<void> openDatePickerDialog() async {
+              final DateTime? result = await showDatePicker(
+                context: context,
+                firstDate: firstDate,
+                lastDate: currentDate,
+                helpText: 'Selecione uma data',
+                cancelText: 'Cancelar',
+                confirmText: 'Filtrar',
+                builder: (BuildContext context, Widget? child) {
+                  return Theme(
+                    data: ThemeData.dark().copyWith(
+                      colorScheme: ColorScheme.dark(
+                        primary: AppColors.darkGray,
+                        onPrimary: AppColors.background,
+                        surface: AppColors.orange,
+                      ),
+                    ),
+                    
+                    child: child!,
+                  );
+                },
+              );
+            }
+
             return Padding(
               padding: EdgeInsets.symmetric(
                 vertical: size.height * 0.01,
@@ -78,15 +111,18 @@ class _HistoryPageState extends State<HistoryPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Text("Filtros:", style: TextStyles.textLargeRegular,),
                       ElevatedTextButton(
-                        widthRatio: size.width * 0.4,
-                        textStyle: TextStyles.buttonText,
+                        widthRatio: size.width * 0.25,
+                        textStyle: TextStyles.buttonMediumText,
                         text: "Data",
-                        onPressed: () {},
+                        onPressed: () {
+                          openDatePickerDialog();
+                        },
                       ),
                       ElevatedTextButton(
                         widthRatio: size.width * 0.4,
-                        textStyle: TextStyles.buttonText,
+                        textStyle: TextStyles.buttonMediumText,
                         text: "Categoria",
                         onPressed: () {
                           openCategoryFilterDialog();

@@ -48,7 +48,7 @@ class OptionPage extends StatelessWidget {
                 horizontal: size.height * 0.005,
               ),
               child: FutureBuilder<List<SubCategory>>(
-                future: SubCategoryDao().findAll(database),
+                future: SubCategoryDao().findWhere(database, categoryId),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
@@ -92,7 +92,7 @@ class OptionPage extends StatelessWidget {
               children: [
                 ElevatedTextButton(
                   widthRatio: size.width * 0.4,
-                  textStyle: TextStyles.buttonText,
+                  textStyle: TextStyles.buttonLargeText,
                   text: "Voltar",
                   onPressed: () {
                     Navigator.pop(context);
@@ -100,7 +100,7 @@ class OptionPage extends StatelessWidget {
                 ),
                 ElevatedTextButton(
                   widthRatio: size.width * 0.4,
-                  textStyle: TextStyles.buttonText,
+                  textStyle: TextStyles.buttonLargeText,
                   text: "Histórico",
                   onPressed: () {
                     Navigator.pushNamed(

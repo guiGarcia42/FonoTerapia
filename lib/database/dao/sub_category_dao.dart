@@ -99,18 +99,21 @@ class SubCategoryDao {
     return subCategories;
   }
 
+  Future<List<SubCategory>> findWhere(Database db, int categoryId) async {
+    final List<Map<String, dynamic>> result =
+        await db.query(_tableName, where: '$_categoryId = $categoryId');
+    List<SubCategory> subCategories = _toList(result);
+    return subCategories;
+  }
+
   List<SubCategory> _toList(List<Map<String, dynamic>> result) {
     final List<SubCategory> subCategories = [];
 
     for (Map<String, dynamic> row in result) {
-      final SubCategory subCategory = SubCategory(
-        row[_id],
-        row[_name],
-        row[_imagePath]
-      );
+      final SubCategory subCategory =
+          SubCategory(row[_id], row[_name], row[_imagePath]);
       subCategories.add(subCategory);
     }
     return subCategories;
   }
-
 }

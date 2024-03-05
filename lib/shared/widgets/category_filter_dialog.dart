@@ -64,6 +64,7 @@ class _CategoryFilterDialogState extends State<CategoryFilterDialog> {
                   style: TextStyles.textRegular,
                 ),
                 value: _checkedStates[index],
+                activeColor: AppColors.darkGray,
                 onChanged: (value) {
                   setState(() {
                     _checkedStates[index] = value ?? false;
@@ -85,9 +86,13 @@ class _CategoryFilterDialogState extends State<CategoryFilterDialog> {
           widthRatio: widget.size.width * 0.3,
           textStyle: TextStyles.buttonTextDialog,
           text: "Filtrar",
-          onPressed: () => Navigator.pop(context, _checkedStates),
+          onPressed: () {
+            Navigator.pop(context, _checkedStates);
+          },
         ),
       ],
     );
+
+    
   }
 }

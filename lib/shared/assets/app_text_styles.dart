@@ -23,8 +23,13 @@ class TextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.background,
   );
-  static final buttonText = GoogleFonts.lexendDeca(
+  static final buttonLargeText = GoogleFonts.lexendDeca(
     fontSize: 30,
+    fontWeight: FontWeight.w600,
+    color: AppColors.background,
+  );
+  static final buttonMediumText = GoogleFonts.lexendDeca(
+    fontSize: 25,
     fontWeight: FontWeight.w600,
     color: AppColors.background,
   );
@@ -45,6 +50,11 @@ class TextStyles {
   );
   static final menuOptionDescription = GoogleFonts.lexendDeca(
     fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: AppColors.darkGray,
+  );
+  static final textLargeRegular = GoogleFonts.lexendDeca(
+    fontSize: 25,
     fontWeight: FontWeight.w500,
     color: AppColors.darkGray,
   );

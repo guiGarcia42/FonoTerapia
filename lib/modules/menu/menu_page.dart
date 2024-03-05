@@ -87,7 +87,7 @@ class MenuPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
             child: ElevatedTextButton(
               widthRatio: size.width * 0.4,
-              textStyle: TextStyles.buttonText,
+              textStyle: TextStyles.buttonLargeText,
               text: "Voltar",
               onPressed: () {
                 Navigator.pop(context);
