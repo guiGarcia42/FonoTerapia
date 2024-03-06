@@ -8,6 +8,10 @@ const _dbName = "fonoterapia.db";
 
 Future<Database> openOrInitializeDatabase() async {
   final path = join(await getDatabasesPath(), _dbName);
+
+  // await deleteDatabase(path);
+  // print("Banco deletado?");
+
   return openDatabase(
     path,
     version: 1,
@@ -25,6 +29,5 @@ Future<Database> openOrInitializeDatabase() async {
       // Close db
       await db.close();
     },
-    // onDowngrade: onDatabaseDowngradeDelete,
   );
 }

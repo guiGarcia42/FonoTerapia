@@ -40,47 +40,50 @@ class MenuPage extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: FutureBuilder<List<Category>>(
-              future: CategoryDao().findAll(database),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Erro ao carregar dados'));
-                } else {
-                  final categories = snapshot.data!;
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: size.height * 0.005,
+                horizontal: size.height * 0.005,
+              ),
+              child: FutureBuilder<List<Category>>(
+                future: CategoryDao().findAll(database),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Erro ao carregar dados'));
+                  } else {
+                    final categories = snapshot.data!;
 
-                  return Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: size.height * 0.005,
-                      horizontal: size.height * 0.005,
-                    ),
-                    child: GridView.builder(
-                      itemCount: categories.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.975 * aspectRatioFactor,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5,
+                    return Center(
+                      child: GridView.builder(
+                        itemCount: categories.length,
+                        gridDelegate:
+                            SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.975 * aspectRatioFactor,
+                          crossAxisSpacing: 5,
+                          mainAxisSpacing: 5,
+                        ),
+                        itemBuilder: (_, index) {
+                          final category = categories[index];
+                    
+                          return PictureButtonWithDescription(
+                            description: category.name,
+                            imagePath: category.imagePath,
+                            size: size,
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              '/option',
+                              arguments: category.id,
+                            ),
+                          );
+                        },
                       ),
-                      itemBuilder: (_, index) {
-                        final category = categories[index];
-
-                        return PictureButtonWithDescription(
-                          description: category.name,
-                          imagePath: category.imagePath,
-                          size: size,
-                          onTap: () => Navigator.pushNamed(
-                            context,
-                            '/option',
-                            arguments: category.id,
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }
-              },
+                    );
+                  }
+                },
+              ),
             ),
           ),
           Padding(

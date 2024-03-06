@@ -53,7 +53,7 @@ class _HistoryPageState extends State<HistoryPage> {
         backgroundColor: AppColors.darkOrange,
       ),
       body: FutureBuilder<List<SubCategory>>(
-        future: SubCategoryDao().findWhere(database, categoryId),
+        future: SubCategoryDao().findAllSubCategories(database, categoryId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());

@@ -48,37 +48,42 @@ class OptionPage extends StatelessWidget {
                 horizontal: size.height * 0.005,
               ),
               child: FutureBuilder<List<SubCategory>>(
-                future: SubCategoryDao().findWhere(database, categoryId),
+                future: SubCategoryDao().findAllSubCategories(database, categoryId),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Center(child: Text('Erro ao carregar dados'));
+                    print("$snapshot //fim//");
+                    print("Snapshot data: ${snapshot.data} //fim//");
+                    return Center(child: Text('Erro ao carregar dados $snapshot'));
                   } else {
                     final subCategories = snapshot.data!;
+                    
 
-                    return GridView.builder(
-                      itemCount: subCategories.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.975 * aspectRatioFactor,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5,
+                    return Center(
+                      child: GridView.builder(
+                        itemCount: subCategories.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.975 * aspectRatioFactor,
+                          crossAxisSpacing: 5,
+                          mainAxisSpacing: 5,
+                        ),
+                        itemBuilder: (_, index) {
+                          final subCategory = subCategories[index];
+                      
+                          return PictureButtonWithDescription(
+                            description: subCategory.name,
+                            imagePath: subCategory.imagePath,
+                            size: size,
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              '/game',
+                              arguments: subCategory.id,
+                            ),
+                          );
+                        },
                       ),
-                      itemBuilder: (_, index) {
-                        final subCategory = subCategories[index];
-
-                        return PictureButtonWithDescription(
-                          description: subCategory.name,
-                          imagePath: subCategory.imagePath,
-                          size: size,
-                          onTap: () => Navigator.pushNamed(
-                            context,
-                            '/game',
-                            arguments: subCategory.id,
-                          ),
-                        );
-                      },
                     );
                   }
                 },
