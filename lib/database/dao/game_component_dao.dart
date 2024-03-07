@@ -32,14 +32,14 @@ class GameComponentDao {
   ];
 
   static const audioPathList = [
-    'assets/db_audios/cafe.mp3',
-    'assets/db_audios/pao.mp3',
-    'assets/db_audios/leite.mp3',
-    'assets/db_audios/carro.mp3',
-    'assets/db_audios/pato.mp3',
-    'assets/db_audios/gato.mp3',
-    'assets/db_audios/o_homem_esta_comendo.mp3',
-    'assets/db_audios/o_homem_esta_dormindo.mp3',
+    'db_audios/cafe.mp3',
+    'db_audios/pao.mp3',
+    'db_audios/leite.mp3',
+    'db_audios/carro.mp3',
+    'db_audios/pato.mp3',
+    'db_audios/gato.mp3',
+    'db_audios/o_homem_esta_comendo.mp3',
+    'db_audios/o_homem_esta_dormindo.mp3',
   ];
 
   static const sectionList = [1, 1, 1, 1, 2, 2, 3, 3];
@@ -71,12 +71,10 @@ class GameComponentDao {
         await db.query(_tableName, where: '$_section = $section');
     List<GameComponent> components = _toList(result);
 
-    // Embaralhar a lista de componentes
     components.shuffle();
-    // Criar uma nova lista para armazenar os componentes selecionados
+
     List<GameComponent> selectedComponents = [];
 
-    // Percorrer a lista embaralhada e adicionar componentes únicos até atingir o número desejado
     for (var component in components) {
       if (selectedComponents.length < numberOfOptions &&
           !selectedComponents.contains(component)) {
@@ -85,6 +83,13 @@ class GameComponentDao {
     }
 
     return selectedComponents;
+  }
+
+  GameComponent getRightAnswer(List<GameComponent> gameComponents) {
+    List<GameComponent> temporaryList = List.from(gameComponents);
+    temporaryList.shuffle();
+    
+    return temporaryList.first;
   }
 
   List<GameComponent> _toList(List<Map<String, dynamic>> result) {
