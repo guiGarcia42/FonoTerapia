@@ -6,7 +6,7 @@ import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 
-import '../../shared/widgets/category_filter_dialog.dart';
+import 'widgets/category_filter_dialog.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});

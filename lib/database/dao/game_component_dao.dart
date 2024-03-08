@@ -61,6 +61,7 @@ class GameComponentDao {
   GameComponent getRightAnswer(List<GameComponent> gameComponents) {
     List<GameComponent> temporaryList = List.from(gameComponents);
     temporaryList.shuffle();
+    
 
     return temporaryList.first;
   }

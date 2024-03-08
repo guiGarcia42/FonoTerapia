@@ -1,19 +1,19 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/database/dao/game_component_dao.dart';
 import 'package:fono_terapia/database/dao/sub_category_dao.dart';
+import 'package:fono_terapia/modules/game/widgets/build_game_question.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/model/game_component.dart';
 import 'package:fono_terapia/shared/model/game_configuration.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
-import 'package:fono_terapia/shared/widgets/picture_button_with_description.dart';
-import 'package:audioplayers/audioplayers.dart';
 
-import '../../shared/widgets/game_configuration_dialog.dart';
+import 'widgets/build_game_list_of_options.dart';
+import 'widgets/game_configuration_dialog.dart';
 import '../../shared/widgets/progress_indicator_with_percentage_text.dart';
-import '../../shared/widgets/play_audio_button.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
@@ -26,7 +26,6 @@ class _GamePageState extends State<GamePage> {
   late GameConfiguration configuration;
   late int answeredCorrectly;
   late double percentage;
-  late AudioPlayer player;
   List<GameComponent>? gameComponents;
   late GameComponent rightAnswer;
 
@@ -36,7 +35,6 @@ class _GamePageState extends State<GamePage> {
     configuration = GameConfiguration(2, 10);
     answeredCorrectly = 0;
     percentage = (answeredCorrectly / configuration.numberOfQuestions) * 100;
-    player = AudioPlayer();
   }
 
   Future<void> openConfigurationDialog(Size size) async {
@@ -65,6 +63,7 @@ class _GamePageState extends State<GamePage> {
     final size = MediaQuery.of(context).size;
     final aspectRatioFactor = size.width / 400;
     final subCategoryId = ModalRoute.of(context)?.settings.arguments as int;
+    final AudioPlayer player = AudioPlayer();
 
     return Scaffold(
       body: FutureBuilder<SubCategory>(
@@ -78,10 +77,11 @@ class _GamePageState extends State<GamePage> {
             SubCategory subCategory = snapshot.data!;
 
             if (gameComponents == null) {
-              return _buildContent(subCategory, size, aspectRatioFactor);
+              return _buildContent(
+                  subCategory, size, aspectRatioFactor, player);
             } else {
               return _buildContentWithGameComponents(
-                  subCategory, size, aspectRatioFactor);
+                  subCategory, size, aspectRatioFactor, player);
             }
           }
         },
@@ -89,8 +89,8 @@ class _GamePageState extends State<GamePage> {
     );
   }
 
-  Column _buildContent(
-      SubCategory subCategory, Size size, double aspectRatioFactor) {
+  Column _buildContent(SubCategory subCategory, Size size,
+      double aspectRatioFactor, AudioPlayer player) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -120,7 +120,30 @@ class _GamePageState extends State<GamePage> {
                   rightAnswer =
                       GameComponentDao().getRightAnswer(gameComponents!);
 
-                  return _buildGame(size, aspectRatioFactor);
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(bottom: size.height * 0.02),
+                          child: BuildGameQuestion(
+                            size: size,
+                            player: player,
+                            subCategoryId: subCategory.id,
+                            rightAnswer: rightAnswer,
+                          ),
+                        ),
+                        Expanded(
+                          child: BuildGameListOfOptions(
+                            gameComponents: gameComponents!,
+                            subCategoryId: subCategory.id,
+                            size: size,
+                            onTap: () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
                 }
               },
             ),
@@ -131,8 +154,8 @@ class _GamePageState extends State<GamePage> {
     );
   }
 
-  Column _buildContentWithGameComponents(
-      SubCategory subCategory, Size size, double aspectRatioFactor) {
+  Column _buildContentWithGameComponents(SubCategory subCategory, Size size,
+      double aspectRatioFactor, AudioPlayer player) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -146,7 +169,30 @@ class _GamePageState extends State<GamePage> {
               right: size.width * 0.02,
               bottom: size.height * 0.02,
             ),
-            child: _buildGame(size, aspectRatioFactor),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: size.height * 0.02),
+                    child: BuildGameQuestion(
+                      size: size,
+                      player: player,
+                      subCategoryId: subCategory.id,
+                      rightAnswer: rightAnswer,
+                    ),
+                  ),
+                  Expanded(
+                    child: BuildGameListOfOptions(
+                      gameComponents: gameComponents!,
+                      subCategoryId: subCategory.id,
+                      size: size,
+                      onTap: () {},
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
         _buildBottomBar(size, context),
@@ -169,10 +215,13 @@ class _GamePageState extends State<GamePage> {
         ),
         child: SafeArea(
           child: Center(
-            child: Text(
-              subCategory.name,
-              style: TextStyles.titleOption,
-              textAlign: TextAlign.center,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
+              child: Text(
+                subCategory.name,
+                style: TextStyles.titleOption,
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ),
@@ -202,43 +251,6 @@ class _GamePageState extends State<GamePage> {
           ProgressIndicatorWithPercentageText(percentage: percentage),
         ],
       ),
-    );
-  }
-
-  Column _buildGame(Size size, double aspectRatioFactor) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(bottom: size.height * 0.02),
-          child: PlayAudioButton(
-            size: size,
-            player: player,
-            rightAnswer: rightAnswer,
-          ),
-        ),
-        Expanded(
-          child: GridView.builder(
-            itemCount: gameComponents!.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.975 * aspectRatioFactor,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
-            ),
-            itemBuilder: (_, index) {
-              final component = gameComponents![index];
-
-              return PictureButtonWithDescription(
-                description: component.name,
-                imagePath: component.imagePath,
-                size: size,
-                onTap: () {},
-              );
-            },
-          ),
-        ),
-      ],
     );
   }
 

@@ -3,7 +3,7 @@ import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/utils/data.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
-import '../model/game_configuration.dart';
+import '../../../shared/model/game_configuration.dart';
 
 class GameConfigurationDialog extends StatefulWidget {
   const GameConfigurationDialog({
