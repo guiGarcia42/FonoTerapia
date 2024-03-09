@@ -3,6 +3,7 @@ import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/database/dao/sub_category_dao.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
+import 'package:fono_terapia/shared/model/category.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 
@@ -30,7 +31,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final categoryId = ModalRoute.of(context)?.settings.arguments as int;
+    final category = ModalRoute.of(context)?.settings.arguments as Category;
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -53,7 +54,7 @@ class _HistoryPageState extends State<HistoryPage> {
         backgroundColor: AppColors.darkOrange,
       ),
       body: FutureBuilder<List<SubCategory>>(
-        future: SubCategoryDao().findAllSubCategories(database, categoryId),
+        future: SubCategoryDao().findAllSubCategories(database, category.id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -133,7 +134,7 @@ class _HistoryPageState extends State<HistoryPage> {
                   Expanded(
                     child: Center(
                       child: Text(
-                        "Arguments $categoryId \n CategoryFilters $checkedStates",
+                        "Arguments $category \n CategoryFilters $checkedStates",
                       ),
                     ),
                   ),

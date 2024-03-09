@@ -27,7 +27,11 @@ class BuildGameQuestion extends StatelessWidget {
     } else if ([5, 7].contains(subCategoryId)) {
       return _buildTextContainer();
     } else if ([6, 9, 10, 11, 12].contains(subCategoryId)) {
-      return _buildImageContainer();
+      if ([11].contains(subCategoryId)) {
+        return _buildImageContainer(true);
+      } else {
+        return _buildImageContainer(false);
+      }
     } else {
       return ErrorTextContainer(size: size);
     }
@@ -65,8 +69,26 @@ class BuildGameQuestion extends StatelessWidget {
     );
   }
 
-  Container _buildImageContainer() {
-    return Container(
+  Widget _buildImageContainer(bool playAudio) {
+
+    if(playAudio) {
+      player.play(AssetSource(rightAnswer.audioPath));
+
+      return InkWell(
+        onTap: () => player.play(AssetSource(rightAnswer.audioPath)),
+        child: Container(
+        height: size.height * 0.2,
+        decoration: _customBoxDecoration(),
+        child: ClipOval(
+          child: Image.asset(
+            rightAnswer.imagePath,
+            fit: BoxFit.cover,
+          ),
+        ),
+            ),
+      );
+    } else {
+      return Container(
       height: size.height * 0.2,
       decoration: _customBoxDecoration(),
       child: ClipOval(
@@ -75,7 +97,10 @@ class BuildGameQuestion extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
-    );
+          );
+    }
+
+    
   }
 
   BoxDecoration _customBoxDecoration() {
