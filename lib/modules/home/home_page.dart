@@ -92,16 +92,18 @@ class HomePage extends StatelessWidget {
                     children: [
                       IconButtonWithDescription(
                         size: size,
-                        icon: Icons.info_outline,
+                        icon: Icons.info,
                         description: "Sobre",
+                        color: AppColors.darkGray,
                         onPressed: () {
                           Navigator.pushNamed(context, "/about");
                         },
                       ),
                       IconButtonWithDescription(
                         size: size,
-                        icon: Icons.arrow_circle_right_outlined,
+                        icon: Icons.arrow_circle_right,
                         description: "Iniciar",
+                        color: AppColors.darkGray,
                         onPressed: () {
                           Navigator.pushNamed(context, "/menu");
                         },

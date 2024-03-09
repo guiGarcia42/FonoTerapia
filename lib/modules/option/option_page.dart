@@ -53,8 +53,6 @@ class OptionPage extends StatelessWidget {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    print("$snapshot //fim//");
-                    print("Snapshot data: ${snapshot.data} //fim//");
                     return Center(child: Text('Erro ao carregar dados $snapshot'));
                   } else {
                     final subCategories = snapshot.data!;
@@ -79,7 +77,7 @@ class OptionPage extends StatelessWidget {
                             onTap: () => Navigator.pushNamed(
                               context,
                               '/game',
-                              arguments: subCategory.id,
+                              arguments: subCategory,
                             ),
                           );
                         },

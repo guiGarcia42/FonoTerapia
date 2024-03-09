@@ -29,8 +29,8 @@ class ProgressIndicatorWithPercentageText extends StatelessWidget {
               child: LinearProgressIndicator(
                 minHeight: 50,
                 value: percentage / 100,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                    AppColors.darkOrange),
+                valueColor: AlwaysStoppedAnimation(
+                    AppColors.right),
                 backgroundColor: AppColors.background,
               ),
             ),

@@ -29,8 +29,10 @@ class FonoTerapiaApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'FonoTerapia',
       theme: ThemeData(
-        primarySwatch: Colors.orange, primaryColor: AppColors.lightOrange),
-        initialRoute: "/start",
+        primarySwatch: Colors.orange,
+        primaryColor: AppColors.lightOrange,
+      ),
+      initialRoute: "/start",
       routes: {
         "/start": (context) => AppStartup(),
         "/home": (context) => HomePage(),
@@ -43,4 +45,3 @@ class FonoTerapiaApp extends StatelessWidget {
     );
   }
 }
-

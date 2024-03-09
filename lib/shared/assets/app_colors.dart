@@ -9,4 +9,6 @@ class AppColors {
   static final lightGray = Color(0xFF758696);
   static final gray = Color(0xFF677888);
   static final darkGray = Color(0xFF263948);
+  static final right = Color.fromARGB(255, 0, 150, 11);
+  static final wrong = Color.fromARGB(255, 150, 0, 0);
 }

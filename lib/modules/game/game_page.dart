@@ -2,7 +2,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/database/dao/game_component_dao.dart';
-import 'package:fono_terapia/database/dao/sub_category_dao.dart';
 import 'package:fono_terapia/modules/game/widgets/build_game_question.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
@@ -28,6 +27,7 @@ class _GamePageState extends State<GamePage> {
   late double percentage;
   List<GameComponent>? gameComponents;
   late GameComponent rightAnswer;
+  // final AsyncMemoizer<List<GameComponent>> _memoizer = AsyncMemoizer();
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _GamePageState extends State<GamePage> {
     percentage = (answeredCorrectly / configuration.numberOfQuestions) * 100;
   }
 
-  Future<void> openConfigurationDialog(Size size) async {
+  Future<void> _openConfigurationDialog(Size size) async {
     final GameConfiguration? result = await showDialog<GameConfiguration>(
       context: context,
       builder: (context) {
@@ -58,70 +58,69 @@ class _GamePageState extends State<GamePage> {
     }
   }
 
+  // Não funciona
+  // Future<List<GameComponent>> _fetchGameComponents(
+  //   int section,
+  //   int numberOfOptions,
+  // ) {
+  //   return _memoizer.runOnce(() async {
+  //     return await GameComponentDao().findRandomComponents(
+  //       database,
+  //       section,
+  //       numberOfOptions,
+  //     );
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final aspectRatioFactor = size.width / 400;
-    final subCategoryId = ModalRoute.of(context)?.settings.arguments as int;
+    final SubCategory subCategory =
+        ModalRoute.of(context)?.settings.arguments as SubCategory;
     final AudioPlayer player = AudioPlayer();
 
-    return Scaffold(
-      body: FutureBuilder<SubCategory>(
-        future: SubCategoryDao().findSubCategory(database, subCategoryId),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Erro ao carregar dados'));
-          } else {
-            SubCategory subCategory = snapshot.data!;
-
-            if (gameComponents == null) {
-              return _buildContent(
-                  subCategory, size, aspectRatioFactor, player);
-            } else {
-              return _buildContentWithGameComponents(
-                  subCategory, size, aspectRatioFactor, player);
-            }
-          }
-        },
-      ),
-    );
+    if (gameComponents == null) {
+      return _buildContent(subCategory, size, aspectRatioFactor, player);
+    } else {
+      return _buildContentWithGameComponents(
+          subCategory, size, aspectRatioFactor, player);
+    }
   }
 
-  Column _buildContent(SubCategory subCategory, Size size,
+  Scaffold _buildContent(SubCategory subCategory, Size size,
       double aspectRatioFactor, AudioPlayer player) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        _buildCustomAppBar(size, subCategory),
-        _buildTopBar(size),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: size.height * 0.03,
-              left: size.width * 0.02,
-              right: size.width * 0.02,
-              bottom: size.height * 0.02,
-            ),
-            child: FutureBuilder<List<GameComponent>>(
-              future: GameComponentDao().findRandomComponents(
-                database,
-                subCategory.section,
-                configuration.numberOfOptions,
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _buildCustomAppBar(size, subCategory),
+          _buildTopBar(size),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: size.height * 0.03,
+                left: size.width * 0.02,
+                right: size.width * 0.02,
+                bottom: size.height * 0.02,
               ),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Erro ao carregar dados'));
-                } else {
-                  gameComponents = snapshot.data!;
-                  rightAnswer =
-                      GameComponentDao().getRightAnswer(gameComponents!);
+              child: FutureBuilder<List<GameComponent>>(
+                future: GameComponentDao().findRandomComponents(
+                  database,
+                  subCategory.section,
+                  configuration.numberOfOptions,
+                ),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Erro ao carregar dados'));
+                  } else {
+                    gameComponents = snapshot.data!;
+                    rightAnswer =
+                        GameComponentDao().getRightAnswer(gameComponents!);
 
-                  return Center(
-                    child: Column(
+                    return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
@@ -142,61 +141,63 @@ class _GamePageState extends State<GamePage> {
                           ),
                         ),
                       ],
-                    ),
-                  );
-                }
-              },
-            ),
-          ),
-        ),
-        _buildBottomBar(size, context),
-      ],
-    );
-  }
-
-  Column _buildContentWithGameComponents(SubCategory subCategory, Size size,
-      double aspectRatioFactor, AudioPlayer player) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        _buildCustomAppBar(size, subCategory),
-        _buildTopBar(size),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: size.height * 0.03,
-              left: size.width * 0.02,
-              right: size.width * 0.02,
-              bottom: size.height * 0.02,
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(bottom: size.height * 0.02),
-                    child: BuildGameQuestion(
-                      size: size,
-                      player: player,
-                      subCategoryId: subCategory.id,
-                      rightAnswer: rightAnswer,
-                    ),
-                  ),
-                  Expanded(
-                    child: BuildGameListOfOptions(
-                      gameComponents: gameComponents!,
-                      subCategoryId: subCategory.id,
-                      size: size,
-                      onTap: () {},
-                    ),
-                  ),
-                ],
+                    );
+                  }
+                },
               ),
             ),
           ),
-        ),
-        _buildBottomBar(size, context),
-      ],
+          _buildBottomBar(size, context),
+        ],
+      ),
+    );
+  }
+
+  Scaffold _buildContentWithGameComponents(SubCategory subCategory, Size size,
+      double aspectRatioFactor, AudioPlayer player) {
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _buildCustomAppBar(size, subCategory),
+          _buildTopBar(size),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: size.height * 0.03,
+                left: size.width * 0.02,
+                right: size.width * 0.02,
+                bottom: size.height * 0.02,
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(bottom: size.height * 0.02),
+                      child: BuildGameQuestion(
+                        size: size,
+                        player: player,
+                        subCategoryId: subCategory.id,
+                        rightAnswer: rightAnswer,
+                      ),
+                    ),
+                    Expanded(
+                      child: BuildGameListOfOptions(
+                        gameComponents: gameComponents!,
+                        subCategoryId: subCategory.id,
+                        size: size,
+                        onTap: () {},
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          _buildBottomBar(size, context),
+        ],
+      ),
     );
   }
 
@@ -244,7 +245,7 @@ class _GamePageState extends State<GamePage> {
               textStyle: TextStyles.buttonMediumText,
               text: "Configuração",
               onPressed: () {
-                openConfigurationDialog(size);
+                _openConfigurationDialog(size);
               },
             ),
           ),
