@@ -4,16 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 class TextStyles {
   static final titleHome = GoogleFonts.lexendDeca(
-    fontSize: 32,
+    fontSize: 35,
     fontWeight: FontWeight.w600,
     color: AppColors.darkGray,
   );
-  static final titleMenu = GoogleFonts.lexendDeca(
-    fontSize: 35,
-    fontWeight: FontWeight.w600,
-    color: AppColors.background,
-  );
-  static final titleOption = GoogleFonts.lexendDeca(
+  static final titleAppBar = GoogleFonts.lexendDeca(
     fontSize: 30,
     fontWeight: FontWeight.w600,
     color: AppColors.background,
@@ -47,6 +42,11 @@ class TextStyles {
     fontSize: 16,
     fontWeight: FontWeight.w500,
     color: AppColors.darkGray,
+  );
+  static final textField = GoogleFonts.lexendDeca(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.background,
   );
   static final menuOptionDescription = GoogleFonts.lexendDeca(
     fontSize: 20,

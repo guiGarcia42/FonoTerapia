@@ -7,6 +7,8 @@ import 'package:fono_terapia/modules/home/home_page.dart';
 import 'package:fono_terapia/modules/menu/menu_page.dart';
 import 'package:fono_terapia/modules/option/option_page.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
+import 'package:fono_terapia/shared/model/category.dart';
+import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'app_startup.dart';
 
 void main() {
@@ -33,14 +35,42 @@ class FonoTerapiaApp extends StatelessWidget {
         primaryColor: AppColors.lightOrange,
       ),
       initialRoute: "/start",
-      routes: {
-        "/start": (context) => AppStartup(),
-        "/home": (context) => HomePage(),
-        "/about": (context) => AboutPage(),
-        "/menu": (context) => MenuPage(),
-        "/option": (context) => OptionPage(),
-        "/game": (context) => GamePage(),
-        "/history": (context) => HistoryPage(),
+      onGenerateRoute: (settings) {
+        final args = settings.arguments;
+
+        switch (settings.name) {
+          case '/start':
+            return MaterialPageRoute(builder: (_) => AppStartup());
+          case '/home':
+            return MaterialPageRoute(builder: (_) => HomePage());
+          case '/about':
+            return MaterialPageRoute(builder: (_) => AboutPage());
+          case '/menu':
+            return MaterialPageRoute(builder: (_) => MenuPage());
+          case '/option':
+            if (args is Category) {
+              return MaterialPageRoute(
+                builder: (_) => OptionPage(category: args),
+              );
+            }
+            return null;
+          case '/game':
+            if (args is SubCategory) {
+              return MaterialPageRoute(
+                builder: (_) => GamePage(subCategory: args),
+              );
+            }
+            return null;
+          case '/history':
+            if (args is Category) {
+              return MaterialPageRoute(
+                builder: (_) => HistoryPage(category: args),
+              );
+            }
+            return null;
+          default:
+            return null;
+        }
       },
     );
   }

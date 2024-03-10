@@ -1,3 +1,4 @@
+import 'package:fono_terapia/shared/assets/app_assets.dart';
 import 'package:fono_terapia/shared/model/category.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -15,25 +16,25 @@ class CategoryDao {
   ];
 
   static const imagePathList = [
-    'assets/app_images/logoCompreensaoAuditiva.jpg',
-    'assets/app_images/logoNomeacaoOral.jpg',
-    'assets/app_images/logoCompreensaoEscrita.jpg',
-    'assets/app_images/logoNomeacaoEscrita.jpg',
+    AppAssets.logoCompreensaoAuditiva,
+    AppAssets.logoCompreensaoEscrita,
+    AppAssets.logoNomeacaoOral,
+    AppAssets.logoNomeacaoEscrita,
   ];
 
   static String get tableSql {
-    return 'CREATE TABLE $tableName('
-      '$_id INTEGER PRIMARY KEY AUTOINCREMENT, '
-      '$_name TEXT NOT NULL, '
-      '$_imagePath TEXT NOT NULL);';
+    return '''CREATE TABLE $tableName(
+      $_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      $_name TEXT NOT NULL,
+      $_imagePath TEXT NOT NULL);''';
   }
 
   static String get tableData {
     return "INSERT INTO $tableName ($_name, $_imagePath) VALUES "
-    "('${categoryNames[0]}', '${imagePathList[0]}'),"
-    "('${categoryNames[1]}', '${imagePathList[1]}'),"
-    "('${categoryNames[2]}', '${imagePathList[2]}'),"
-    "('${categoryNames[3]}', '${imagePathList[3]}');";
+        "('${categoryNames[0]}', '${imagePathList[0]}'),"
+        "('${categoryNames[1]}', '${imagePathList[1]}'),"
+        "('${categoryNames[2]}', '${imagePathList[2]}'),"
+        "('${categoryNames[3]}', '${imagePathList[3]}');";
   }
 
   Future<List<Category>> findAll(Database db) async {
@@ -46,14 +47,9 @@ class CategoryDao {
     final List<Category> categories = [];
 
     for (Map<String, dynamic> row in result) {
-      final Category category = Category(
-        row[_id],
-        row[_name],
-        row[_imagePath]
-      );
+      final Category category = Category(row[_id], row[_name], row[_imagePath]);
       categories.add(category);
     }
     return categories;
   }
-
 }

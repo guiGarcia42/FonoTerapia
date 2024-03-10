@@ -42,16 +42,30 @@ class GameComponentDao {
       Database db, int section, int numberOfOptions) async {
     final List<Map<String, dynamic>> result =
         await db.query(_tableName, where: '$_section = $section');
+
     List<GameComponent> components = _toList(result);
-
-    components.shuffle();
-
     List<GameComponent> selectedComponents = [];
 
-    for (var component in components) {
-      if (selectedComponents.length < numberOfOptions &&
-          !selectedComponents.contains(component)) {
-        selectedComponents.add(component);
+    if (section == 3) {
+      List<List<GameComponent>> componentsInPair = [];
+
+      for (int i = 0; i < components.length; i += 2) {
+        componentsInPair.add([components[i], components[i + 1]]);
+      }
+
+      componentsInPair.shuffle();
+
+      for (int i = 0; i < numberOfOptions / 2; i++) {
+        selectedComponents.addAll(componentsInPair[i]);
+      }
+    } else {
+      components.shuffle();
+
+      for (var component in components) {
+        if (selectedComponents.length < numberOfOptions &&
+            !selectedComponents.contains(component)) {
+          selectedComponents.add(component);
+        }
       }
     }
 
@@ -61,7 +75,6 @@ class GameComponentDao {
   GameComponent getRightAnswer(List<GameComponent> gameComponents) {
     List<GameComponent> temporaryList = List.from(gameComponents);
     temporaryList.shuffle();
-    
 
     return temporaryList.first;
   }

@@ -30,7 +30,7 @@ class CustomHeader extends StatelessWidget {
           child: Center(
             child: Text(
               text,
-              style: TextStyles.titleMenu,
+              style: TextStyles.titleAppBar,
               textAlign: TextAlign.center,
             ),
           ),

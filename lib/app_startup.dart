@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fono_terapia/database/app_database.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
-import 'package:fono_terapia/shared/assets/app_images.dart';
+import 'package:fono_terapia/shared/assets/app_assets.dart';
 import 'package:sqflite/sqflite.dart';
 
 late Database database; // Variável global para armazenar a instância do banco de dados
@@ -35,8 +35,8 @@ class _AppStartupState extends State<AppStartup> {
       backgroundColor: AppColors.background,
       body: Stack(
         children: [
-          Center(child: Image.asset(AppImages.union)),
-          Center(child: Image.asset(AppImages.logoFull)),
+          Center(child: Image.asset(AppAssets.union)),
+          Center(child: Image.asset(AppAssets.logoFull)),
         ],
       ),
     );

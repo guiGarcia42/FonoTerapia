@@ -24,17 +24,20 @@ class BuildGameQuestion extends StatelessWidget {
   Widget build(BuildContext context) {
     if ([1, 2, 3, 4, 8, 13, 14].contains(subCategoryId)) {
       return _buildAudioButton();
-    } else if ([5, 7].contains(subCategoryId)) {
-      return _buildTextContainer();
-    } else if ([6, 9, 10, 11, 12].contains(subCategoryId)) {
-      if ([11].contains(subCategoryId)) {
-        return _buildImageContainer(true);
-      } else {
-        return _buildImageContainer(false);
-      }
-    } else {
-      return ErrorTextContainer(size: size);
     }
+
+    if ([5, 7, 11].contains(subCategoryId)) {
+      if ([11].contains(subCategoryId)) {
+        return _buildTextContainer(true);
+      } else {
+        return _buildTextContainer(false);
+      }
+    }
+
+    if ([6, 9, 10, 12].contains(subCategoryId)) {
+      return _buildImageContainer();
+    }
+    return ErrorTextContainer(size: size);
   }
 
   GestureDetector _buildAudioButton() {
@@ -53,42 +56,45 @@ class BuildGameQuestion extends StatelessWidget {
     );
   }
 
-  Container _buildTextContainer() {
-    return Container(
-      height: size.height * 0.2,
-      decoration: _customBoxDecoration(),
-      child: Center(
-        child: Text(
-          rightAnswer.name,
-          style: TextStyles.textLargeRegular,
-          textAlign: TextAlign.center,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildImageContainer(bool playAudio) {
-
-    if(playAudio) {
+  Widget _buildTextContainer(bool playAudio) {
+    if (playAudio) {
       player.play(AssetSource(rightAnswer.audioPath));
 
       return InkWell(
         onTap: () => player.play(AssetSource(rightAnswer.audioPath)),
         child: Container(
-        height: size.height * 0.2,
-        decoration: _customBoxDecoration(),
-        child: ClipOval(
-          child: Image.asset(
-            rightAnswer.imagePath,
-            fit: BoxFit.cover,
+          height: size.height * 0.2,
+          decoration: _customBoxDecoration(),
+          child: Center(
+            child: Text(
+              rightAnswer.name,
+              style: TextStyles.textLargeRegular,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ),
-            ),
       );
     } else {
       return Container(
+        height: size.height * 0.2,
+        decoration: _customBoxDecoration(),
+        child: Center(
+          child: Text(
+            rightAnswer.name,
+            style: TextStyles.textLargeRegular,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
+    }
+  }
+
+  Widget _buildImageContainer() {
+    return Container(
       height: size.height * 0.2,
       decoration: _customBoxDecoration(),
       child: ClipOval(
@@ -97,17 +103,14 @@ class BuildGameQuestion extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
-          );
-    }
-
-    
+    );
   }
 
   BoxDecoration _customBoxDecoration() {
-  return BoxDecoration(
-    shape: BoxShape.circle,
-    color: AppColors.lightOrange,
-    border: Border.all(color: AppColors.darkGray, width: 3),
-  );
-}
+    return BoxDecoration(
+      shape: BoxShape.circle,
+      color: AppColors.lightOrange,
+      border: Border.all(color: AppColors.darkGray, width: 3),
+    );
+  }
 }

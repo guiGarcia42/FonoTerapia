@@ -10,13 +10,17 @@ import 'package:fono_terapia/shared/widgets/picture_button_with_description.dart
 import '../../shared/widgets/custom_header.dart';
 
 class OptionPage extends StatelessWidget {
-  const OptionPage({Key? key});
+  const OptionPage({
+    Key? key,
+    required this.category,
+  });
+
+  final Category category;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final aspectRatioFactor = size.width / 400;
-    final category = ModalRoute.of(context)?.settings.arguments as Category;
 
     return Scaffold(
       body: Column(

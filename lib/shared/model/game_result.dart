@@ -1,14 +1,22 @@
+import 'package:fono_terapia/shared/model/sub_category.dart';
+
 class GameResult {
-  final int id;
-  final String subCategory;
+  int? id;
   final String date;
   final int totalQuestions;
-  final int rightAnswers;
+  final int answeredCorrectly;
+  final SubCategory subCategory;
 
   GameResult(
-      {required this.id,
-      required this.subCategory,
-      required this.date,
-      required this.totalQuestions,
-      required this.rightAnswers});
+    this.id,
+    this.date,
+    this.totalQuestions,
+    this.answeredCorrectly,
+    this.subCategory,
+  );
+
+  @override
+  String toString() {
+    return 'GameResult{id: $id, date: $date, totalQuestions: $totalQuestions, answeredCorrectly: $answeredCorrectly, subCategory: $subCategory}';
+  }
 }

@@ -1,7 +1,7 @@
 import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
-import 'package:fono_terapia/shared/assets/app_images.dart';
+import 'package:fono_terapia/shared/assets/app_assets.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 
 import '../../shared/widgets/floating_icon_card.dart';
@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
                   left: 0,
                   right: 0,
                   child: Image.asset(
-                    AppImages.person,
+                    AppAssets.person,
                     width: size.width * 0.25,
                     height: size.height * 0.48,
                   ),
@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
                   left: 0,
                   right: 0,
                   child: Image.asset(
-                    AppImages.gradient,
+                    AppAssets.gradient,
                     width: size.width * 0.2,
                     height: size.height * 0.475,
                   ),
@@ -72,7 +72,7 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(AppImages.logoMini, height: size.height * 0.1),
+                  Image.asset(AppAssets.logoMini, height: size.height * 0.15),
                   AnimatedCard(
                     direction: AnimatedCardDirection.bottom,
                     child: Padding(

@@ -1,13 +1,19 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/database/dao/game_component_dao.dart';
+import 'package:fono_terapia/database/dao/game_result_dao.dart';
 import 'package:fono_terapia/modules/game/widgets/build_game_question.dart';
-import 'package:fono_terapia/shared/assets/app_colors.dart';
+import 'package:fono_terapia/shared/assets/app_assets.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/model/game_component.dart';
 import 'package:fono_terapia/shared/model/game_configuration.dart';
+import 'package:fono_terapia/shared/model/game_result.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
+import 'package:fono_terapia/shared/widgets/custom_header.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 
 import 'widgets/build_game_list_of_options.dart';
@@ -15,222 +21,246 @@ import 'widgets/game_configuration_dialog.dart';
 import '../../shared/widgets/progress_indicator_with_percentage_text.dart';
 
 class GamePage extends StatefulWidget {
-  const GamePage({super.key});
+  const GamePage({
+    super.key,
+    required this.subCategory,
+  });
+
+  final SubCategory subCategory;
 
   @override
   State<GamePage> createState() => _GamePageState();
 }
 
 class _GamePageState extends State<GamePage> {
+  AudioPlayer player = AudioPlayer();
+  String _hintText = "";
+  int questionsAnswered = 0;
+  int answeredCorrectly = 0;
+  bool _isLoading = true; // Estado de carregamento
   late GameConfiguration configuration;
-  late int answeredCorrectly;
   late double percentage;
-  List<GameComponent>? gameComponents;
+  late List<GameComponent> gameComponents;
   late GameComponent rightAnswer;
-  // final AsyncMemoizer<List<GameComponent>> _memoizer = AsyncMemoizer();
+  late SubCategory _subCategory;
 
   @override
   void initState() {
     super.initState();
-    configuration = GameConfiguration(2, 10);
-    answeredCorrectly = 0;
-    percentage = (answeredCorrectly / configuration.numberOfQuestions) * 100;
+    configuration = GameConfiguration(2, questionsAnswered, 10);
+    percentage =
+        (answeredCorrectly / configuration.totalNumberOfQuestions) * 100;
+    _subCategory = widget.subCategory;
+
+    _getGameComponents().then((components) {
+      setState(() {
+        gameComponents = components;
+        rightAnswer = GameComponentDao().getRightAnswer(gameComponents);
+        _isLoading = false; // Aqui desativamos o estado de carregamento
+      });
+    });
   }
 
-  Future<void> _openConfigurationDialog(Size size) async {
+  String _buildHintText() {
+    if (_hintText.isEmpty) {
+      _hintText = '_' * rightAnswer.name.length;
+    }
+    return _hintText;
+  }
+
+  void _updateHintText() {
+    int index = _hintText.indexOf('_');
+    if (index != -1) {
+      _hintText = _hintText.replaceFirst(
+        '_',
+        rightAnswer.name.characters.elementAt(index),
+      );
+    }
+  }
+
+  Future<List<GameComponent>> _getGameComponents() async {
+    return await GameComponentDao().findRandomComponents(
+      database,
+      _subCategory.section,
+      configuration.numberOfOptions,
+    );
+  }
+
+  Future<void> _openConfigurationDialog(Size size, int subCategoryId) async {
     final GameConfiguration? result = await showDialog<GameConfiguration>(
       context: context,
       builder: (context) {
         return GameConfigurationDialog(
           size: size,
           configurations: configuration,
+          subCategoryId: subCategoryId,
         );
       },
     );
 
     if (result != null) {
+      configuration = result;
+      percentage =
+          (answeredCorrectly / configuration.totalNumberOfQuestions) * 100;
+      List<GameComponent> components = await _getGameComponents();
       setState(() {
-        gameComponents = null;
-        configuration = result;
-        percentage =
-            (answeredCorrectly / configuration.numberOfQuestions) * 100;
+        gameComponents = components;
+        rightAnswer = GameComponentDao().getRightAnswer(gameComponents);
+        _isLoading = false; // Desativando o indicador de carregamento
       });
     }
   }
 
-  // Não funciona
-  // Future<List<GameComponent>> _fetchGameComponents(
-  //   int section,
-  //   int numberOfOptions,
-  // ) {
-  //   return _memoizer.runOnce(() async {
-  //     return await GameComponentDao().findRandomComponents(
-  //       database,
-  //       section,
-  //       numberOfOptions,
-  //     );
-  //   });
-  // }
+  Future<GameResult> _registerGameResult() async {
+    GameResult gameResult = GameResult(
+      0,
+      DateTime.now().toString().split(' ')[0], // Formato "YYYY-MM-DD"
+      questionsAnswered,
+      answeredCorrectly,
+      _subCategory,
+    );
+
+    await GameResultDao().insert(gameResult, database);
+
+    return gameResult;
+  }
+
+  void _buildNextQuestionPage() async {
+    setState(() {
+      _isLoading = true;
+      _hintText = "";
+    });
+
+    List<GameComponent> components = await _getGameComponents();
+    setState(() {
+      gameComponents = components;
+      rightAnswer = GameComponentDao().getRightAnswer(gameComponents);
+      _isLoading = false; // Desativando o indicador de carregamento
+    });
+  }
+
+  void _optionSelected(GameComponent? selectedOption) {
+    if (selectedOption == rightAnswer) {
+      player.play(AssetSource(AppAssets.correctSound));
+      answeredCorrectly++;
+      percentage =
+          (answeredCorrectly / configuration.totalNumberOfQuestions) * 100;
+    } else {
+      player.play(AssetSource(AppAssets.wrongSound));
+    }
+    questionsAnswered++;
+    Timer(Duration(seconds: 2), () {
+      if (questionsAnswered == configuration.totalNumberOfQuestions) {
+        final gameResult = _registerGameResult();
+        Navigator.pop(context, gameResult);
+      } else {
+        _buildNextQuestionPage();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final aspectRatioFactor = size.width / 400;
-    final SubCategory subCategory =
-        ModalRoute.of(context)?.settings.arguments as SubCategory;
-    final AudioPlayer player = AudioPlayer();
 
-    if (gameComponents == null) {
-      return _buildContent(subCategory, size, aspectRatioFactor, player);
+    if (_isLoading) {
+      //Gerenciando carregamento da tela aqui
+      return Center(child: CircularProgressIndicator());
     } else {
-      return _buildContentWithGameComponents(
-          subCategory, size, aspectRatioFactor, player);
+      if (questionsAnswered == configuration.totalNumberOfQuestions) {
+        final gameResult = _registerGameResult();
+        Navigator.pop(context, gameResult);
+        return SizedBox.shrink();
+      } else {
+        return Scaffold(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: size.height * 0.01),
+                child: CustomHeader(
+                  size: size,
+                  text: _subCategory.name,
+                ),
+              ),
+              _buildTopBar(size, _subCategory.id),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: size.height * 0.03,
+                    left: size.width * 0.02,
+                    right: size.width * 0.02,
+                    bottom: size.height * 0.02,
+                  ),
+                  child: _buildContent(size, _subCategory.id),
+                ),
+              ),
+              _buildBottomBar(size, context),
+            ],
+          ),
+        );
+      }
     }
   }
 
-  Scaffold _buildContent(SubCategory subCategory, Size size,
-      double aspectRatioFactor, AudioPlayer player) {
-    return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _buildCustomAppBar(size, subCategory),
-          _buildTopBar(size),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: size.height * 0.03,
-                left: size.width * 0.02,
-                right: size.width * 0.02,
-                bottom: size.height * 0.02,
-              ),
-              child: FutureBuilder<List<GameComponent>>(
-                future: GameComponentDao().findRandomComponents(
-                  database,
-                  subCategory.section,
-                  configuration.numberOfOptions,
-                ),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Erro ao carregar dados'));
-                  } else {
-                    gameComponents = snapshot.data!;
-                    rightAnswer =
-                        GameComponentDao().getRightAnswer(gameComponents!);
-
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: size.height * 0.02),
-                          child: BuildGameQuestion(
-                            size: size,
-                            player: player,
-                            subCategoryId: subCategory.id,
-                            rightAnswer: rightAnswer,
-                          ),
-                        ),
-                        Expanded(
-                          child: BuildGameListOfOptions(
-                            gameComponents: gameComponents!,
-                            subCategoryId: subCategory.id,
-                            size: size,
-                            onTap: () {},
-                          ),
-                        ),
-                      ],
-                    );
-                  }
-                },
+  Widget _buildContent(Size size, int subCategoryId) {
+    if ([2, 7, 9, 10, 11, 12, 13, 14].contains(subCategoryId)) {
+      return SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: size.height * 0.05),
+              child: BuildGameQuestion(
+                size: size,
+                player: player,
+                subCategoryId: subCategoryId,
+                rightAnswer: rightAnswer,
               ),
             ),
-          ),
-          _buildBottomBar(size, context),
-        ],
-      ),
-    );
-  }
-
-  Scaffold _buildContentWithGameComponents(SubCategory subCategory, Size size,
-      double aspectRatioFactor, AudioPlayer player) {
-    return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _buildCustomAppBar(size, subCategory),
-          _buildTopBar(size),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: size.height * 0.03,
-                left: size.width * 0.02,
-                right: size.width * 0.02,
-                bottom: size.height * 0.02,
+            if ([12, 13, 14].contains(_subCategory.id))
+              Text(
+                _buildHintText(),
+                style: TextStyles.textLargeRegular,
               ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(bottom: size.height * 0.02),
-                      child: BuildGameQuestion(
-                        size: size,
-                        player: player,
-                        subCategoryId: subCategory.id,
-                        rightAnswer: rightAnswer,
-                      ),
-                    ),
-                    Expanded(
-                      child: BuildGameListOfOptions(
-                        gameComponents: gameComponents!,
-                        subCategoryId: subCategory.id,
-                        size: size,
-                        onTap: () {},
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            BuildGameListOfOptions(
+              gameComponents: gameComponents,
+              subCategoryId: subCategoryId,
+              rightAnswer: rightAnswer,
+              size: size,
+              onTap: _optionSelected,
             ),
-          ),
-          _buildBottomBar(size, context),
-        ],
-      ),
-    );
-  }
-
-  Padding _buildCustomAppBar(Size size, SubCategory subCategory) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: size.height * 0.01),
-      child: Container(
-        width: size.width,
-        height: size.height * 0.20,
-        decoration: BoxDecoration(
-          gradient: RadialGradient(
-            colors: [AppColors.lightOrange, AppColors.darkOrange],
-            center: Alignment.center,
-            radius: 0.7,
-          ),
+          ],
         ),
-        child: SafeArea(
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
-              child: Text(
-                subCategory.name,
-                style: TextStyles.titleOption,
-                textAlign: TextAlign.center,
-              ),
+      );
+    } else {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(bottom: size.height * 0.02),
+            child: BuildGameQuestion(
+              size: size,
+              player: player,
+              subCategoryId: subCategoryId,
+              rightAnswer: rightAnswer,
             ),
           ),
-        ),
-      ),
-    );
+          Expanded(
+            child: BuildGameListOfOptions(
+              gameComponents: gameComponents,
+              subCategoryId: subCategoryId,
+              rightAnswer: rightAnswer,
+              size: size,
+              onTap: _optionSelected,
+            ),
+          ),
+        ],
+      );
+    }
   }
 
-  Padding _buildTopBar(Size size) {
+  Padding _buildTopBar(Size size, int subCategoryId) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: size.width * 0.02,
@@ -245,7 +275,7 @@ class _GamePageState extends State<GamePage> {
               textStyle: TextStyles.buttonMediumText,
               text: "Configuração",
               onPressed: () {
-                _openConfigurationDialog(size);
+                _openConfigurationDialog(size, subCategoryId);
               },
             ),
           ),
@@ -263,30 +293,63 @@ class _GamePageState extends State<GamePage> {
         right: size.width * 0.02,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          ElevatedTextButton(
-            widthRatio: size.width * 0.240,
-            textStyle: TextStyles.buttonMediumText,
-            text: "Ajuda",
-            onPressed: () {},
-          ),
+          if (![2, 7, 9, 10, 11].contains(_subCategory.id))
+            ElevatedTextButton(
+              widthRatio: size.width * 0.240,
+              textStyle: TextStyles.buttonMediumText,
+              text: "Ajuda",
+              onPressed: () {
+                if ([12, 13, 14].contains(_subCategory.id)) {
+                  setState(() {
+                    if (_hintText.contains('_')) {
+                      _updateHintText();
+                    }
+                  });
+                } else {
+                  setState(() {
+                    _removeRandomComponent();
+                  });
+                }
+              },
+            ),
           ElevatedTextButton(
             widthRatio: size.width * 0.340,
             textStyle: TextStyles.buttonMediumText,
             text: "Próximo",
-            onPressed: () {},
+            onPressed: () {
+              questionsAnswered++;
+              if (questionsAnswered == configuration.totalNumberOfQuestions) {
+                final gameResult = _registerGameResult();
+                Navigator.pop(context, gameResult);
+              } else {
+                _buildNextQuestionPage();
+              }
+            },
           ),
           ElevatedTextButton(
             widthRatio: size.width * 0.340,
             textStyle: TextStyles.buttonMediumText,
             text: "Finalizar",
             onPressed: () {
-              Navigator.pop(context);
+              final gameResult = _registerGameResult();
+              Navigator.pop(context, gameResult);
             },
           ),
         ],
       ),
     );
+  }
+
+  void _removeRandomComponent() {
+    List<int> indices = List.generate(gameComponents.length, (index) => index)
+        .where((index) => gameComponents[index] != rightAnswer)
+        .toList();
+
+    if (indices.isNotEmpty) {
+      int randomIndex = Random().nextInt(indices.length);
+      gameComponents.removeAt(indices[randomIndex]);
+    }
   }
 }

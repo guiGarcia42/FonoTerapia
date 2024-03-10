@@ -9,10 +9,12 @@ class GameConfigurationDialog extends StatefulWidget {
   const GameConfigurationDialog({
     super.key,
     required this.configurations,
+    required this.subCategoryId,
     required this.size,
   });
 
   final GameConfiguration configurations;
+  final int subCategoryId;
   final Size size;
 
   @override
@@ -25,12 +27,14 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
   late GameConfiguration _configuration;
   late Levels _selectedLevelOfDifficulty;
   late int _selectedNumberOsQuestions;
+  late int _subCategoryId;
 
   @override
   void initState() {
     super.initState();
     _configuration = widget.configurations;
-    _selectedNumberOsQuestions = _configuration.numberOfQuestions;
+    _selectedNumberOsQuestions = _configuration.totalNumberOfQuestions;
+    _subCategoryId = widget.subCategoryId;
 
     if (_configuration.numberOfOptions == 2) {
       _selectedLevelOfDifficulty = Levels.facil;
@@ -43,61 +47,83 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: AppColors.orange,
-      elevation: 10,
-      actionsAlignment: MainAxisAlignment.spaceEvenly,
-      actionsOverflowAlignment: OverflowBarAlignment.center,
-      actionsOverflowButtonSpacing: widget.size.height * 0.02,
-      title: Text(
-        "Configurações:",
-        style: TextStyles.titleDialog,
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildNumberOfOptions(),
-          Divider(
-            color: AppColors.darkGray,
-            thickness: 2,
-          ),
-          _buildNumberOfQuestions(),
-        ],
-      ),
-      actions: [
-        ElevatedTextButton(
-          widthRatio: widget.size.width * 0.3,
-          textStyle: TextStyles.buttonTextDialog,
-          text: "Cancelar",
-          onPressed: () {
-            Navigator.pop(context);
-          },
+    if ([1, 3, 4, 5, 6, 8].contains(_subCategoryId)) {
+      return AlertDialog(
+        backgroundColor: AppColors.orange,
+        elevation: 10,
+        actionsAlignment: MainAxisAlignment.spaceEvenly,
+        actionsOverflowAlignment: OverflowBarAlignment.center,
+        actionsOverflowButtonSpacing: widget.size.height * 0.02,
+        title: Text(
+          "Configurações:",
+          style: TextStyles.titleDialog,
         ),
-        ElevatedTextButton(
-          widthRatio: widget.size.width * 0.3,
-          textStyle: TextStyles.buttonTextDialog,
-          text: "Confirmar",
-          onPressed: () {
-            if (_selectedLevelOfDifficulty == Levels.facil) {
-              _configuration.numberOfOptions = 2;
-            } else if (_selectedLevelOfDifficulty == Levels.medio) {
-              _configuration.numberOfOptions = 4;
-            } else {
-              _configuration.numberOfOptions = 6;
-            }
-            _configuration.numberOfQuestions = _selectedNumberOsQuestions;
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildDifficulty(),
+            Divider(
+              color: AppColors.darkGray,
+              thickness: 2,
+            ),
+            _buildNumberOfQuestions(),
+          ],
+        ),
+        actions: _buildActions(context),
+      );
+    } else {
+      return AlertDialog(
+        backgroundColor: AppColors.orange,
+        elevation: 10,
+        actionsAlignment: MainAxisAlignment.spaceEvenly,
+        actionsOverflowAlignment: OverflowBarAlignment.center,
+        actionsOverflowButtonSpacing: widget.size.height * 0.02,
+        title: Text(
+          "Configurações:",
+          style: TextStyles.titleDialog,
+        ),
+        content: _buildNumberOfQuestions(),
+        actions: _buildActions(context),
+      );
+    }
+  }
 
-            Navigator.pop(context, _configuration);
-          },
-        ),
-      ],
-    );
+  List<ElevatedTextButton> _buildActions(BuildContext context) {
+    return [
+      ElevatedTextButton(
+        widthRatio: widget.size.width * 0.3,
+        textStyle: TextStyles.buttonTextDialog,
+        text: "Cancelar",
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      ElevatedTextButton(
+        widthRatio: widget.size.width * 0.3,
+        textStyle: TextStyles.buttonTextDialog,
+        text: "Confirmar",
+        onPressed: () {
+          if (_selectedLevelOfDifficulty == Levels.facil) {
+            _configuration.numberOfOptions = 2;
+          } else if (_selectedLevelOfDifficulty == Levels.medio) {
+            _configuration.numberOfOptions = 4;
+          } else {
+            _configuration.numberOfOptions = 6;
+          }
+          _configuration.totalNumberOfQuestions = _selectedNumberOsQuestions;
+
+          Navigator.pop(context, _configuration);
+        },
+      ),
+    ];
   }
 
   Column _buildNumberOfQuestions() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
+        
         Text(
           "Número de Questões:",
           style: TextStyles.textRegular,
@@ -109,9 +135,8 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
         Slider(
           activeColor: AppColors.darkGray,
           value: _selectedNumberOsQuestions.toDouble(),
-          min: 2,
+          min: _configuration.initialNumberOfQuestions.toDouble() + 1,
           max: 50,
-          divisions: 24,
           onChanged: (value) {
             setState(() {
               _selectedNumberOsQuestions = value.toInt();
@@ -122,66 +147,64 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
     );
   }
 
-  Row _buildNumberOfOptions() {
+  Row _buildDifficulty() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "Número de opções:",
+          "Dificuldade:",
           style: TextStyles.textRegular,
         ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: widget.size.width * 0.03),
-            child: DropdownButton(
-              value: _selectedLevelOfDifficulty,
-              borderRadius: BorderRadius.circular(15),
-              iconSize: 40,
-              padding: EdgeInsets.only(left: widget.size.width * 0.03),
-              items: [
-                DropdownMenuItem(
-                  value: Levels.facil,
-                  onTap: () {
-                    setState(() {
-                      _selectedLevelOfDifficulty = Levels.facil;
-                    });
-                  },
-                  child: Text(
-                    "Fácil",
-                    style: TextStyles.textRegular,
-                  ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: widget.size.width * 0.03),
+          child: DropdownButton(
+            value: _selectedLevelOfDifficulty,
+            borderRadius: BorderRadius.circular(15),
+            iconSize: 40,
+            padding: EdgeInsets.only(left: widget.size.width * 0.03),
+            items: [
+              DropdownMenuItem(
+                value: Levels.facil,
+                onTap: () {
+                  setState(() {
+                    _selectedLevelOfDifficulty = Levels.facil;
+                  });
+                },
+                child: Text(
+                  "Fácil",
+                  style: TextStyles.textRegular,
                 ),
-                DropdownMenuItem(
-                  value: Levels.medio,
-                  onTap: () {
-                    setState(() {
-                      _selectedLevelOfDifficulty = Levels.medio;
-                    });
-                  },
-                  child: Text(
-                    "Médio",
-                    style: TextStyles.textRegular,
-                  ),
+              ),
+              DropdownMenuItem(
+                value: Levels.medio,
+                onTap: () {
+                  setState(() {
+                    _selectedLevelOfDifficulty = Levels.medio;
+                  });
+                },
+                child: Text(
+                  "Médio",
+                  style: TextStyles.textRegular,
                 ),
-                DropdownMenuItem(
-                  value: Levels.dificil,
-                  onTap: () {
-                    setState(() {
-                      _selectedLevelOfDifficulty = Levels.dificil;
-                    });
-                  },
-                  child: Text(
-                    "Difícil",
-                    style: TextStyles.textRegular,
-                  ),
+              ),
+              DropdownMenuItem(
+                value: Levels.dificil,
+                onTap: () {
+                  setState(() {
+                    _selectedLevelOfDifficulty = Levels.dificil;
+                  });
+                },
+                child: Text(
+                  "Difícil",
+                  style: TextStyles.textRegular,
                 ),
-              ],
-              onChanged: (value) {
-                if (value != null) {
-                  _selectedLevelOfDifficulty = value;
-                }
-              },
-            ),
+              ),
+            ],
+            onChanged: (value) {
+              if (value != null) {
+                _selectedLevelOfDifficulty = value;
+              }
+            },
           ),
         )
       ],

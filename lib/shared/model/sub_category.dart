@@ -8,10 +8,15 @@ class SubCategory {
     this.id,
     this.name,
     this.imagePath,
-    this.section
+    this.section,
   );
 
-factory SubCategory.fromMap(Map<String, dynamic> map) {
+  @override
+  String toString() {
+    return 'SubCategory{id: $id, name: $name, imagePath: $imagePath, section: $section}';
+  }
+
+  factory SubCategory.fromMap(Map<String, dynamic> map) {
     return SubCategory(
       map['id'],
       map['name'],
@@ -19,7 +24,4 @@ factory SubCategory.fromMap(Map<String, dynamic> map) {
       map['section'],
     );
   }
-  
 }
-
-

@@ -3,7 +3,7 @@ import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SubCategoryDao {
-  static const _tableName = 'sub_categories';
+  static const tableName = 'sub_categories';
   static const _id = 'id';
   static const _name = 'name';
   static const _imagePath = 'image_path';
@@ -51,13 +51,14 @@ class SubCategoryDao {
   static const categoryIDs = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4];
 
   static String get tableSql {
-    return 'CREATE TABLE $_tableName('
-        '$_id INTEGER PRIMARY KEY AUTOINCREMENT, '
-        '$_name TEXT NOT NULL, '
-        '$_imagePath TEXT NOT NULL, '
-        '$_section INTEGER NOT NULL, '
-        '$_categoryId INTEGER NOT NULL, '
-        'FOREIGN KEY ($_categoryId) REFERENCES $_categoryTableName($_id));';
+    return '''CREATE TABLE $tableName(
+        $_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        $_name TEXT NOT NULL,
+        $_imagePath TEXT NOT NULL,
+        $_section INTEGER NOT NULL,
+        $_categoryId INTEGER NOT NULL,
+        FOREIGN KEY ($_categoryId) REFERENCES $_categoryTableName($_id)
+        );''';
   }
 
   // static String get tableData {
@@ -79,7 +80,7 @@ class SubCategoryDao {
   // }
 
   static String get tableData {
-    return "INSERT INTO $_tableName ($_name, $_imagePath, $_section, $_categoryId) VALUES "
+    return "INSERT INTO $tableName ($_name, $_imagePath, $_section, $_categoryId) VALUES "
         "('${subCategoryNames[0]}', '${CategoryDao.imagePathList[0]}', ${sectionList[0]}, ${categoryIDs[0]}), "
         "('${subCategoryNames[1]}', '${CategoryDao.imagePathList[0]}', ${sectionList[1]}, ${categoryIDs[1]}), "
         "('${subCategoryNames[2]}', '${CategoryDao.imagePathList[0]}', ${sectionList[2]}, ${categoryIDs[2]}), "
@@ -99,14 +100,14 @@ class SubCategoryDao {
   Future<List<SubCategory>> findAllSubCategories(
       Database db, int categoryId) async {
     final List<Map<String, dynamic>> result =
-        await db.query(_tableName, where: '$_categoryId = $categoryId');
+        await db.query(tableName, where: '$_categoryId = $categoryId');
     List<SubCategory> subCategories = _toList(result);
     return subCategories;
   }
 
   Future<SubCategory> findSubCategory(Database db, int subCategoryId) async {
     final List<Map<String, Object?>> result =
-        await db.query(_tableName, where: '$_id = $subCategoryId');
+        await db.query(tableName, where: '$_id = $subCategoryId');
     return SubCategory.fromMap(result.first);
   }
 
