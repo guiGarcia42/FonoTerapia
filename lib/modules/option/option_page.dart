@@ -43,7 +43,7 @@ class OptionPage extends StatelessWidget {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(
-                      child: Text('Erro ao carregar dados $snapshot'));
+                      child: Text('Erro ao carregar dados AQUI $snapshot'));
                 } else {
                   final subCategories = snapshot.data!;
 

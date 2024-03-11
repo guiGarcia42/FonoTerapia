@@ -8,6 +8,7 @@ import 'package:fono_terapia/shared/model/category.dart';
 import 'package:fono_terapia/shared/model/game_result.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
+import 'package:fono_terapia/shared/widgets/progress_indicator_with_percentage_text.dart';
 
 import 'widgets/category_filter_dialog.dart';
 
@@ -24,7 +25,7 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
-  late List<bool> checkedStates;
+  late List<bool> subCategoriesCategoryFilter;
   late DateTime firstDate;
   late DateTime currentDate;
   late Category _category;
@@ -35,7 +36,7 @@ class _HistoryPageState extends State<HistoryPage> {
   void initState() {
     super.initState();
     _isLoading = true;
-    checkedStates = [];
+    subCategoriesCategoryFilter = [];
     firstDate = DateTime(2024, 3, 1);
     currentDate = DateTime.now();
     _category = widget.category;
@@ -43,33 +44,69 @@ class _HistoryPageState extends State<HistoryPage> {
     _getSubCategories().then((subCategories) {
       setState(() {
         _subCategories = subCategories;
+        subCategoriesCategoryFilter =
+            List.generate(_subCategories.length, (index) => true);
         _isLoading = false; // Estado de carregamento
       });
     });
   }
 
   Future<List<SubCategory>> _getSubCategories() async {
-    return await SubCategoryDao().findAllSubCategories(database, _category.id);
+    List<SubCategory> allSubCategories =
+        await SubCategoryDao().findAllSubCategories(database, _category.id);
+
+    // Verifica se filteredCategories tem o mesmo tamanho que allSubCategories
+    if (subCategoriesCategoryFilter.isNotEmpty) {
+      List<SubCategory> filteredSubCategories = [];
+
+      for (var i = 0; i < subCategoriesCategoryFilter.length; i++) {
+        if (subCategoriesCategoryFilter[i]) {
+          filteredSubCategories.add(allSubCategories[i]);
+        }
+      }
+      return filteredSubCategories;
+    } else {
+      return allSubCategories;
+    }
   }
 
-  Future<void> openCategoryFilterDialog(Size size) async {
+  Future<List<GameResult>> _getGameResultsFiltered() async {
+    List<GameResult> allGameResults =
+        await GameResultDao().findAllInCategory(database, _category.id);
+
+    List<SubCategory> filteredSubCategories =
+        await _getSubCategories(); // Obtém as subcategorias filtradas
+
+    // Filtra os resultados com base nas subcategorias selecionadas
+    List<GameResult> filteredGameResults = allGameResults.where((result) {
+      return filteredSubCategories.any((subCategory) {
+        return result.subCategory.id == subCategory.id;
+      });
+    }).toList();
+
+    return filteredGameResults;
+  }
+
+  Future<void> _openCategoryFilterDialog(Size size) async {
     final List<bool>? result = await showDialog<List<bool>>(
       context: context,
       builder: (context) => CategoryFilterDialog(
         subCategories: _subCategories,
-        checkedStates: checkedStates,
+        filteredCategories: subCategoriesCategoryFilter,
         size: size,
       ),
     );
 
     if (result != null) {
+      // nulo seria se cancelasse
       setState(() {
-        checkedStates = result;
+        subCategoriesCategoryFilter = result;
+        print(subCategoriesCategoryFilter);
       });
     }
   }
 
-  Future<void> openDatePickerDialog() async {
+  Future<void> _openDatePickerDialog() async {
     final DateTime? result = await showDatePicker(
       context: context,
       firstDate: firstDate,
@@ -99,6 +136,11 @@ class _HistoryPageState extends State<HistoryPage> {
     }
   }
 
+  String _formatDate(String dateString) {
+    DateTime parsedDate = DateTime.parse(dateString);
+    return "${parsedDate.day.toString().padLeft(2, '0')}/${parsedDate.month.toString().padLeft(2, '0')}/${parsedDate.year}";
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -126,44 +168,86 @@ class _HistoryPageState extends State<HistoryPage> {
           centerTitle: true,
           backgroundColor: AppColors.darkOrange,
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: size.height * 0.01,
-            horizontal: size.width * 0.04,
-          ),
-          child: Column(
-            children: [
-              _buildTopBar(size),
-              Expanded(
-                child: FutureBuilder<List<GameResult>>(
-                  future: GameResultDao().findAll(database),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(
-                          child: Text('Erro ao carregar dados $snapshot'));
-                    } else {
-                      final gameResults = snapshot.data!;
+        body: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: size.height * 0.02,
+                horizontal: size.width * 0.04,
+              ),
+              child: _buildTopBar(size),
+            ),
+            Expanded(
+              child: FutureBuilder<List<GameResult>>(
+                future: _getGameResultsFiltered(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(
+                        child: Text('Erro ao carregar dados $snapshot'));
+                  } else {
+                    final gameResults = snapshot.data!;
 
+                    if (gameResults.isEmpty) {
+                      return Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: size.width * 0.1),
+                          child: Text(
+                            "Histórico não encontrado.\nPratique mais para gerar seu histórico.",
+                            style: TextStyles.textLargeRegular,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      );
+                    } else {
                       return ListView.builder(
                         itemCount: gameResults.length,
                         itemBuilder: (context, index) {
                           final gameResult = gameResults[index];
-                          print(gameResult);
+                          final percentage = (gameResult.answeredCorrectly /
+                                  gameResult.totalQuestions) *
+                              100;
 
-                          return ListTile(
-                            title: Text(gameResult.subCategory.name),
-                            subtitle: Text(gameResult.date),
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: size.height * 0.005,
+                              horizontal: size.width * 0.02,
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 3),
+                                borderRadius: BorderRadius.circular(20),
+                                color: AppColors.lightGray,
+                              ),
+                              child: ListTile(
+                                title: Text(
+                                  gameResult.subCategory.name,
+                                  style: TextStyles.titleListTile,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                subtitle: Text(
+                                  _formatDate(gameResult.date),
+                                  style: TextStyles.textField,
+                                ),
+                                trailing: SizedBox(
+                                  width: size.width * 0.3,
+                                  child: ProgressIndicatorWithPercentageText(
+                                      percentage: percentage),
+                                ),
+                              ),
+                            ),
                           );
                         },
                       );
                     }
-                  },
-                ),
+                  }
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
     }
@@ -182,7 +266,7 @@ class _HistoryPageState extends State<HistoryPage> {
           textStyle: TextStyles.buttonMediumText,
           text: "Data",
           onPressed: () {
-            openDatePickerDialog();
+            _openDatePickerDialog();
           },
         ),
         ElevatedTextButton(
@@ -190,7 +274,7 @@ class _HistoryPageState extends State<HistoryPage> {
           textStyle: TextStyles.buttonMediumText,
           text: "Categoria",
           onPressed: () {
-            openCategoryFilterDialog(size);
+            _openCategoryFilterDialog(size);
           },
         ),
       ],

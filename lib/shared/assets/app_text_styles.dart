@@ -48,6 +48,11 @@ class TextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.background,
   );
+  static final titleListTile = GoogleFonts.lexendDeca(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.background,
+  );
   static final menuOptionDescription = GoogleFonts.lexendDeca(
     fontSize: 20,
     fontWeight: FontWeight.w500,

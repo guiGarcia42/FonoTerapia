@@ -1,4 +1,6 @@
+import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/database/dao/category_dao.dart';
+import 'package:fono_terapia/shared/model/category.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -97,32 +99,53 @@ class SubCategoryDao {
         "('${subCategoryNames[13]}', '${CategoryDao.imagePathList[3]}', ${sectionList[13]}, ${categoryIDs[13]}); ";
   }
 
+  Future<SubCategory> findSubCategory(Database db, int subCategoryId) async {
+    final List<Map<String, dynamic>> result = await db.query(
+      tableName,
+      where: '$_id = $subCategoryId',
+    );
+    final Map<String, dynamic> row = result.first;
+
+    return SubCategory.withoutCategory(
+      row[_id],
+      row[_name],
+      row[_imagePath],
+      row[_section]
+    );
+  }
+
   Future<List<SubCategory>> findAllSubCategories(
       Database db, int categoryId) async {
+    print(categoryId);
     final List<Map<String, dynamic>> result =
         await db.query(tableName, where: '$_categoryId = $categoryId');
-    List<SubCategory> subCategories = _toList(result);
-    return subCategories;
+    return await _toList(result);
   }
 
-  Future<SubCategory> findSubCategory(Database db, int subCategoryId) async {
-    final List<Map<String, Object?>> result =
-        await db.query(tableName, where: '$_id = $subCategoryId');
-    return SubCategory.fromMap(result.first);
-  }
-
-  List<SubCategory> _toList(List<Map<String, dynamic>> result) {
+  Future<List<SubCategory>> _toList(List<Map<String, dynamic>> result) async {
     final List<SubCategory> subCategories = [];
 
     for (Map<String, dynamic> row in result) {
-      final SubCategory subCategory = SubCategory(
-        row[_id],
-        row[_name],
-        row[_imagePath],
-        row[_section],
-      );
+      final int categoryId = row[_categoryId];
+      final Category category =
+          await CategoryDao().findCategory(database, categoryId);
+      print("Categoria achada ${category.name}");
+      final SubCategory subCategory = await _fromMap(row, category);
       subCategories.add(subCategory);
     }
     return subCategories;
+  }
+
+  Future<SubCategory> _fromMap(
+      Map<String, dynamic> map, Category category) async {
+    final subCategoryId = map['id'];
+
+    return SubCategory(
+      subCategoryId,
+      map['name'],
+      map['image_path'],
+      map['section'],
+      category,
+    );
   }
 }

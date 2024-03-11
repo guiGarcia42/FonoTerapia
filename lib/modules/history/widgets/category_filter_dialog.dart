@@ -8,12 +8,12 @@ class CategoryFilterDialog extends StatefulWidget {
   const CategoryFilterDialog({
     super.key,
     required this.subCategories,
-    required this.checkedStates,
+    required this.filteredCategories,
     required this.size,
   });
 
   final List<SubCategory> subCategories;
-  final List<bool> checkedStates;
+  final List<bool> filteredCategories;
   final Size size;
 
   @override
@@ -21,20 +21,14 @@ class CategoryFilterDialog extends StatefulWidget {
 }
 
 class _CategoryFilterDialogState extends State<CategoryFilterDialog> {
-  late List<bool> _checkedStates;
+  late List<SubCategory> _subCategories;
+  late List<bool> _filteredCategories;
 
   @override
   void initState() {
     super.initState();
-
-    if (widget.checkedStates.isEmpty) {
-      _checkedStates = List.generate(
-        widget.subCategories.length,
-        (_) => false,
-      );
-    } else {
-      _checkedStates = widget.checkedStates;
-    }
+    _subCategories = widget.subCategories;
+    _filteredCategories = widget.filteredCategories;
   }
 
   @override
@@ -54,20 +48,20 @@ class _CategoryFilterDialogState extends State<CategoryFilterDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: List.generate(
-            widget.subCategories.length,
+            _subCategories.length,
             (index) {
-              final subCategory = widget.subCategories[index];
+              final subCategory = _subCategories[index];
 
               return CheckboxListTile(
                 title: Text(
                   subCategory.name,
                   style: TextStyles.textRegular,
                 ),
-                value: _checkedStates[index],
+                value: _filteredCategories[index],
                 activeColor: AppColors.darkGray,
                 onChanged: (value) {
                   setState(() {
-                    _checkedStates[index] = value ?? false;
+                    _filteredCategories[index] = value ?? false;
                   });
                 },
               );
@@ -87,12 +81,10 @@ class _CategoryFilterDialogState extends State<CategoryFilterDialog> {
           textStyle: TextStyles.buttonTextDialog,
           text: "Filtrar",
           onPressed: () {
-            Navigator.pop(context, _checkedStates);
+            Navigator.pop(context, _filteredCategories);
           },
         ),
       ],
     );
-
-    
   }
 }

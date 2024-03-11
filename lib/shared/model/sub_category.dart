@@ -1,27 +1,30 @@
+import 'package:fono_terapia/shared/model/category.dart';
+
 class SubCategory {
   final int id;
   final String name;
   final String imagePath;
   final int section;
+  final Category? category;
 
   SubCategory(
     this.id,
     this.name,
     this.imagePath,
     this.section,
+    this.category,
   );
+
+  // Construtor sem o parâmetro category
+  SubCategory.withoutCategory(
+    this.id,
+    this.name,
+    this.imagePath,
+    this.section,
+  ) : category = null; // Inicializa category como null
 
   @override
   String toString() {
-    return 'SubCategory{id: $id, name: $name, imagePath: $imagePath, section: $section}';
-  }
-
-  factory SubCategory.fromMap(Map<String, dynamic> map) {
-    return SubCategory(
-      map['id'],
-      map['name'],
-      map['image_path'],
-      map['section'],
-    );
+    return 'SubCategory{id: $id, name: $name, imagePath: $imagePath, section: $section, category: $category}';
   }
 }

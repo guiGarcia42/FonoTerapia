@@ -1,5 +1,7 @@
 import 'package:fono_terapia/app_startup.dart';
+import 'package:fono_terapia/database/dao/category_dao.dart';
 import 'package:fono_terapia/database/dao/sub_category_dao.dart';
+import 'package:fono_terapia/shared/model/category.dart';
 import 'package:fono_terapia/shared/model/game_result.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:sqflite/sqflite.dart';
@@ -12,6 +14,8 @@ class GameResultDao {
   static const _answeredCorrectly = 'answered_correctly';
   static const _subCategoryId = 'sub_category_id';
   static const _subCategoryTableName = SubCategoryDao.tableName;
+  static const _categoryId = 'category_id';
+  static const _categoryTableName = CategoryDao.tableName;
 
   static String get tableSql {
     return '''CREATE TABLE $tableName(
@@ -20,7 +24,9 @@ class GameResultDao {
         $_totalQuestions INTEGER NOT NULL,
         $_answeredCorrectly INTEGER NOT NULL,
         $_subCategoryId INTEGER NOT NULL,
-        FOREIGN KEY ($_subCategoryId) REFERENCES $_subCategoryTableName($_id)
+        $_categoryId INTEGER NOT NULL,
+        FOREIGN KEY ($_subCategoryId) REFERENCES $_subCategoryTableName($_id),
+        FOREIGN KEY ($_categoryId) REFERENCES $_categoryTableName($_id)
       );''';
   }
 
@@ -42,14 +48,27 @@ class GameResultDao {
     return gameResults;
   }
 
+  Future<List<GameResult>> findAllInCategory(
+      Database db, int categoryId) async {
+    final List<Map<String, dynamic>> result = await db.query(tableName, where: '$_categoryId = $categoryId');
+
+    List<GameResult> gameResults = await _toList(result);
+    return gameResults;
+  }
+
   Future<List<GameResult>> _toList(List<Map<String, dynamic>> result) async {
     final List<GameResult> gameResults = [];
 
     for (Map<String, dynamic> row in result) {
       final int subCategoryId = row[_subCategoryId];
+      final int categoryId = row[_categoryId];
+
       final SubCategory subCategory =
           await SubCategoryDao().findSubCategory(database, subCategoryId);
-      final GameResult gameResult = _fromMap(row, subCategory);
+      final Category category =
+          await CategoryDao().findCategory(database, categoryId);
+
+      final GameResult gameResult = _fromMap(row, subCategory, category);
       gameResults.add(gameResult);
     }
     return gameResults;
@@ -62,16 +81,19 @@ class GameResultDao {
       _totalQuestions: gameResult.totalQuestions,
       _answeredCorrectly: gameResult.answeredCorrectly,
       _subCategoryId: gameResult.subCategory.id,
+      _categoryId: gameResult.category.id,
     };
   }
 
-  GameResult _fromMap(Map<String, dynamic> map, SubCategory subCategory) {
+  GameResult _fromMap(
+      Map<String, dynamic> map, SubCategory subCategory, Category category) {
     return GameResult(
       map[_id],
       map[_date],
       map[_totalQuestions],
       map[_answeredCorrectly],
       subCategory,
+      category,
     );
   }
 }

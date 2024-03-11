@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:fono_terapia/app_startup.dart';
+import 'package:fono_terapia/database/dao/category_dao.dart';
 import 'package:fono_terapia/database/dao/game_component_dao.dart';
 import 'package:fono_terapia/database/dao/game_result_dao.dart';
 import 'package:fono_terapia/modules/game/widgets/build_game_question.dart';
@@ -118,6 +119,7 @@ class _GamePageState extends State<GamePage> {
       questionsAnswered,
       answeredCorrectly,
       _subCategory,
+      await CategoryDao().findCategory(database, _subCategory.category!.id)
     );
 
     await GameResultDao().insert(gameResult, database);

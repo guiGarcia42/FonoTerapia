@@ -29,7 +29,7 @@ class MenuPage extends StatelessWidget {
               horizontal: size.width * 0.015,
             ),
             child: FutureBuilder<List<Category>>(
-              future: CategoryDao().findAll(database),
+              future: CategoryDao().findAllCategories(database),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());

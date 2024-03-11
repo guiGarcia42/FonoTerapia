@@ -37,10 +37,24 @@ class CategoryDao {
         "('${categoryNames[3]}', '${imagePathList[3]}');";
   }
 
-  Future<List<Category>> findAll(Database db) async {
+  Future<List<Category>> findAllCategories(Database db) async {
     final List<Map<String, dynamic>> result = await db.query(tableName);
     List<Category> categories = _toList(result);
     return categories;
+  }
+
+  Future<Category> findCategory(Database db, int categoryId) async {
+    final List<Map<String, Object?>> result =
+        await db.query(tableName, where: '$_id = $categoryId');
+    return _fromMap(result.first);
+  }
+
+  Category _fromMap(Map<String, dynamic> map) {
+    return Category(
+      map['id'],
+      map['name'],
+      map['image_path'],
+    );
   }
 
   List<Category> _toList(List<Map<String, dynamic>> result) {
