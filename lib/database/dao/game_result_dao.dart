@@ -38,8 +38,6 @@ class GameResultDao {
       _toMap(gameResult),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-
-    print(gameResult);
   }
 
   Future<List<GameResult>> findAll(Database db) async {

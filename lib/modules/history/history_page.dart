@@ -98,10 +98,8 @@ class _HistoryPageState extends State<HistoryPage> {
     );
 
     if (result != null) {
-      // nulo seria se cancelasse
       setState(() {
         subCategoriesCategoryFilter = result;
-        print(subCategoriesCategoryFilter);
       });
     }
   }
@@ -145,112 +143,109 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    if (_isLoading) {
-      //Gerenciando carregamento da tela aqui
-      return Center(child: CircularProgressIndicator());
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back_outlined),
-            color: AppColors.background,
-            iconSize: size.width * 0.1,
-          ),
-          title: SafeArea(
-            child: Text(
-              "Histórico",
-              style: TextStyles.titleAppBar,
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: AppColors.darkOrange,
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_outlined),
+          color: AppColors.background,
+          iconSize: size.width * 0.1,
         ),
-        body: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: size.height * 0.02,
-                horizontal: size.width * 0.04,
-              ),
-              child: _buildTopBar(size),
+        title: SafeArea(
+          child: Text(
+            "Histórico",
+            style: TextStyles.titleAppBar,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: AppColors.darkOrange,
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: size.height * 0.02,
+              horizontal: size.width * 0.04,
             ),
-            Expanded(
-              child: FutureBuilder<List<GameResult>>(
-                future: _getGameResultsFiltered(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(
-                        child: Text('Erro ao carregar dados $snapshot'));
-                  } else {
-                    final gameResults = snapshot.data!;
+            child: _buildTopBar(size),
+          ),
+          Expanded(
+            child: _isLoading
+                ? Center(child: CircularProgressIndicator())
+                : FutureBuilder<List<GameResult>>(
+                    future: _getGameResultsFiltered(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(
+                            child: Text('Erro ao carregar dados $snapshot'));
+                      } else {
+                        final gameResults = snapshot.data!;
 
-                    if (gameResults.isEmpty) {
-                      return Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: size.width * 0.1),
-                          child: Text(
-                            "Histórico não encontrado.\nPratique mais para gerar seu histórico.",
-                            style: TextStyles.textLargeRegular,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      );
-                    } else {
-                      return ListView.builder(
-                        itemCount: gameResults.length,
-                        itemBuilder: (context, index) {
-                          final gameResult = gameResults[index];
-                          final percentage = (gameResult.answeredCorrectly /
-                                  gameResult.totalQuestions) *
-                              100;
-
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: size.height * 0.005,
-                              horizontal: size.width * 0.02,
-                            ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(width: 3),
-                                borderRadius: BorderRadius.circular(20),
-                                color: AppColors.lightGray,
-                              ),
-                              child: ListTile(
-                                title: Text(
-                                  gameResult.subCategory.name,
-                                  style: TextStyles.titleListTile,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                subtitle: Text(
-                                  _formatDate(gameResult.date),
-                                  style: TextStyles.textField,
-                                ),
-                                trailing: SizedBox(
-                                  width: size.width * 0.3,
-                                  child: ProgressIndicatorWithPercentageText(
-                                      percentage: percentage),
-                                ),
+                        if (gameResults.isEmpty) {
+                          return Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: size.width * 0.1),
+                              child: Text(
+                                "Histórico não encontrado.\nPratique mais para gerar seu histórico.",
+                                style: TextStyles.textLargeRegular,
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           );
-                        },
-                      );
-                    }
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
-      );
-    }
+                        } else {
+                          return ListView.builder(
+                            itemCount: gameResults.length,
+                            itemBuilder: (context, index) {
+                              final gameResult = gameResults[index];
+                              final percentage = (gameResult.answeredCorrectly /
+                                      gameResult.totalQuestions) *
+                                  100;
+
+                              return Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: size.height * 0.005,
+                                    horizontal: size.width * 0.02),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(width: 3),
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: AppColors.lightGray,
+                                  ),
+                                  child: ListTile(
+                                    title: Text(
+                                      gameResult.subCategory.name,
+                                      style: TextStyles.titleListTile,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    subtitle: Text(
+                                      _formatDate(gameResult.date),
+                                      style: TextStyles.textField,
+                                    ),
+                                    trailing: SizedBox(
+                                      width: size.width * 0.3,
+                                      child:
+                                          ProgressIndicatorWithPercentageText(
+                                              percentage: percentage),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      }
+                    },
+                  ),
+          ),
+        ],
+      ),
+    );
   }
 
   Row _buildTopBar(Size size) {

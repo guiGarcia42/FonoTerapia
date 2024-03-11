@@ -1,11 +1,11 @@
 class GameConfiguration {
   int numberOfOptions;
   int totalNumberOfQuestions;
-  int initialNumberOfQuestions;
+  int questionsAnswered;
 
   GameConfiguration(
     this.numberOfOptions,
-    this.initialNumberOfQuestions,
+    this.questionsAnswered,
     this.totalNumberOfQuestions,
   );
 }

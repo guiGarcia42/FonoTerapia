@@ -15,7 +15,7 @@ class TextStyles {
   );
   static final titleDialog = GoogleFonts.lexendDeca(
     fontSize: 25,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w500,
     color: AppColors.background,
   );
   static final buttonLargeText = GoogleFonts.lexendDeca(

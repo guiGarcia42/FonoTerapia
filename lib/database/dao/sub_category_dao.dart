@@ -116,7 +116,6 @@ class SubCategoryDao {
 
   Future<List<SubCategory>> findAllSubCategories(
       Database db, int categoryId) async {
-    print(categoryId);
     final List<Map<String, dynamic>> result =
         await db.query(tableName, where: '$_categoryId = $categoryId');
     return await _toList(result);
@@ -129,7 +128,6 @@ class SubCategoryDao {
       final int categoryId = row[_categoryId];
       final Category category =
           await CategoryDao().findCategory(database, categoryId);
-      print("Categoria achada ${category.name}");
       final SubCategory subCategory = await _fromMap(row, category);
       subCategories.add(subCategory);
     }

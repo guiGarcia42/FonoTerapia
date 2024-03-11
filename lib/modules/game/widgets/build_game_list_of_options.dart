@@ -13,7 +13,7 @@ class BuildGameListOfOptions extends StatefulWidget {
   final int subCategoryId;
   final GameComponent rightAnswer;
   final Size size;
-  final Function(GameComponent?) onTap;
+  final Function(Size, GameComponent?) onTap;
 
   const BuildGameListOfOptions(
       {super.key,
@@ -28,39 +28,39 @@ class BuildGameListOfOptions extends StatefulWidget {
 }
 
 class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
-    TextEditingController textEditingController = TextEditingController();
-    
+  TextEditingController textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final aspectRatioFactor = widget.size.width / 400;
 
     if ([1, 3, 4, 5].contains(widget.subCategoryId)) {
-      return _buildImageComponent(widget.gameComponents, aspectRatioFactor);
+      return _buildImageComponent(
+          widget.size, widget.gameComponents, aspectRatioFactor);
     }
 
     if ([2, 7, 9, 10, 11].contains(widget.subCategoryId)) {
       if ([2, 7].contains(widget.subCategoryId)) {
-        return _buildRightOrWrongComponent("Sim", "Não");
+        return _buildRightOrWrongComponent(widget.size, "Sim", "Não");
       } else {
-        return _buildRightOrWrongComponent("Correto", "Incorreto");
+        return _buildRightOrWrongComponent(widget.size, "Correto", "Incorreto");
       }
     }
 
     if ([6, 8].contains(widget.subCategoryId)) {
-      return _buildTextComponent(widget.gameComponents, aspectRatioFactor);
+      return _buildTextComponent(
+          widget.size, widget.gameComponents, aspectRatioFactor);
     }
 
     if ([12, 13, 14].contains(widget.subCategoryId)) {
-      return _buildTextInputComponent();
+      return _buildTextInputComponent(widget.size);
     }
 
     return ErrorTextContainer(size: widget.size);
   }
 
   GridView _buildImageComponent(
-      // IMAGEM
-      List<GameComponent> gameComponents,
-      double aspectRatioFactor) {
+      Size size, List<GameComponent> gameComponents, double aspectRatioFactor) {
     return GridView.builder(
       itemCount: gameComponents.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -75,7 +75,7 @@ class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
         return Padding(
           padding: EdgeInsets.all(widget.size.height * 0.02),
           child: InkWell(
-            onTap: () => widget.onTap(component),
+            onTap: () => widget.onTap(size, component),
             child: Image.asset(
               component.imagePath,
               fit: BoxFit.cover,
@@ -87,9 +87,7 @@ class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
   }
 
   GridView _buildTextComponent(
-      // TEXTO
-      List<GameComponent> gameComponents,
-      double aspectRatioFactor) {
+      Size size, List<GameComponent> gameComponents, double aspectRatioFactor) {
     return GridView.builder(
       itemCount: gameComponents.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -104,13 +102,13 @@ class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
         return TextContainerButton(
           size: widget.size,
           text: component.name,
-          onTap: () => widget.onTap(component),
+          onTap: () => widget.onTap(size, component),
         );
       },
     );
   }
 
-  Padding _buildRightOrWrongComponent(String right, String wrong) {
+  Padding _buildRightOrWrongComponent(Size size, String right, String wrong) {
     GameComponent? wrongAnswer;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: widget.size.height * 0.05),
@@ -122,21 +120,21 @@ class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
             icon: Icons.check_circle,
             description: right,
             color: AppColors.right,
-            onPressed: () => widget.onTap(widget.rightAnswer),
+            onPressed: () => widget.onTap(size, widget.rightAnswer),
           ),
           IconButtonWithDescription(
             size: widget.size,
             icon: Icons.cancel,
             description: wrong,
             color: AppColors.wrong,
-            onPressed: () => widget.onTap(wrongAnswer),
+            onPressed: () => widget.onTap(size, wrongAnswer),
           ),
         ],
       ),
     );
   }
 
-  Padding _buildTextInputComponent() {
+  Padding _buildTextInputComponent(Size size) {
     GameComponent? wrongAnswer;
 
     return Padding(
@@ -163,9 +161,9 @@ class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
           final normalizedRightAnswer =
               removeDiacritics(widget.rightAnswer.name).toLowerCase();
           if (normalizedValue == normalizedRightAnswer) {
-            widget.onTap(widget.rightAnswer);
+            widget.onTap(size, widget.rightAnswer);
           } else {
-            widget.onTap(wrongAnswer);
+            widget.onTap(size, wrongAnswer);
           }
           textEditingController.clear();
         },

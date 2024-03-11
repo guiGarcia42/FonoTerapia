@@ -24,7 +24,7 @@ class GameConfigurationDialog extends StatefulWidget {
 
 class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
   final numberOfQuestionsController = TextEditingController();
-  late GameConfiguration _configuration;
+  late GameConfiguration _configurations;
   late Levels _selectedLevelOfDifficulty;
   late int _selectedNumberOsQuestions;
   late int _subCategoryId;
@@ -32,13 +32,13 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
   @override
   void initState() {
     super.initState();
-    _configuration = widget.configurations;
-    _selectedNumberOsQuestions = _configuration.totalNumberOfQuestions;
+    _configurations = widget.configurations;
+    _selectedNumberOsQuestions = _configurations.totalNumberOfQuestions;
     _subCategoryId = widget.subCategoryId;
 
-    if (_configuration.numberOfOptions == 2) {
+    if (_configurations.numberOfOptions == 2) {
       _selectedLevelOfDifficulty = Levels.facil;
-    } else if (_configuration.numberOfOptions == 4) {
+    } else if (_configurations.numberOfOptions == 4) {
       _selectedLevelOfDifficulty = Levels.medio;
     } else {
       _selectedLevelOfDifficulty = Levels.dificil;
@@ -104,15 +104,15 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
         text: "Confirmar",
         onPressed: () {
           if (_selectedLevelOfDifficulty == Levels.facil) {
-            _configuration.numberOfOptions = 2;
+            _configurations.numberOfOptions = 2;
           } else if (_selectedLevelOfDifficulty == Levels.medio) {
-            _configuration.numberOfOptions = 4;
+            _configurations.numberOfOptions = 4;
           } else {
-            _configuration.numberOfOptions = 6;
+            _configurations.numberOfOptions = 6;
           }
-          _configuration.totalNumberOfQuestions = _selectedNumberOsQuestions;
+          _configurations.totalNumberOfQuestions = _selectedNumberOsQuestions;
 
-          Navigator.pop(context, _configuration);
+          Navigator.pop(context, _configurations);
         },
       ),
     ];
@@ -135,7 +135,7 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
         Slider(
           activeColor: AppColors.darkGray,
           value: _selectedNumberOsQuestions.toDouble(),
-          min: _configuration.initialNumberOfQuestions.toDouble() + 1,
+          min: _configurations.questionsAnswered.toDouble() + 1,
           max: 50,
           onChanged: (value) {
             setState(() {
