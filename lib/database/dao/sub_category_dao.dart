@@ -48,7 +48,7 @@ class SubCategoryDao {
     'assets/app_images/pao.jpg',
   ];
 
-  static const sectionList = [1, 4, 3, 2, 1, 1, 4, 1, 1, 2, 1, 1, 1, 1];
+  static const sectionList = [1, 4, 3, 2, 1, 1, 4, 1, 1, 2, 1, 1, 1, 5];
 
   static const categoryIDs = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4];
 

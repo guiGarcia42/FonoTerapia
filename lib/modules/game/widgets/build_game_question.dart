@@ -76,6 +76,28 @@ class BuildGameQuestion extends StatelessWidget {
           ),
         ),
       );
+    } else if ([7].contains(subCategoryId)) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
+        child: Container(
+          height: size.height * 0.2,
+          decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+        color: AppColors.lightOrange,
+        border: Border.all(color: AppColors.darkGray, width: 3),
+            ),
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
+              child: Text(
+                rightAnswer.name,
+                style: TextStyles.textLargeRegular,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ),
+      );
     } else {
       return Container(
         height: size.height * 0.2,

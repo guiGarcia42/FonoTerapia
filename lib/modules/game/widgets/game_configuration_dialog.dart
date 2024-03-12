@@ -66,7 +66,10 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
               color: AppColors.darkGray,
               thickness: 2,
             ),
-            _buildNumberOfQuestions(),
+            Padding(
+              padding: EdgeInsets.only(top: widget.size.height * 0.005),
+              child: _buildNumberOfQuestions(),
+            ),
           ],
         ),
         actions: _buildActions(context),

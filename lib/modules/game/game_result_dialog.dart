@@ -89,12 +89,12 @@ class _GameConfigurationDialogState extends State<GameResultDialog> {
       IconButtonWithDescription(
         size: widget.size,
         icon: Icons.home_rounded,
-        description: "Menu",
+        description: "Início",
         color: AppColors.darkGray,
         onPressed: () {
           Navigator.of(context).pop(); // Fecha o diálogo atual
           Navigator.of(context)
-              .pushNamedAndRemoveUntil('/menu', (route) => false);
+              .pushNamedAndRemoveUntil('/home', (route) => false);
         },
       ),
     ];
