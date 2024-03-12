@@ -23,6 +23,10 @@ class GameComponentDao {
     if (nameList.length != imagePathList.length ||
         nameList.length != audioPathList.length ||
         nameList.length != sectionList.length) {
+          print("Nomes ${nameList.length}");
+          print("Imagens ${imagePathList.length}");
+          print("Audios ${audioPathList.length}");
+          print("Seção ${sectionList.length}");
       throw Exception('Arrays têm tamanhos diferentes');
     }
     String insertQuery =
