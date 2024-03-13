@@ -40,32 +40,40 @@ class _CategoryFilterDialogState extends State<CategoryFilterDialog> {
       actionsOverflowAlignment: OverflowBarAlignment.center,
       actionsOverflowButtonSpacing: widget.size.height * 0.02,
       title: Text(
-        "Filtrar por categoria:",
+        "Filtrar por Categoria:",
         style: TextStyles.titleDialog,
-        textAlign: TextAlign.center,
+        textAlign: TextAlign.start,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
       ),
       content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: List.generate(
-            _subCategories.length,
-            (index) {
-              final subCategory = _subCategories[index];
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.lightOrange,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(
+              _subCategories.length,
+              (index) {
+                final subCategory = _subCategories[index];
 
-              return CheckboxListTile(
-                title: Text(
-                  subCategory.name,
-                  style: TextStyles.textRegular,
-                ),
-                value: _filteredCategories[index],
-                activeColor: AppColors.darkGray,
-                onChanged: (value) {
-                  setState(() {
-                    _filteredCategories[index] = value ?? false;
-                  });
-                },
-              );
-            },
+                return CheckboxListTile(
+                  title: Text(
+                    subCategory.name,
+                    style: TextStyles.textRegular,
+                  ),
+                  value: _filteredCategories[index],
+                  activeColor: AppColors.darkGray,
+                  onChanged: (value) {
+                    setState(() {
+                      _filteredCategories[index] = value ?? false;
+                    });
+                  },
+                );
+              },
+            ),
           ),
         ),
       ),

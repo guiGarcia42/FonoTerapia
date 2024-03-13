@@ -16,7 +16,7 @@ class TextStyles {
   static final titleDialog = GoogleFonts.lexendDeca(
     fontSize: 25,
     fontWeight: FontWeight.w500,
-    color: AppColors.background,
+    color: AppColors.darkGray,
   );
   static final buttonLargeText = GoogleFonts.lexendDeca(
     fontSize: 30,
@@ -38,10 +38,20 @@ class TextStyles {
     fontWeight: FontWeight.w700,
     color: AppColors.darkGray,
   );
+    static final textLargeRegular = GoogleFonts.lexendDeca(
+    fontSize: 25,
+    fontWeight: FontWeight.w500,
+    color: AppColors.darkGray,
+  );
   static final textRegular = GoogleFonts.lexendDeca(
     fontSize: 16,
     fontWeight: FontWeight.w500,
     color: AppColors.darkGray,
+  );
+  static final textSmallRegular = GoogleFonts.lexendDeca(
+    fontSize: 14.5,
+    fontWeight: FontWeight.w600,
+    color: Colors.black
   );
   static final textField = GoogleFonts.lexendDeca(
     fontSize: 16,
@@ -58,10 +68,6 @@ class TextStyles {
     fontWeight: FontWeight.w500,
     color: AppColors.darkGray,
   );
-  static final textLargeRegular = GoogleFonts.lexendDeca(
-    fontSize: 25,
-    fontWeight: FontWeight.w500,
-    color: AppColors.darkGray,
-  );
+
 
 }

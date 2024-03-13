@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/database/dao/game_result_dao.dart';
 import 'package:fono_terapia/database/dao/sub_category_dao.dart';
+import 'package:fono_terapia/modules/history/widgets/calendar_date_picker_dialog.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/model/category.dart';
@@ -26,6 +27,7 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage> {
   late List<bool> subCategoriesCategoryFilter;
+  late String? selectedDateFilter;
   late DateTime firstDate;
   late DateTime currentDate;
   late Category _category;
@@ -37,8 +39,9 @@ class _HistoryPageState extends State<HistoryPage> {
     super.initState();
     _isLoading = true;
     subCategoriesCategoryFilter = [];
-    firstDate = DateTime(2024, 3, 1);
+    selectedDateFilter = null;
     currentDate = DateTime.now();
+    firstDate = DateTime(currentDate.year, currentDate.month, 1);
     _category = widget.category;
 
     _getSubCategories().then((subCategories) {
@@ -55,7 +58,6 @@ class _HistoryPageState extends State<HistoryPage> {
     List<SubCategory> allSubCategories =
         await SubCategoryDao().findAllSubCategories(database, _category.id);
 
-    // Verifica se filteredCategories tem o mesmo tamanho que allSubCategories
     if (subCategoriesCategoryFilter.isNotEmpty) {
       List<SubCategory> filteredSubCategories = [];
 
@@ -70,21 +72,48 @@ class _HistoryPageState extends State<HistoryPage> {
     }
   }
 
-  Future<List<GameResult>> _getGameResultsFiltered() async {
+  Future<List<GameResult>> _getFilteredGameResults() async {
     List<GameResult> allGameResults =
         await GameResultDao().findAllInCategory(database, _category.id);
 
-    List<SubCategory> filteredSubCategories =
-        await _getSubCategories(); // Obtém as subcategorias filtradas
+    List<SubCategory> filteredSubCategories = await _getSubCategories();
 
-    // Filtra os resultados com base nas subcategorias selecionadas
     List<GameResult> filteredGameResults = allGameResults.where((result) {
       return filteredSubCategories.any((subCategory) {
         return result.subCategory.id == subCategory.id;
       });
     }).toList();
 
+    if (selectedDateFilter != null) {
+      filteredGameResults = filteredGameResults.where((result) {
+        return result.date == selectedDateFilter;
+      }).toList();
+    }
+
     return filteredGameResults;
+  }
+
+  Future<void> _openDatePickerDialog(Size size) async {
+    final DateTime? result = await showDialog<DateTime>(
+      context: context,
+      builder: (context) => CalendarDatePickerDialog(
+        firstDate: firstDate,
+        currentDate: currentDate,
+        size: size,
+      ),
+    );
+
+    if (result != null) {
+      setState(() {
+        selectedDateFilter =
+            result.toString().split(' ')[0]; // Formato "YYYY-MM-DD"
+      });
+    }
+  }
+
+  String _formatDate(String dateString) {
+    DateTime parsedDate = DateTime.parse(dateString);
+    return "${parsedDate.day.toString().padLeft(2, '0')}/${parsedDate.month.toString().padLeft(2, '0')}/${parsedDate.year}";
   }
 
   Future<void> _openCategoryFilterDialog(Size size) async {
@@ -102,41 +131,6 @@ class _HistoryPageState extends State<HistoryPage> {
         subCategoriesCategoryFilter = result;
       });
     }
-  }
-
-  Future<void> _openDatePickerDialog() async {
-    final DateTime? result = await showDatePicker(
-      context: context,
-      firstDate: firstDate,
-      lastDate: currentDate,
-      helpText: 'Selecione uma data',
-      cancelText: 'Cancelar',
-      confirmText: 'Filtrar',
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.dark().copyWith(
-            colorScheme: ColorScheme.dark(
-              primary: AppColors.darkGray,
-              onPrimary: AppColors.background,
-              surface: AppColors.orange,
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (result != null) {
-      // Aqui você pode atualizar a data conforme a seleção do usuário
-      setState(() {
-        currentDate = result;
-      });
-    }
-  }
-
-  String _formatDate(String dateString) {
-    DateTime parsedDate = DateTime.parse(dateString);
-    return "${parsedDate.day.toString().padLeft(2, '0')}/${parsedDate.month.toString().padLeft(2, '0')}/${parsedDate.year}";
   }
 
   @override
@@ -175,7 +169,7 @@ class _HistoryPageState extends State<HistoryPage> {
             child: _isLoading
                 ? Center(child: CircularProgressIndicator())
                 : FutureBuilder<List<GameResult>>(
-                    future: _getGameResultsFiltered(),
+                    future: _getFilteredGameResults(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
@@ -191,7 +185,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: size.width * 0.1),
                               child: Text(
-                                "Histórico não encontrado.\nPratique mais para gerar seu histórico.",
+                                "Histórico não encontrado.",
                                 style: TextStyles.textLargeRegular,
                                 textAlign: TextAlign.center,
                               ),
@@ -261,7 +255,7 @@ class _HistoryPageState extends State<HistoryPage> {
           textStyle: TextStyles.buttonMediumText,
           text: "Data",
           onPressed: () {
-            _openDatePickerDialog();
+            _openDatePickerDialog(size);
           },
         ),
         ElevatedTextButton(

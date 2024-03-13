@@ -9,6 +9,7 @@ import 'package:fono_terapia/modules/option/option_page.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/model/category.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app_startup.dart';
 
 void main() {
@@ -34,6 +35,13 @@ class FonoTerapiaApp extends StatelessWidget {
         primarySwatch: Colors.orange,
         primaryColor: AppColors.lightOrange,
       ),
+      // Definindo o idioma padrão para português (Brasil)
+      locale: Locale('pt', 'BR'),
+      // Adicionando os delegates de localização para português
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      supportedLocales: <Locale>[
+        Locale('pt', 'BR')
+      ],
       initialRoute: "/start",
       onGenerateRoute: (settings) {
         final args = settings.arguments;
