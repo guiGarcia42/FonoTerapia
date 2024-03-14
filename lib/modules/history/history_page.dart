@@ -145,7 +145,7 @@ class _HistoryPageState extends State<HistoryPage> {
           },
           icon: Icon(Icons.arrow_back_outlined),
           color: AppColors.background,
-          iconSize: size.width * 0.1,
+          iconSize: size.height * 0.035,
         ),
         title: SafeArea(
           child: Text(

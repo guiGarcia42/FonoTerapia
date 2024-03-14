@@ -15,106 +15,102 @@ class HomePage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     
     return Scaffold(
-      body: SizedBox(
-        width: size.width,
-        height: size.height,
-        child: Stack(
-          children: [
-            Container(
-              width: size.width,
-              height: size.height * 0.40,
-              decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                colors: [AppColors.lightOrange, AppColors.darkOrange],
-                center: Alignment.center,
-                radius: 0.7,
-              )),
-            ),
-            Stack(
+      body: Stack(
+        children: [
+          Container(
+            width: size.width,
+            height: size.height * 0.40,
+            decoration: BoxDecoration(
+                gradient: RadialGradient(
+              colors: [AppColors.lightOrange, AppColors.darkOrange],
+              center: Alignment.center,
+              radius: 0.7,
+            )),
+          ),
+          Stack(
+            children: [
+              Positioned(
+                top: size.height * 0.05,
+                left: 0,
+                right: 0,
+                child: Image.asset(
+                  AppAssets.person,
+                  width: size.width * 0.25,
+                  height: size.height * 0.48,
+                ),
+              ),
+              Positioned(
+                top: size.height * 0.235,
+                left: 0,
+                right: 0,
+                child: Image.asset(
+                  AppAssets.gradient,
+                  width: size.width * 0.2,
+                  height: size.height * 0.475,
+                ),
+              ),
+            ],
+          ),
+          Positioned(
+            top: size.height * 0.215,
+            left: size.width * 0.665,
+            child: FloatingIconCard(icon: Icons.hearing_outlined),
+          ),
+          Positioned(
+            top: size.height * 0.35,
+            left: size.width * 0.17,
+            child: FloatingIconCard(icon: Icons.wechat_rounded),
+          ),
+          Positioned(
+            bottom: size.width * 0.1,
+            left: 0,
+            right: 0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Positioned(
-                  top: size.height * 0.05,
-                  left: 0,
-                  right: 0,
-                  child: Image.asset(
-                    AppAssets.person,
-                    width: size.width * 0.25,
-                    height: size.height * 0.48,
+                Image.asset(AppAssets.logoMini, height: size.height * 0.15),
+                AnimatedCard(
+                  direction: AnimatedCardDirection.bottom,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: size.width * 0.2,
+                      vertical: size.height * 0.025,
+                    ),
+                    child: Text(
+                      "Atividades Terapêuticas para a Afasia",
+                      textAlign: TextAlign.center,
+                      style: TextStyles.titleHome,
+                    ),
                   ),
                 ),
-                Positioned(
-                  top: size.height * 0.235,
-                  left: 0,
-                  right: 0,
-                  child: Image.asset(
-                    AppAssets.gradient,
-                    width: size.width * 0.2,
-                    height: size.height * 0.475,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButtonWithDescription(
+                      size: size,
+                      icon: Icons.info,
+                      description: "Sobre",
+                      color: AppColors.darkGray,
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/about");
+                      },
+                    ),
+                    IconButtonWithDescription(
+                      size: size,
+                      icon: Icons.arrow_circle_right,
+                      description: "Iniciar",
+                      color: AppColors.darkGray,
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/menu");
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
-            Positioned(
-              top: size.height * 0.215,
-              left: size.width * 0.665,
-              child: FloatingIconCard(icon: Icons.hearing_outlined),
-            ),
-            Positioned(
-              top: size.height * 0.35,
-              left: size.width * 0.17,
-              child: FloatingIconCard(icon: Icons.wechat_rounded),
-            ),
-            Positioned(
-              bottom: size.width * 0.1,
-              left: 0,
-              right: 0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(AppAssets.logoMini, height: size.height * 0.15),
-                  AnimatedCard(
-                    direction: AnimatedCardDirection.bottom,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: size.width * 0.2,
-                        vertical: size.height * 0.025,
-                      ),
-                      child: Text(
-                        "Atividades Terapêuticas para a Afasia",
-                        textAlign: TextAlign.center,
-                        style: TextStyles.titleHome,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      IconButtonWithDescription(
-                        size: size,
-                        icon: Icons.info,
-                        description: "Sobre",
-                        color: AppColors.darkGray,
-                        onPressed: () {
-                          Navigator.pushNamed(context, "/about");
-                        },
-                      ),
-                      IconButtonWithDescription(
-                        size: size,
-                        icon: Icons.arrow_circle_right,
-                        description: "Iniciar",
-                        color: AppColors.darkGray,
-                        onPressed: () {
-                          Navigator.pushNamed(context, "/menu");
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

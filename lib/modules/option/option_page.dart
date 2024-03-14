@@ -25,29 +25,25 @@ class OptionPage extends StatelessWidget {
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CustomHeader(
             text: category.name,
             size: size,
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: size.height * 0.015,
-            ),
-            child: FutureBuilder<List<SubCategory>>(
-              future:
-                  SubCategoryDao().findAllSubCategories(database, category.id),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(
-                      child: Text('Erro ao carregar dados AQUI $snapshot'));
-                } else {
-                  final subCategories = snapshot.data!;
-
-                  return SizedBox(
+          FutureBuilder<List<SubCategory>>(
+            future:
+                SubCategoryDao().findAllSubCategories(database, category.id),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(
+                    child: Text('Erro ao carregar dados AQUI $snapshot'));
+              } else {
+                final subCategories = snapshot.data!;
+          
+                return Expanded(
+                  child: SizedBox(
                     height: size.height * 0.6,
                     child: GridView.builder(
                       itemCount: subCategories.length,
@@ -59,7 +55,7 @@ class OptionPage extends StatelessWidget {
                       ),
                       itemBuilder: (_, index) {
                         final subCategory = subCategories[index];
-
+                  
                         return PictureButtonWithDescription(
                           description: subCategory.name,
                           imagePath: subCategory.imagePath,
@@ -72,13 +68,13 @@ class OptionPage extends StatelessWidget {
                         );
                       },
                     ),
-                  );
-                }
-              },
-            ),
+                  ),
+                );
+              }
+            },
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: size.height * 0.02),
+            padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

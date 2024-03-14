@@ -18,27 +18,23 @@ class MenuPage extends StatelessWidget {
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CustomHeader(
             text: "Menu de Atividades Terapêuticas",
             size: size,
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: size.width * 0.015,
-            ),
-            child: FutureBuilder<List<Category>>(
-              future: CategoryDao().findAllCategories(database),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Erro ao carregar dados'));
-                } else {
-                  final categories = snapshot.data!;
-
-                  return SizedBox(
+          FutureBuilder<List<Category>>(
+            future: CategoryDao().findAllCategories(database),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Erro ao carregar dados'));
+              } else {
+                final categories = snapshot.data!;
+          
+                return Expanded(
+                  child: SizedBox(
                     height: size.height * 0.6,
                     child: GridView.builder(
                       itemCount: categories.length,
@@ -50,7 +46,7 @@ class MenuPage extends StatelessWidget {
                       ),
                       itemBuilder: (_, index) {
                         final category = categories[index];
-
+                            
                         return PictureButtonWithDescription(
                           description: category.name,
                           imagePath: category.imagePath,
@@ -63,10 +59,10 @@ class MenuPage extends StatelessWidget {
                         );
                       },
                     ),
-                  );
-                }
-              },
-            ),
+                  ),
+                );
+              }
+            },
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: size.height * 0.02),

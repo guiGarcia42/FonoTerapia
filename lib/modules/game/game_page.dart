@@ -118,7 +118,7 @@ class _GamePageState extends State<GamePage> {
     configuration.questionsAnswered = questionsAnswered;
     final gameResult = await _registerGameResult();
 
-    final GameResult? result = await showDialog<GameResult>(
+    showDialog<GameResult>(
       context: context,
       builder: (context) {
         return GameResultDialog(
