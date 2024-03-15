@@ -25,14 +25,17 @@ class PictureButtonWithDescription extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-          Text(
-            description,
-            style: TextStyles.textLargeRegular.copyWith(
-              fontSize: responsiveSize.scaleSize(TextStyles.textLargeRegular.fontSize!),
+          SizedBox(
+            height: responsiveSize.scaleSize(TextStyles.textLargeRegular.fontSize! * 3),
+            child: Text(
+              description,
+              style: TextStyles.textLargeRegular.copyWith(
+                fontSize: responsiveSize.scaleSize(TextStyles.textLargeRegular.fontSize!),
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-            textAlign: TextAlign.center,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

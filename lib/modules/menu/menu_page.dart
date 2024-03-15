@@ -32,13 +32,15 @@ class MenuPage extends StatelessWidget {
                 return Expanded(
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: responsiveSize.scaleSize(5),
+                      horizontal: responsiveSize.scaleSize(20),
                     ),
                     child: GridView.builder(
                       itemCount: categories.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: responsiveSize.scaleSize(1),
+                        childAspectRatio: responsiveSize.isMini()
+                            ? responsiveSize.scaleSize(1.5)
+                            : responsiveSize.scaleSize(1),
                         crossAxisSpacing: responsiveSize.scaleSize(25),
                         mainAxisSpacing: responsiveSize.scaleSize(50),
                       ),

@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/model/game_component.dart';
@@ -9,13 +10,11 @@ import 'error_text_container.dart';
 class BuildGameQuestion extends StatelessWidget {
   const BuildGameQuestion({
     super.key,
-    required this.size,
     required this.player,
     required this.subCategoryId,
     required this.rightAnswer,
   });
 
-  final Size size;
   final AudioPlayer player;
   final int subCategoryId;
   final GameComponent rightAnswer;
@@ -37,7 +36,7 @@ class BuildGameQuestion extends StatelessWidget {
     if ([6, 9, 10, 12].contains(subCategoryId)) {
       return _buildImageContainer();
     }
-    return ErrorTextContainer(size: size);
+    return ErrorTextContainer();
   }
 
   GestureDetector _buildAudioButton() {
@@ -49,7 +48,7 @@ class BuildGameQuestion extends StatelessWidget {
         decoration: _customBoxDecoration(),
         child: Icon(
           Icons.volume_up_rounded,
-          size: size.height * 0.2,
+          size: responsiveSize.scaleSize(250),
           color: AppColors.darkGray,
         ),
       ),
@@ -63,12 +62,15 @@ class BuildGameQuestion extends StatelessWidget {
       return InkWell(
         onTap: () => player.play(AssetSource(rightAnswer.audioPath)),
         child: Container(
-          height: size.height * 0.2,
+          height: responsiveSize.scaleSize(250),
           decoration: _customBoxDecoration(),
           child: Center(
             child: Text(
               rightAnswer.name,
-              style: TextStyles.textLargeRegular,
+              style: TextStyles.textLargeRegular.copyWith(
+                fontSize: responsiveSize
+                    .scaleSize(TextStyles.textLargeRegular.fontSize!),
+              ),
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -78,20 +80,27 @@ class BuildGameQuestion extends StatelessWidget {
       );
     } else if ([7].contains(subCategoryId)) {
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
+        padding: EdgeInsets.symmetric(
+          horizontal: responsiveSize.scaleSize(100),
+        ),
         child: Container(
-          height: size.height * 0.2,
+          height: responsiveSize.scaleSize(250),
           decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        color: AppColors.lightOrange,
-        border: Border.all(color: AppColors.darkGray, width: 3),
-            ),
+            shape: BoxShape.rectangle,
+            color: AppColors.lightOrange,
+            border: Border.all(color: AppColors.darkGray, width: 3),
+          ),
           child: Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
+              padding: EdgeInsets.symmetric(
+                horizontal: responsiveSize.scaleSize(30),
+              ),
               child: Text(
                 rightAnswer.name,
-                style: TextStyles.textLargeRegular,
+                style: TextStyles.textLargeRegular.copyWith(
+                  fontSize: responsiveSize
+                      .scaleSize(TextStyles.textLargeRegular.fontSize!),
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -100,12 +109,15 @@ class BuildGameQuestion extends StatelessWidget {
       );
     } else {
       return Container(
-        height: size.height * 0.2,
+        height: responsiveSize.scaleSize(250),
         decoration: _customBoxDecoration(),
         child: Center(
           child: Text(
             rightAnswer.name,
-            style: TextStyles.textLargeRegular,
+            style: TextStyles.textLargeRegular.copyWith(
+              fontSize: responsiveSize
+                  .scaleSize(TextStyles.textLargeRegular.fontSize!),
+            ),
             textAlign: TextAlign.center,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -117,12 +129,12 @@ class BuildGameQuestion extends StatelessWidget {
 
   Widget _buildImageContainer() {
     return Container(
-      height: size.height * 0.2,
+      height: responsiveSize.scaleSize(250),
       decoration: _customBoxDecoration(),
       child: ClipOval(
         child: Image.asset(
           rightAnswer.imagePath,
-          fit: BoxFit.cover,
+          fit: BoxFit.fill,
         ),
       ),
     );

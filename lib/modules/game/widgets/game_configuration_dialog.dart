@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/utils/data.dart';
@@ -10,12 +11,10 @@ class GameConfigurationDialog extends StatefulWidget {
     super.key,
     required this.configurations,
     required this.subCategoryId,
-    required this.size,
   });
 
   final GameConfiguration configurations;
   final int subCategoryId;
-  final Size size;
 
   @override
   State<GameConfigurationDialog> createState() =>
@@ -47,63 +46,59 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
 
   @override
   Widget build(BuildContext context) {
-    if ([1, 3, 4, 5, 6, 8].contains(_subCategoryId)) {
-      return AlertDialog(
-        backgroundColor: AppColors.orange,
-        elevation: 10,
-        actionsAlignment: MainAxisAlignment.spaceEvenly,
-        actionsOverflowAlignment: OverflowBarAlignment.center,
-        actionsOverflowButtonSpacing: widget.size.height * 0.02,
-        title: Text(
-          "Configurações:",
-          style: TextStyles.titleDialog,
+    return AlertDialog(
+      backgroundColor: AppColors.orange,
+      elevation: 10,
+      actionsAlignment: MainAxisAlignment.spaceEvenly,
+      actionsOverflowAlignment: OverflowBarAlignment.center,
+      actionsOverflowButtonSpacing: responsiveSize.scaleSize(20),
+      title: Text(
+        "Configurações:",
+        style: TextStyles.titleDialog.copyWith(
+          fontSize: responsiveSize.scaleSize(TextStyles.titleDialog.fontSize!),
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildDifficulty(),
-            Divider(
-              color: AppColors.darkGray,
-              thickness: 2,
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: widget.size.height * 0.005),
-              child: _buildNumberOfQuestions(),
-            ),
-          ],
-        ),
-        actions: _buildActions(context),
-      );
-    } else {
-      return AlertDialog(
-        backgroundColor: AppColors.orange,
-        elevation: 10,
-        actionsAlignment: MainAxisAlignment.spaceEvenly,
-        actionsOverflowAlignment: OverflowBarAlignment.center,
-        actionsOverflowButtonSpacing: widget.size.height * 0.02,
-        title: Text(
-          "Configurações:",
-          style: TextStyles.titleDialog,
-        ),
-        content: _buildNumberOfQuestions(),
-        actions: _buildActions(context),
-      );
-    }
+      ),
+      content: [1, 3, 4, 5, 6, 8].contains(_subCategoryId)
+          ? Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildDifficulty(),
+                Divider(
+                  color: AppColors.darkGray,
+                  thickness: 2,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: responsiveSize.scaleSize(10),
+                  ),
+                  child: _buildNumberOfQuestions(),
+                ),
+              ],
+            )
+          : _buildNumberOfQuestions(),
+      actions: _buildActions(context),
+    );
   }
 
   List<ElevatedTextButton> _buildActions(BuildContext context) {
     return [
       ElevatedTextButton(
-        widthRatio: widget.size.width * 0.3,
-        textStyle: TextStyles.buttonTextDialog,
+        widthRatio: responsiveSize.scaleSize(125),
+        textStyle: TextStyles.buttonTextDialog.copyWith(
+          fontSize:
+              responsiveSize.scaleSize(TextStyles.buttonTextDialog.fontSize!),
+        ),
         text: "Cancelar",
         onPressed: () {
           Navigator.pop(context);
         },
       ),
       ElevatedTextButton(
-        widthRatio: widget.size.width * 0.3,
-        textStyle: TextStyles.buttonTextDialog,
+        widthRatio: responsiveSize.scaleSize(125),
+        textStyle: TextStyles.buttonTextDialog.copyWith(
+          fontSize:
+              responsiveSize.scaleSize(TextStyles.buttonTextDialog.fontSize!),
+        ),
         text: "Confirmar",
         onPressed: () {
           if (_selectedLevelOfDifficulty == Levels.facil) {
@@ -126,14 +121,19 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        
         Text(
           "Número de Questões:",
-          style: TextStyles.textRegular,
+          style: TextStyles.textRegular.copyWith(
+            fontSize:
+                responsiveSize.scaleSize(TextStyles.textRegular.fontSize!),
+          ),
         ),
         Text(
           "$_selectedNumberOsQuestions",
-          style: TextStyles.textLargeRegular,
+          style: TextStyles.textLargeRegular.copyWith(
+            fontSize:
+                responsiveSize.scaleSize(TextStyles.textLargeRegular.fontSize!),
+          ),
         ),
         Slider(
           activeColor: AppColors.darkGray,
@@ -156,15 +156,22 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
       children: [
         Text(
           "Dificuldade:",
-          style: TextStyles.textRegular,
+          style: TextStyles.textRegular.copyWith(
+            fontSize:
+                responsiveSize.scaleSize(TextStyles.textRegular.fontSize!),
+          ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: widget.size.width * 0.03),
+          padding: EdgeInsets.symmetric(
+            horizontal: responsiveSize.scaleSize(30),
+          ),
           child: DropdownButton(
             value: _selectedLevelOfDifficulty,
             borderRadius: BorderRadius.circular(15),
             iconSize: 40,
-            padding: EdgeInsets.only(left: widget.size.width * 0.03),
+            padding: EdgeInsets.only(
+              left: responsiveSize.scaleSize(30),
+            ),
             items: [
               DropdownMenuItem(
                 value: Levels.facil,

@@ -78,7 +78,7 @@ class HomePage extends StatelessWidget {
                             style: TextStyles.title.copyWith(
                               fontSize: responsiveSize
                                   .scaleSize(TextStyles.title.fontSize!),
-                                  color: AppColors.darkGray,
+                              color: AppColors.darkGray,
                             ),
                           ),
                         ),
@@ -92,10 +92,6 @@ class HomePage extends StatelessWidget {
                             color: AppColors.darkGray,
                             onPressed: () {
                               Navigator.pushNamed(context, "/about");
-
-                              print(responsiveSize.mediaQueryData.shortestSide);
-                              print(responsiveSize.scaleSize(
-                                  TextStyles.buttonDescription.fontSize!));
                             },
                           ),
                           IconButtonWithDescription(

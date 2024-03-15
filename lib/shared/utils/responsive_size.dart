@@ -9,23 +9,25 @@ class ResponsiveSize {
       ResponsiveSize(mediaQueryData: MediaQuery.sizeOf(context));
 
   double scaleSize(double size) {
-    double shortestSide = mediaQueryData.shortestSide;
+    double longestSide = mediaQueryData.longestSide;
+    print(longestSide);
 
-    const tabletXl = 1000;
-    const tabletLg = 800;
-    const tabletSm = 600;
-    const phoneLg = 400;
+    const tabletL = 1300;
+    const tabletM = 1100;
+    const phoneL = 900;
+    const phoneM = 700;
 
-    if (shortestSide >= tabletXl) {
-      return size * 1.25;
-    } else if (shortestSide >= tabletLg) {
-      return size * 1.15;
-    } else if (shortestSide >= tabletSm) {
+    if (longestSide >= tabletL) {
+      return size * 1.4;
+    } else if (longestSide >= tabletM) {
+      return size * 1.2;
+    } else if (longestSide >= phoneL) {
       return size * 1;
-    } else if (shortestSide >= phoneLg) {
+    } else if (longestSide >= phoneM) {
       return size * .8;
     } else {
-      return size * .7; // small phone
+      // small phone
+      return size * .65;
     }
   }
 
@@ -33,7 +35,12 @@ class ResponsiveSize {
   double get width => mediaQueryData.width;
 
   bool isTablet() {
-    final shortestSide = mediaQueryData.shortestSide;
-    return shortestSide >= 600;
+    final longestSide = mediaQueryData.longestSide;
+    return longestSide > 1100;
+  }
+
+    bool isMini() {
+    final longestSide = mediaQueryData.longestSide;
+    return longestSide < 700;
   }
 }

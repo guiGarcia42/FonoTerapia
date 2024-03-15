@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 import 'dart:math';
 
@@ -20,7 +22,7 @@ import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 
 import 'widgets/build_game_list_of_options.dart';
 import 'widgets/game_configuration_dialog.dart';
-import '../../shared/widgets/progress_indicator_with_percentage_text.dart';
+import '../../shared/widgets/progress_indicator_with_text.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({
@@ -88,13 +90,12 @@ class _GamePageState extends State<GamePage> {
     );
   }
 
-  Future<void> _openConfigurationDialog(Size size, int subCategoryId) async {
+  Future<void> _openConfigurationDialog(int subCategoryId) async {
     configuration.questionsAnswered = questionsAnswered;
     final GameConfiguration? result = await showDialog<GameConfiguration>(
       context: context,
       builder: (context) {
         return GameConfigurationDialog(
-          size: size,
           configurations: configuration,
           subCategoryId: subCategoryId,
         );
@@ -114,7 +115,7 @@ class _GamePageState extends State<GamePage> {
     }
   }
 
-  Future<void> _openGameResultDialog(Size size) async {
+  Future<void> _openGameResultDialog() async {
     configuration.questionsAnswered = questionsAnswered;
     final gameResult = await _registerGameResult();
 
@@ -157,7 +158,7 @@ class _GamePageState extends State<GamePage> {
     });
   }
 
-  void _optionSelected(Size size, GameComponent? selectedOption) {
+  void _optionSelected(GameComponent? selectedOption) {
     if (selectedOption == rightAnswer) {
       player.play(AssetSource(AppAssets.correctSound));
       answeredCorrectly++;
@@ -169,7 +170,7 @@ class _GamePageState extends State<GamePage> {
     questionsAnswered++;
     Timer(Duration(seconds: 2), () {
       if (questionsAnswered == configuration.totalNumberOfQuestions) {
-        _openGameResultDialog(size);
+        _openGameResultDialog();
       } else {
         _buildNextQuestionPage();
       }
@@ -178,10 +179,8 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     if (questionsAnswered >= configuration.totalNumberOfQuestions) {
-      _openGameResultDialog(size);
+      _openGameResultDialog();
       return SizedBox.shrink();
     } else {
       return Scaffold(
@@ -189,42 +188,45 @@ class _GamePageState extends State<GamePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.only(bottom: size.height * 0.01),
+              padding: EdgeInsets.only(
+                bottom: responsiveSize.scaleSize(20),
+              ),
               child: CustomHeader(
                 text: _subCategory.name,
               ),
             ),
-            _buildTopBar(size, _subCategory.id),
+            _buildTopBar(_subCategory.id),
             Expanded(
               child: _isLoading
                   ? Center(child: CircularProgressIndicator())
                   : Padding(
                       padding: EdgeInsets.only(
-                        top: size.height * 0.03,
-                        left: size.width * 0.02,
-                        right: size.width * 0.02,
-                        bottom: size.height * 0.02,
+                        top: responsiveSize.scaleSize(30),
+                        left: responsiveSize.scaleSize(20),
+                        right: responsiveSize.scaleSize(20),
+                        bottom: responsiveSize.scaleSize(20),
                       ),
-                      child: _buildContent(size, _subCategory.id),
+                      child: _buildContent(_subCategory.id),
                     ),
             ),
-            _buildBottomBar(size, context),
+            _buildBottomBar(context),
           ],
         ),
       );
     }
   }
 
-  Widget _buildContent(Size size, int subCategoryId) {
+  Widget _buildContent(int subCategoryId) {
     if ([2, 7, 9, 10, 11, 12, 13, 14].contains(subCategoryId)) {
       return SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: size.height * 0.05),
+              padding: EdgeInsets.symmetric(
+                vertical: responsiveSize.scaleSize(50),
+              ),
               child: BuildGameQuestion(
-                size: size,
                 player: player,
                 subCategoryId: subCategoryId,
                 rightAnswer: rightAnswer,
@@ -239,7 +241,6 @@ class _GamePageState extends State<GamePage> {
               gameComponents: gameComponents,
               subCategoryId: subCategoryId,
               rightAnswer: rightAnswer,
-              size: size,
               onTap: _optionSelected,
             ),
           ],
@@ -250,21 +251,26 @@ class _GamePageState extends State<GamePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.only(bottom: size.height * 0.02),
+            padding: EdgeInsets.only(
+              bottom: responsiveSize.scaleSize(20),
+            ),
             child: BuildGameQuestion(
-              size: size,
               player: player,
               subCategoryId: subCategoryId,
               rightAnswer: rightAnswer,
             ),
           ),
           Expanded(
-            child: BuildGameListOfOptions(
-              gameComponents: gameComponents,
-              subCategoryId: subCategoryId,
-              rightAnswer: rightAnswer,
-              size: size,
-              onTap: _optionSelected,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: responsiveSize.scaleSize(20),
+              ),
+              child: BuildGameListOfOptions(
+                gameComponents: gameComponents,
+                subCategoryId: subCategoryId,
+                rightAnswer: rightAnswer,
+                onTap: _optionSelected,
+              ),
             ),
           ),
         ],
@@ -272,47 +278,58 @@ class _GamePageState extends State<GamePage> {
     }
   }
 
-  Padding _buildTopBar(Size size, int subCategoryId) {
+  Padding _buildTopBar(int subCategoryId) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: size.width * 0.02,
+        horizontal: responsiveSize.scaleSize(20),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: EdgeInsets.only(right: size.width * 0.02),
+            padding: EdgeInsets.only(
+              right: responsiveSize.scaleSize(20),
+            ),
             child: ElevatedTextButton(
-              widthRatio: size.width * 0.5,
-              textStyle: TextStyles.buttonMediumText,
+              widthRatio: responsiveSize.scaleSize(250),
+              textStyle: TextStyles.buttonMediumText.copyWith(
+                fontSize: responsiveSize
+                    .scaleSize(TextStyles.buttonMediumText.fontSize!),
+              ),
               text: "Configuração",
               onPressed: () {
-                _openConfigurationDialog(size, subCategoryId);
+                _openConfigurationDialog(subCategoryId);
               },
             ),
           ),
           Expanded(
-            child: ProgressIndicatorWithPercentageText(percentage: percentage),
+            child: ProgressIndicatorWithText(
+              answeredCorrectly: answeredCorrectly,
+              totalNumberOfQuestions: configuration.totalNumberOfQuestions,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Padding _buildBottomBar(Size size, BuildContext context) {
+  Padding _buildBottomBar(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        bottom: size.height * 0.02,
-        left: size.width * 0.02,
-        right: size.width * 0.02,
+        bottom: responsiveSize.scaleSize(20),
+        left: responsiveSize.scaleSize(20),
+        right: responsiveSize.scaleSize(20),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           if (![2, 7, 9, 10, 11].contains(_subCategory.id))
             ElevatedTextButton(
-              widthRatio: size.width * 0.240,
-              textStyle: TextStyles.buttonMediumText,
+              widthRatio: responsiveSize.scaleSize(130),
+              textStyle: TextStyles.buttonMediumText.copyWith(
+                fontSize: responsiveSize
+                    .scaleSize(TextStyles.buttonMediumText.fontSize!),
+              ),
               text: "Ajuda",
               onPressed: () {
                 if ([12, 13, 14].contains(_subCategory.id)) {
@@ -329,27 +346,33 @@ class _GamePageState extends State<GamePage> {
               },
             ),
           ElevatedTextButton(
-            widthRatio: size.width * 0.340,
-            textStyle: TextStyles.buttonMediumText,
+            widthRatio: responsiveSize.scaleSize(160),
+            textStyle: TextStyles.buttonMediumText.copyWith(
+              fontSize: responsiveSize
+                  .scaleSize(TextStyles.buttonMediumText.fontSize!),
+            ),
             text: "Próximo",
             onPressed: () {
               questionsAnswered++;
               if (questionsAnswered >= configuration.totalNumberOfQuestions) {
-                _openGameResultDialog(size);
+                _openGameResultDialog();
               } else {
                 _buildNextQuestionPage();
               }
             },
           ),
           ElevatedTextButton(
-            widthRatio: size.width * 0.340,
-            textStyle: TextStyles.buttonMediumText,
+            widthRatio: responsiveSize.scaleSize(160),
+            textStyle: TextStyles.buttonMediumText.copyWith(
+              fontSize: responsiveSize
+                  .scaleSize(TextStyles.buttonMediumText.fontSize!),
+            ),
             text: "Finalizar",
             onPressed: () {
               if (questionsAnswered == 0) {
                 Navigator.pop(context);
               } else {
-                _openGameResultDialog(size);
+                _openGameResultDialog();
               }
             },
           ),

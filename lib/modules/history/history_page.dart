@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/database/dao/game_result_dao.dart';
 import 'package:fono_terapia/database/dao/sub_category_dao.dart';
@@ -9,7 +10,7 @@ import 'package:fono_terapia/shared/model/category.dart';
 import 'package:fono_terapia/shared/model/game_result.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
-import 'package:fono_terapia/shared/widgets/progress_indicator_with_percentage_text.dart';
+import 'package:fono_terapia/shared/widgets/progress_indicator_with_text.dart';
 
 import 'widgets/category_filter_dialog.dart';
 
@@ -141,7 +142,9 @@ class _HistoryPageState extends State<HistoryPage> {
           },
           icon: Icon(Icons.arrow_back_outlined),
           color: AppColors.background,
-          iconSize: responsiveSize.scaleSize(35),
+          iconSize: responsiveSize.isTablet()
+              ? responsiveSize.scaleSize(30)
+              : responsiveSize.scaleSize(50),
         ),
         title: SafeArea(
           child: Text(
@@ -200,9 +203,6 @@ class _HistoryPageState extends State<HistoryPage> {
                             itemCount: gameResults.length,
                             itemBuilder: (context, index) {
                               final gameResult = gameResults[index];
-                              final percentage = (gameResult.answeredCorrectly /
-                                      gameResult.totalQuestions) *
-                                  100;
 
                               return Padding(
                                 padding: EdgeInsets.symmetric(
@@ -218,19 +218,30 @@ class _HistoryPageState extends State<HistoryPage> {
                                   child: ListTile(
                                     title: Text(
                                       gameResult.subCategory.name,
-                                      style: TextStyles.titleListTile,
+                                      style: TextStyles.titleListTile.copyWith(
+                                        fontSize: responsiveSize.scaleSize(
+                                            TextStyles.titleListTile.fontSize!),
+                                      ),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     subtitle: Text(
                                       _formatDate(gameResult.date),
-                                      style: TextStyles.textField,
+                                      style: TextStyles.textField.copyWith(
+                                        fontSize: responsiveSize.scaleSize(
+                                            TextStyles.textField.fontSize!),
+                                      ),
                                     ),
                                     trailing: SizedBox(
-                                      width: responsiveSize.scaleSize(300),
-                                      child:
-                                          ProgressIndicatorWithPercentageText(
-                                              percentage: percentage),
+                                      width:  responsiveSize.isTablet()
+                            ? responsiveSize.scaleSize(250)
+                            : responsiveSize.scaleSize(200),
+                                      child: ProgressIndicatorWithText(
+                                        answeredCorrectly:
+                                            gameResult.answeredCorrectly,
+                                        totalNumberOfQuestions:
+                                            gameResult.totalQuestions,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -253,30 +264,44 @@ class _HistoryPageState extends State<HistoryPage> {
       children: [
         Text(
           "Filtros:",
-          style: TextStyles.textLargeRegular,
-        ),
-        ElevatedTextButton(
-          widthRatio: responsiveSize.scaleSize(120),
-          textStyle: TextStyles.buttonLargeText.copyWith(
+          style: TextStyles.textLargeRegular.copyWith(
             fontSize:
-                responsiveSize.scaleSize(TextStyles.buttonLargeText.fontSize!),
+                responsiveSize.scaleSize(TextStyles.textLargeRegular.fontSize!),
           ),
-          text: "Data",
-          onPressed: () {
-            _openDatePickerDialog();
-          },
         ),
-        ElevatedTextButton(
-          widthRatio: responsiveSize.scaleSize(200),
-          textStyle: TextStyles.buttonLargeText.copyWith(
-            fontSize:
-                responsiveSize.scaleSize(TextStyles.buttonLargeText.fontSize!),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedTextButton(
+                widthRatio: responsiveSize.isMini()
+                    ? responsiveSize.scaleSize(150)
+                    : responsiveSize.scaleSize(120),
+                textStyle: TextStyles.buttonMediumText.copyWith(
+                  fontSize: responsiveSize
+                      .scaleSize(TextStyles.buttonMediumText.fontSize!),
+                ),
+                text: "Data",
+                onPressed: () {
+                  _openDatePickerDialog();
+                },
+              ),
+              ElevatedTextButton(
+                widthRatio: responsiveSize.isMini()
+                    ? responsiveSize.scaleSize(250)
+                    : responsiveSize.scaleSize(200),
+                textStyle: TextStyles.buttonMediumText.copyWith(
+                  fontSize: responsiveSize
+                      .scaleSize(TextStyles.buttonMediumText.fontSize!),
+                ),
+                text: "Categoria",
+                onPressed: () {
+                  _openCategoryFilterDialog();
+                },
+              ),
+            ],
           ),
-          text: "Categoria",
-          onPressed: () {
-            _openCategoryFilterDialog();
-          },
-        ),
+        )
       ],
     );
   }

@@ -5,7 +5,7 @@ import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/model/game_result.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:fono_terapia/shared/widgets/icon_button_with_description.dart';
-import 'package:fono_terapia/shared/widgets/progress_indicator_with_percentage_text.dart';
+import 'package:fono_terapia/shared/widgets/progress_indicator_with_text.dart';
 
 class GameResultDialog extends StatefulWidget {
   const GameResultDialog({
@@ -40,10 +40,13 @@ class _GameConfigurationDialogState extends State<GameResultDialog> {
         elevation: 10,
         actionsAlignment: MainAxisAlignment.spaceEvenly,
         actionsOverflowAlignment: OverflowBarAlignment.center,
-        actionsOverflowButtonSpacing: responsiveSize.height * 0.02,
+        actionsOverflowButtonSpacing: responsiveSize.scaleSize(20),
         title: Text(
           "Resultado",
-          style: TextStyles.titleDialog,
+          style: TextStyles.titleDialog.copyWith(
+            fontSize:
+                responsiveSize.scaleSize(TextStyles.titleDialog.fontSize!),
+          ),
           textAlign: TextAlign.center,
         ),
         content: Column(
@@ -59,12 +62,18 @@ class _GameConfigurationDialogState extends State<GameResultDialog> {
                 vertical: responsiveSize.height * 0.01,
               ),
               child: Text(
-                "Você acertou ${widget.gameResult.answeredCorrectly} de ${widget.gameResult.totalQuestions}!",
-                style: TextStyles.textRegular,
+                "Você acertou ${percentage.toInt()}% de ${widget.gameResult.totalQuestions} exercício(s)!",
+                style: TextStyles.textRegular.copyWith(
+                  fontSize: responsiveSize
+                      .scaleSize(TextStyles.textRegular.fontSize!),
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
-            ProgressIndicatorWithPercentageText(percentage: percentage),
+            ProgressIndicatorWithText(
+              answeredCorrectly: widget.gameResult.answeredCorrectly,
+              totalNumberOfQuestions: widget.gameResult.totalQuestions,
+            ),
           ],
         ),
         actions: _buildActions(context),
@@ -89,7 +98,7 @@ class _GameConfigurationDialogState extends State<GameResultDialog> {
         description: "Início",
         color: AppColors.darkGray,
         onPressed: () {
-          Navigator.of(context).pop(); // Fecha o diálogo atual
+          Navigator.of(context).pop();
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/home', (route) => false);
         },

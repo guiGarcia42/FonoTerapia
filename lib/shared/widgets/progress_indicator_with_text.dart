@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 
-class ProgressIndicatorWithPercentageText extends StatelessWidget {
-  const ProgressIndicatorWithPercentageText({
+class ProgressIndicatorWithText extends StatelessWidget {
+  const ProgressIndicatorWithText({
     super.key,
-    required this.percentage,
+    required this.answeredCorrectly,
+    required this.totalNumberOfQuestions,
   });
 
-  final double percentage;
+  final int answeredCorrectly;
+  final int totalNumberOfQuestions;
 
   @override
   Widget build(BuildContext context) {
+    final double percentage = (answeredCorrectly / totalNumberOfQuestions) * 100;
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -28,14 +32,15 @@ class ProgressIndicatorWithPercentageText extends StatelessWidget {
             child: LinearProgressIndicator(
               minHeight: 50,
               value: percentage / 100,
-              valueColor: AlwaysStoppedAnimation(
-                  AppColors.right),
+              valueColor: AlwaysStoppedAnimation(AppColors.right),
               backgroundColor: AppColors.background,
             ),
           ),
           Text(
-            '${percentage.toInt()}% Correto',
+            '$answeredCorrectly/$totalNumberOfQuestions Acertos',
             style: TextStyles.textRegular,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
