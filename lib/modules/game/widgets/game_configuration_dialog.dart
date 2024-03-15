@@ -133,7 +133,7 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
         ),
         Text(
           "$_selectedNumberOsQuestions",
-          style: TextStyles.menuOptionDescription,
+          style: TextStyles.textLargeRegular,
         ),
         Slider(
           activeColor: AppColors.darkGray,

@@ -19,8 +19,7 @@ class OptionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final aspectRatioFactor = size.width / 400;
+    final aspectRatioFactor = responsiveSize.width / 400;
 
     return Scaffold(
       body: Column(
@@ -28,7 +27,6 @@ class OptionPage extends StatelessWidget {
         children: [
           CustomHeader(
             text: category.name,
-            size: size,
           ),
           FutureBuilder<List<SubCategory>>(
             future:
@@ -41,25 +39,26 @@ class OptionPage extends StatelessWidget {
                     child: Text('Erro ao carregar dados AQUI $snapshot'));
               } else {
                 final subCategories = snapshot.data!;
-          
+
                 return Expanded(
-                  child: SizedBox(
-                    height: size.height * 0.6,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: responsiveSize.scaleSize(5),
+                    ),
                     child: GridView.builder(
                       itemCount: subCategories.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 0.975 * aspectRatioFactor,
-                        crossAxisSpacing: size.width * 0.03,
-                        mainAxisSpacing: size.height * 0.06,
+                        childAspectRatio: responsiveSize.scaleSize(1),
+                        crossAxisSpacing: responsiveSize.scaleSize(25),
+                        mainAxisSpacing: responsiveSize.scaleSize(50),
                       ),
                       itemBuilder: (_, index) {
                         final subCategory = subCategories[index];
-                  
+
                         return PictureButtonWithDescription(
                           description: subCategory.name,
                           imagePath: subCategory.imagePath,
-                          size: size,
                           onTap: () => Navigator.pushNamed(
                             context,
                             '/game',
@@ -74,21 +73,28 @@ class OptionPage extends StatelessWidget {
             },
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
+            padding:
+                EdgeInsets.symmetric(vertical: responsiveSize.height * 0.02),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedTextButton(
-                  widthRatio: size.width * 0.4,
-                  textStyle: TextStyles.buttonLargeText,
+                  widthRatio: responsiveSize.scaleSize(200),
+                  textStyle: TextStyles.buttonLargeText.copyWith(
+                    fontSize: responsiveSize
+                        .scaleSize(TextStyles.buttonLargeText.fontSize!),
+                  ),
                   text: "Voltar",
                   onPressed: () {
                     Navigator.pop(context);
                   },
                 ),
                 ElevatedTextButton(
-                  widthRatio: size.width * 0.4,
-                  textStyle: TextStyles.buttonLargeText,
+                  widthRatio: responsiveSize.scaleSize(200),
+                  textStyle: TextStyles.buttonLargeText.copyWith(
+                    fontSize: responsiveSize
+                        .scaleSize(TextStyles.buttonLargeText.fontSize!),
+                  ),
                   text: "Histórico",
                   onPressed: () {
                     Navigator.pushNamed(

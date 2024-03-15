@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
+import 'package:fono_terapia/shared/utils/responsive_size.dart';
 
 class IconButtonWithDescription extends StatelessWidget {
-  final Size size;
   final IconData icon;
   final String description;
   final Color color;
   final VoidCallback onPressed;
 
   const IconButtonWithDescription({
-    required this.size,
     required this.icon,
     required this.description,
     required this.color,
@@ -41,13 +41,13 @@ class IconButtonWithDescription extends StatelessWidget {
               backgroundColor: color,
             ),
             child: SizedBox(
-              width: size.width * 0.25,
-              height: size.width * 0.2,
+              width: ResponsiveSize.of(context).scaleSize(120),
+              height: ResponsiveSize.of(context).scaleSize(80),
               child: Center(
                 child: Icon(
                   icon,
                   color: AppColors.background,
-                  size: size.height * 0.08,
+                  size: ResponsiveSize.of(context).scaleSize(80),
                 ),
               ),
             ),
@@ -55,7 +55,9 @@ class IconButtonWithDescription extends StatelessWidget {
         ),
         Text(
           description,
-          style: TextStyles.buttonDescription,
+          style: TextStyles.buttonDescription.copyWith(
+            fontSize: responsiveSize.scaleSize(TextStyles.buttonDescription.fontSize!),
+          ),
         ),
       ],
     );

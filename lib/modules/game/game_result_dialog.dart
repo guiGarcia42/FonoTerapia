@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/model/game_result.dart';
@@ -11,12 +12,10 @@ class GameResultDialog extends StatefulWidget {
     super.key,
     required this.gameResult,
     required this.subCategory,
-    required this.size,
   });
 
   final GameResult gameResult;
   final SubCategory subCategory;
-  final Size size;
 
   @override
   State<GameResultDialog> createState() => _GameConfigurationDialogState();
@@ -41,7 +40,7 @@ class _GameConfigurationDialogState extends State<GameResultDialog> {
         elevation: 10,
         actionsAlignment: MainAxisAlignment.spaceEvenly,
         actionsOverflowAlignment: OverflowBarAlignment.center,
-        actionsOverflowButtonSpacing: widget.size.height * 0.02,
+        actionsOverflowButtonSpacing: responsiveSize.height * 0.02,
         title: Text(
           "Resultado",
           style: TextStyles.titleDialog,
@@ -57,7 +56,7 @@ class _GameConfigurationDialogState extends State<GameResultDialog> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                vertical: widget.size.height * 0.01,
+                vertical: responsiveSize.height * 0.01,
               ),
               child: Text(
                 "Você acertou ${widget.gameResult.answeredCorrectly} de ${widget.gameResult.totalQuestions}!",
@@ -76,7 +75,6 @@ class _GameConfigurationDialogState extends State<GameResultDialog> {
   List<Widget> _buildActions(BuildContext context) {
     return [
       IconButtonWithDescription(
-        size: widget.size,
         icon: Icons.replay_circle_filled_rounded,
         description: "Reiniciar",
         color: AppColors.darkGray,
@@ -87,7 +85,6 @@ class _GameConfigurationDialogState extends State<GameResultDialog> {
         },
       ),
       IconButtonWithDescription(
-        size: widget.size,
         icon: Icons.home_rounded,
         description: "Início",
         color: AppColors.darkGray,

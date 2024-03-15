@@ -1,10 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:fono_terapia/database/app_database.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_assets.dart';
+import 'package:fono_terapia/shared/utils/responsive_size.dart';
 import 'package:sqflite/sqflite.dart';
 
-late Database database; // Variável global para armazenar a instância do banco de dados
+late Database database;
+late ResponsiveSize responsiveSize;
 
 class AppStartup extends StatefulWidget {
   const AppStartup({super.key});
@@ -14,7 +17,6 @@ class AppStartup extends StatefulWidget {
 }
 
 class _AppStartupState extends State<AppStartup> {
-
   @override
   void initState() {
     super.initState();
@@ -22,10 +24,12 @@ class _AppStartupState extends State<AppStartup> {
   }
 
   _initApp() async {
-    database = await openOrInitializeDatabase(); // Armazena a instância do banco de dados
+    database = await openOrInitializeDatabase();
     await Future.delayed(Duration(seconds: 3));
 
-    // ignore: use_build_context_synchronously
+    responsiveSize =
+        ResponsiveSize(mediaQueryData: MediaQuery.of(context).size);
+
     Navigator.pushReplacementNamed(context, "/home");
   }
 
@@ -42,4 +46,3 @@ class _AppStartupState extends State<AppStartup> {
     );
   }
 }
-

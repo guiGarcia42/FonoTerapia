@@ -1,5 +1,6 @@
 import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
+import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 
 class FloatingIconCard extends StatelessWidget {
@@ -24,6 +25,7 @@ class FloatingIconCard extends StatelessWidget {
           child: Icon(
             icon,
             color: AppColors.background,
+            size: responsiveSize.scaleSize(40),
           ),
         ),
       ),

@@ -12,14 +12,14 @@ class CategoryDao {
     'Compreensão Auditiva',
     'Compreensão Escrita',
     'Nomeação Oral',
-    'Nomeação Escrita'
+    'Escrita'
   ];
 
   static const imagePathList = [
     AppAssets.logoCompreensaoAuditiva,
     AppAssets.logoCompreensaoEscrita,
     AppAssets.logoNomeacaoOral,
-    AppAssets.logoNomeacaoEscrita,
+    AppAssets.logoEscrita,
   ];
 
   static String get tableSql {

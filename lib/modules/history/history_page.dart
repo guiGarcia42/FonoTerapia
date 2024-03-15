@@ -93,13 +93,12 @@ class _HistoryPageState extends State<HistoryPage> {
     return filteredGameResults;
   }
 
-  Future<void> _openDatePickerDialog(Size size) async {
+  Future<void> _openDatePickerDialog() async {
     final DateTime? result = await showDialog<DateTime>(
       context: context,
       builder: (context) => CalendarDatePickerDialog(
         firstDate: firstDate,
         currentDate: currentDate,
-        size: size,
       ),
     );
 
@@ -116,13 +115,12 @@ class _HistoryPageState extends State<HistoryPage> {
     return "${parsedDate.day.toString().padLeft(2, '0')}/${parsedDate.month.toString().padLeft(2, '0')}/${parsedDate.year}";
   }
 
-  Future<void> _openCategoryFilterDialog(Size size) async {
+  Future<void> _openCategoryFilterDialog() async {
     final List<bool>? result = await showDialog<List<bool>>(
       context: context,
       builder: (context) => CategoryFilterDialog(
         subCategories: _subCategories,
         filteredCategories: subCategoriesCategoryFilter,
-        size: size,
       ),
     );
 
@@ -135,8 +133,6 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -145,12 +141,15 @@ class _HistoryPageState extends State<HistoryPage> {
           },
           icon: Icon(Icons.arrow_back_outlined),
           color: AppColors.background,
-          iconSize: size.height * 0.035,
+          iconSize: responsiveSize.scaleSize(35),
         ),
         title: SafeArea(
           child: Text(
             "Histórico",
-            style: TextStyles.titleAppBar,
+            style: TextStyles.title.copyWith(
+              fontSize: responsiveSize.scaleSize(TextStyles.title.fontSize!),
+              color: AppColors.background,
+            ),
           ),
         ),
         centerTitle: true,
@@ -160,10 +159,10 @@ class _HistoryPageState extends State<HistoryPage> {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-              vertical: size.height * 0.02,
-              horizontal: size.width * 0.04,
+              vertical: responsiveSize.scaleSize(10),
+              horizontal: responsiveSize.scaleSize(20),
             ),
-            child: _buildTopBar(size),
+            child: _buildTopBar(),
           ),
           Expanded(
             child: _isLoading
@@ -183,10 +182,15 @@ class _HistoryPageState extends State<HistoryPage> {
                           return Center(
                             child: Padding(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: size.width * 0.1),
+                                horizontal: responsiveSize.scaleSize(30),
+                              ),
                               child: Text(
                                 "Histórico não encontrado.",
-                                style: TextStyles.textLargeRegular,
+                                style: TextStyles.title.copyWith(
+                                  fontSize: responsiveSize
+                                      .scaleSize(TextStyles.title.fontSize!),
+                                  color: AppColors.darkGray,
+                                ),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -202,8 +206,9 @@ class _HistoryPageState extends State<HistoryPage> {
 
                               return Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: size.height * 0.005,
-                                    horizontal: size.width * 0.02),
+                                  vertical: responsiveSize.scaleSize(5),
+                                  horizontal: responsiveSize.scaleSize(20),
+                                ),
                                 child: Container(
                                   decoration: BoxDecoration(
                                     border: Border.all(width: 3),
@@ -222,7 +227,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                       style: TextStyles.textField,
                                     ),
                                     trailing: SizedBox(
-                                      width: size.width * 0.3,
+                                      width: responsiveSize.scaleSize(300),
                                       child:
                                           ProgressIndicatorWithPercentageText(
                                               percentage: percentage),
@@ -242,7 +247,7 @@ class _HistoryPageState extends State<HistoryPage> {
     );
   }
 
-  Row _buildTopBar(Size size) {
+  Row _buildTopBar() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -251,19 +256,25 @@ class _HistoryPageState extends State<HistoryPage> {
           style: TextStyles.textLargeRegular,
         ),
         ElevatedTextButton(
-          widthRatio: size.width * 0.25,
-          textStyle: TextStyles.buttonMediumText,
+          widthRatio: responsiveSize.scaleSize(120),
+          textStyle: TextStyles.buttonLargeText.copyWith(
+            fontSize:
+                responsiveSize.scaleSize(TextStyles.buttonLargeText.fontSize!),
+          ),
           text: "Data",
           onPressed: () {
-            _openDatePickerDialog(size);
+            _openDatePickerDialog();
           },
         ),
         ElevatedTextButton(
-          widthRatio: size.width * 0.4,
-          textStyle: TextStyles.buttonMediumText,
+          widthRatio: responsiveSize.scaleSize(200),
+          textStyle: TextStyles.buttonLargeText.copyWith(
+            fontSize:
+                responsiveSize.scaleSize(TextStyles.buttonLargeText.fontSize!),
+          ),
           text: "Categoria",
           onPressed: () {
-            _openCategoryFilterDialog(size);
+            _openCategoryFilterDialog();
           },
         ),
       ],

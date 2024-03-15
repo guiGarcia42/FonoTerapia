@@ -116,14 +116,12 @@ class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           IconButtonWithDescription(
-            size: widget.size,
             icon: Icons.check_circle,
             description: right,
             color: AppColors.right,
             onPressed: () => widget.onTap(size, widget.rightAnswer),
           ),
           IconButtonWithDescription(
-            size: widget.size,
             icon: Icons.cancel,
             description: wrong,
             color: AppColors.wrong,

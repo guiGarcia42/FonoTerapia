@@ -35,9 +35,7 @@ class FonoTerapiaApp extends StatelessWidget {
         primarySwatch: Colors.orange,
         primaryColor: AppColors.lightOrange,
       ),
-      // Definindo o idioma padrão para português (Brasil)
       locale: Locale('pt', 'BR'),
-      // Adicionando os delegates de localização para português
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
       supportedLocales: <Locale>[
         Locale('pt', 'BR')

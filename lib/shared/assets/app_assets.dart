@@ -10,7 +10,7 @@ class AppAssets {
   static const logoCompreensaoAuditiva = "assets/app_assets/logo_compreensao_auditiva.jpg";
   static const logoCompreensaoEscrita = "assets/app_assets/logo_compreensao_escrita.jpg";
   static const logoNomeacaoOral = "assets/app_assets/logo_nomeacao_oral.jpg";
-  static const logoNomeacaoEscrita = "assets/app_assets/logo_nomeacao_escrita.jpg";
+  static const logoEscrita = "assets/app_assets/logo_escrita.jpg";
   
   // Audios
   static const correctSound = "app_assets/correct_sound.mp3";

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
@@ -9,12 +10,10 @@ class CategoryFilterDialog extends StatefulWidget {
     super.key,
     required this.subCategories,
     required this.filteredCategories,
-    required this.size,
   });
 
   final List<SubCategory> subCategories;
   final List<bool> filteredCategories;
-  final Size size;
 
   @override
   State<CategoryFilterDialog> createState() => _CategoryFilterDialogState();
@@ -38,10 +37,12 @@ class _CategoryFilterDialogState extends State<CategoryFilterDialog> {
       elevation: 10,
       actionsAlignment: MainAxisAlignment.spaceEvenly,
       actionsOverflowAlignment: OverflowBarAlignment.center,
-      actionsOverflowButtonSpacing: widget.size.height * 0.02,
+      actionsOverflowButtonSpacing: responsiveSize.scaleSize(20),
       title: Text(
         "Filtrar por Categoria:",
-        style: TextStyles.titleDialog,
+        style: TextStyles.titleDialog.copyWith(
+          fontSize: responsiveSize.scaleSize(TextStyles.titleDialog.fontSize!),
+        ),
         textAlign: TextAlign.start,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
@@ -62,7 +63,10 @@ class _CategoryFilterDialogState extends State<CategoryFilterDialog> {
                 return CheckboxListTile(
                   title: Text(
                     subCategory.name,
-                    style: TextStyles.textRegular,
+                    style: TextStyles.textRegular.copyWith(
+                      fontSize: responsiveSize
+                          .scaleSize(TextStyles.textRegular.fontSize!),
+                    ),
                   ),
                   value: _filteredCategories[index],
                   activeColor: AppColors.darkGray,
@@ -79,14 +83,20 @@ class _CategoryFilterDialogState extends State<CategoryFilterDialog> {
       ),
       actions: [
         ElevatedTextButton(
-          widthRatio: widget.size.width * 0.3,
-          textStyle: TextStyles.buttonTextDialog,
+          widthRatio: responsiveSize.scaleSize(150),
+          textStyle: TextStyles.buttonMediumText.copyWith(
+            fontSize:
+                responsiveSize.scaleSize(TextStyles.buttonMediumText.fontSize!),
+          ),
           text: "Cancelar",
           onPressed: () => Navigator.pop(context),
         ),
         ElevatedTextButton(
-          widthRatio: widget.size.width * 0.3,
-          textStyle: TextStyles.buttonTextDialog,
+          widthRatio: responsiveSize.scaleSize(150),
+          textStyle: TextStyles.buttonMediumText.copyWith(
+            fontSize:
+                responsiveSize.scaleSize(TextStyles.buttonMediumText.fontSize!),
+          ),
           text: "Filtrar",
           onPressed: () {
             Navigator.pop(context, _filteredCategories);

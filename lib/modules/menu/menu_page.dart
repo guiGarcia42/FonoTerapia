@@ -12,16 +12,12 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final aspectRatioFactor = size.width / 400;
-
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomHeader(
             text: "Menu de Atividades Terapêuticas",
-            size: size,
           ),
           FutureBuilder<List<Category>>(
             future: CategoryDao().findAllCategories(database),
@@ -32,25 +28,26 @@ class MenuPage extends StatelessWidget {
                 return Center(child: Text('Erro ao carregar dados'));
               } else {
                 final categories = snapshot.data!;
-          
+
                 return Expanded(
-                  child: SizedBox(
-                    height: size.height * 0.6,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: responsiveSize.scaleSize(5),
+                    ),
                     child: GridView.builder(
                       itemCount: categories.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 0.975 * aspectRatioFactor,
-                        crossAxisSpacing: size.width * 0.03,
-                        mainAxisSpacing: size.height * 0.06,
+                        childAspectRatio: responsiveSize.scaleSize(1),
+                        crossAxisSpacing: responsiveSize.scaleSize(25),
+                        mainAxisSpacing: responsiveSize.scaleSize(50),
                       ),
                       itemBuilder: (_, index) {
                         final category = categories[index];
-                            
+
                         return PictureButtonWithDescription(
                           description: category.name,
                           imagePath: category.imagePath,
-                          size: size,
                           onTap: () => Navigator.pushNamed(
                             context,
                             '/option',
@@ -65,10 +62,14 @@ class MenuPage extends StatelessWidget {
             },
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
+            padding:
+                EdgeInsets.symmetric(vertical: responsiveSize.height * 0.02),
             child: ElevatedTextButton(
-              widthRatio: size.width * 0.4,
-              textStyle: TextStyles.buttonLargeText,
+              widthRatio: responsiveSize.scaleSize(200),
+              textStyle: TextStyles.buttonLargeText.copyWith(
+                fontSize: responsiveSize
+                    .scaleSize(TextStyles.buttonLargeText.fontSize!),
+              ),
               text: "Voltar",
               onPressed: () {
                 Navigator.pop(context);

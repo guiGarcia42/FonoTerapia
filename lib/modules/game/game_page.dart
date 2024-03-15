@@ -122,7 +122,6 @@ class _GamePageState extends State<GamePage> {
       context: context,
       builder: (context) {
         return GameResultDialog(
-          size: size,
           gameResult: gameResult,
           subCategory: _subCategory,
         );
@@ -192,7 +191,6 @@ class _GamePageState extends State<GamePage> {
             Padding(
               padding: EdgeInsets.only(bottom: size.height * 0.01),
               child: CustomHeader(
-                size: size,
                 text: _subCategory.name,
               ),
             ),
@@ -294,8 +292,8 @@ class _GamePageState extends State<GamePage> {
             ),
           ),
           Expanded(
-              child:
-                  ProgressIndicatorWithPercentageText(percentage: percentage)),
+            child: ProgressIndicatorWithPercentageText(percentage: percentage),
+          ),
         ],
       ),
     );

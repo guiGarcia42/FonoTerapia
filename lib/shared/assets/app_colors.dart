@@ -11,4 +11,5 @@ class AppColors {
   static final darkGray = Color(0xFF263948);
   static final right = Color.fromARGB(255, 0, 150, 11);
   static final wrong = Color.fromARGB(255, 150, 0, 0);
+  static final transparent = Color.fromARGB(0, 255, 255, 255);
 }
