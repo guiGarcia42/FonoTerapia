@@ -7,10 +7,10 @@ class AppAssets {
   static const gradient = "assets/app_assets/gradient.png";
 
   // Menu Icons
-  static const logoCompreensaoAuditiva = "assets/app_assets/logo_compreensao_auditiva.jpg";
-  static const logoCompreensaoEscrita = "assets/app_assets/logo_compreensao_escrita.jpg";
-  static const logoNomeacaoOral = "assets/app_assets/logo_nomeacao_oral.jpg";
-  static const logoEscrita = "assets/app_assets/logo_escrita.jpg";
+  static const logoCompreensaoAuditiva = "assets/app_assets/logo_compreensao_auditiva.png";
+  static const logoCompreensaoEscrita = "assets/app_assets/logo_compreensao_escrita.png";
+  static const logoNomeacaoOral = "assets/app_assets/logo_nomeacao_oral.png";
+  static const logoEscrita = "assets/app_assets/logo_escrita.png";
   
   // Audios
   static const correctSound = "app_assets/correct_sound.mp3";

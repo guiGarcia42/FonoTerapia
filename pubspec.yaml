@@ -44,5 +44,6 @@ flutter:
 
   assets:
   - assets/app_assets/
+  - assets/app_assets/sub_categories/
   - assets/db_images/
   - assets/db_audios/

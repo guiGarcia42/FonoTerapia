@@ -33,26 +33,25 @@ class SubCategoryDao {
     'Ouvir e escrever a letra',
   ];
 
-  // TO-DO Atualizar lista com o path dos icones da subCategory
-  // static const imagePathList = [
-  //   'assets/app_images/cafe.jpg',
-  //   'assets/app_images/pao.jpg',
-  //   'assets/app_images/leite.jpg',
-  //   'assets/app_images/carro.jpg',
-  //   'assets/app_images/pato.jpg',
-  //   'assets/app_images/gato.jpg',
-  //   'assets/app_images/cafe.jpg',
-  //   'assets/app_images/pao.jpg',
-  //   'assets/app_images/leite.jpg',
-  //   'assets/app_images/carro.jpg',
-  //   'assets/app_images/pato.jpg',
-  //   'assets/app_images/gato.jpg',
-  //   'assets/app_images/cafe.jpg',
-  //   'assets/app_images/pao.jpg',
-  //   'assets/app_images/pao.jpg',
-  //   'assets/app_images/pao.jpg',
-  //   'assets/app_images/pao.jpg',
-  // ];
+  static const imagePathList = [
+    'assets/app_assets/sub_categories/1.png',
+    'assets/app_assets/sub_categories/2.png',
+    'assets/app_assets/sub_categories/3.png',
+    'assets/app_assets/sub_categories/4.png',
+    'assets/app_assets/sub_categories/5.png',
+    'assets/app_assets/sub_categories/6.png',
+    'assets/app_assets/sub_categories/7.png',
+    'assets/app_assets/sub_categories/8.png',
+    'assets/app_assets/sub_categories/9.png',
+    'assets/app_assets/sub_categories/10.png',
+    'assets/app_assets/sub_categories/11.png',
+    'assets/app_assets/sub_categories/12.png',
+    'assets/app_assets/sub_categories/13.png',
+    'assets/app_assets/sub_categories/14.png',
+    'assets/app_assets/sub_categories/15.png',
+    'assets/app_assets/sub_categories/16.png',
+    'assets/app_assets/sub_categories/17.png',
+  ];
 
   static const sectionList = [
     1,
@@ -105,27 +104,11 @@ class SubCategoryDao {
         );''';
   }
 
-  // static String get tableData {
-  //   return "INSERT INTO $_tableName ($_name, $_imagePath, $_categoryId) VALUES "
-  //       "('${subCategoryNames[0]}', '${imagePathList[0]}', ${categoryIDs[0]}), "
-  //       "('${subCategoryNames[1]}', '${imagePathList[1]}', ${categoryIDs[1]}), "
-  //       "('${subCategoryNames[2]}', '${imagePathList[2]}', ${categoryIDs[2]}), "
-  //       "('${subCategoryNames[3]}', '${imagePathList[3]}', ${categoryIDs[3]}), "
-  //       "('${subCategoryNames[4]}', '${imagePathList[4]}', ${categoryIDs[4]}), "
-  //       "('${subCategoryNames[5]}', '${imagePathList[5]}', ${categoryIDs[5]}), "
-  //       "('${subCategoryNames[6]}', '${imagePathList[6]}', ${categoryIDs[6]}), "
-  //       "('${subCategoryNames[7]}', '${imagePathList[7]}', ${categoryIDs[7]}), "
-  //       "('${subCategoryNames[8]}', '${imagePathList[8]}', ${categoryIDs[8]}), "
-  //       "('${subCategoryNames[9]}', '${imagePathList[9]}', ${categoryIDs[9]}), "
-  //       "('${subCategoryNames[10]}', '${imagePathList[10]}', ${categoryIDs[10]}), "
-  //       "('${subCategoryNames[11]}', '${imagePathList[11]}', ${categoryIDs[11]}), "
-  //       "('${subCategoryNames[12]}', '${imagePathList[12]}', ${categoryIDs[12]}), "
-  //       "('${subCategoryNames[13]}', '${imagePathList[13]}', ${categoryIDs[13]}); ";
-  // }
 
   static String get tableData {
     if (subCategoryNames.length != sectionList.length ||
-        subCategoryNames.length != categoryIDs.length) {
+        subCategoryNames.length != categoryIDs.length ||
+        subCategoryNames.length != imagePathList.length) {
       throw Exception('Arrays têm tamanhos diferentes');
     }
 
@@ -135,7 +118,7 @@ class SubCategoryDao {
 
     for (int i = 0; i < subCategoryNames.length; i++) {
       buffer.write(
-          "('${subCategoryNames[i]}', '${CategoryDao.imagePathList[0]}', ${sectionList[i]}, ${categoryIDs[i]})");
+          "('${subCategoryNames[i]}', '${imagePathList[i]}', ${sectionList[i]}, ${categoryIDs[i]})");
       if (i < subCategoryNames.length - 1) {
         buffer.write(", ");
         // Adiciona uma vírgula entre os valores, exceto para o último

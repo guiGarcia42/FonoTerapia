@@ -10,8 +10,8 @@ const _dbName = "fonoterapia.db";
 Future<Database> openOrInitializeDatabase() async {
   final path = join(await getDatabasesPath(), _dbName);
 
-  // await deleteDatabase(path);
-  // print("Banco deletado");
+  await deleteDatabase(path);
+  print("Banco deletado");
 
   return openDatabase(
     path,
