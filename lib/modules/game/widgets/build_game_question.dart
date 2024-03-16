@@ -21,15 +21,15 @@ class BuildGameQuestion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if ([1, 2, 3, 4, 8, 11, 13, 14].contains(subCategoryId)) {
+    if ([1, 2, 3, 4, 5, 13, 14, 16, 17].contains(subCategoryId)) {
       return _buildAudioButton();
     }
 
-    if ([5, 7, ].contains(subCategoryId)) {
+    if ([6, 8, 10].contains(subCategoryId)) {
       return _buildTextContainer();
     }
 
-    if ([6, 9, 10, 12].contains(subCategoryId)) {
+    if ([7, 9, 11, 12, 15].contains(subCategoryId)) {
       return _buildImageContainer();
     }
     return ErrorTextContainer();
@@ -52,7 +52,7 @@ class BuildGameQuestion extends StatelessWidget {
   }
 
   Widget _buildTextContainer() {
-    if ([7].contains(subCategoryId)) {
+    if ([8, 10].contains(subCategoryId)) {
       return Padding(
         padding: EdgeInsets.symmetric(
           horizontal: responsiveSize.scaleSize(100),

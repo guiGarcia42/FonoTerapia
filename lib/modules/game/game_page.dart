@@ -195,7 +195,7 @@ class _GamePageState extends State<GamePage> {
                 text: _subCategory.name,
               ),
             ),
-            _buildTopBar(_subCategory.id),
+            _buildTopBar(),
             Expanded(
               child: _isLoading
                   ? Center(child: CircularProgressIndicator())
@@ -206,7 +206,7 @@ class _GamePageState extends State<GamePage> {
                         right: responsiveSize.scaleSize(20),
                         bottom: responsiveSize.scaleSize(20),
                       ),
-                      child: _buildContent(_subCategory.id),
+                      child: _buildContent(),
                     ),
             ),
             _buildBottomBar(context),
@@ -216,8 +216,8 @@ class _GamePageState extends State<GamePage> {
     }
   }
 
-  Widget _buildContent(int subCategoryId) {
-    if ([2, 7, 9, 10, 11, 12, 13, 14].contains(subCategoryId)) {
+  Widget _buildContent() {
+    if ([2, 8, 11, 12, 13, 14, 15, 16, 17].contains(_subCategory.id)) {
       return SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -228,18 +228,18 @@ class _GamePageState extends State<GamePage> {
               ),
               child: BuildGameQuestion(
                 player: player,
-                subCategoryId: subCategoryId,
+                subCategoryId: _subCategory.id,
                 rightAnswer: rightAnswer,
               ),
             ),
-            if ([12, 13, 14].contains(_subCategory.id))
+            if ([15, 16, 17].contains(_subCategory.id))
               Text(
                 _buildHintText(),
                 style: TextStyles.textLargeRegular,
               ),
             BuildGameListOfOptions(
               gameComponents: gameComponents,
-              subCategoryId: subCategoryId,
+              subCategoryId: _subCategory.id,
               rightAnswer: rightAnswer,
               onTap: _optionSelected,
             ),
@@ -256,7 +256,7 @@ class _GamePageState extends State<GamePage> {
             ),
             child: BuildGameQuestion(
               player: player,
-              subCategoryId: subCategoryId,
+              subCategoryId: _subCategory.id,
               rightAnswer: rightAnswer,
             ),
           ),
@@ -267,7 +267,7 @@ class _GamePageState extends State<GamePage> {
               ),
               child: BuildGameListOfOptions(
                 gameComponents: gameComponents,
-                subCategoryId: subCategoryId,
+                subCategoryId: _subCategory.id,
                 rightAnswer: rightAnswer,
                 onTap: _optionSelected,
               ),
@@ -278,7 +278,7 @@ class _GamePageState extends State<GamePage> {
     }
   }
 
-  Padding _buildTopBar(int subCategoryId) {
+  Padding _buildTopBar() {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: responsiveSize.scaleSize(20),
@@ -298,7 +298,7 @@ class _GamePageState extends State<GamePage> {
               ),
               text: "Configuração",
               onPressed: () {
-                _openConfigurationDialog(subCategoryId);
+                _openConfigurationDialog(_subCategory.id);
               },
             ),
           ),
@@ -323,7 +323,7 @@ class _GamePageState extends State<GamePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          if (![2, 7, 9, 10, 11].contains(_subCategory.id))
+          if (![2, 8, 11, 12, 13, 14].contains(_subCategory.id))
             ElevatedTextButton(
               widthRatio: responsiveSize.scaleSize(130),
               textStyle: TextStyles.buttonMediumText.copyWith(
@@ -332,7 +332,7 @@ class _GamePageState extends State<GamePage> {
               ),
               text: "Ajuda",
               onPressed: () {
-                if ([12, 13, 14].contains(_subCategory.id)) {
+                if ([15, 16, 17].contains(_subCategory.id)) {
                   setState(() {
                     if (_hintText.contains('_')) {
                       _updateHintText();

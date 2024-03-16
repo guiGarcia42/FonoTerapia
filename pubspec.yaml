@@ -24,10 +24,19 @@ dependencies:
   characters: ^1.3.0
   diacritic: ^0.1.5
 
+flutter_launcher_icons:
+  image_path: "assets/app_assets/app_icon.png"
+  ios: false
+  android: "launcher_icon"
+  adaptative_icon_background: "#FFFFFF"
+  adaptative_icon_foreground: "assets/app_assets/app_icon.png"
+  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  flutter_launcher_icons: ^0.13.1
   flutter_lints: ^3.0.1
 
 flutter:

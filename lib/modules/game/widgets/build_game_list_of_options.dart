@@ -31,23 +31,23 @@ class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
 
   @override
   Widget build(BuildContext context) {
-    if ([1, 3, 4, 5].contains(widget.subCategoryId)) {
+    if ([1, 3, 4, 6, 10].contains(widget.subCategoryId)) {
       return _buildImageComponent(widget.gameComponents);
     }
 
-    if ([2, 7, 9, 10, 11].contains(widget.subCategoryId)) {
-      if ([2, 7].contains(widget.subCategoryId)) {
+    if ([2, 8, 11, 12, 13, 14].contains(widget.subCategoryId)) {
+      if ([2, 8].contains(widget.subCategoryId)) {
         return _buildRightOrWrongComponent("Sim", "Não");
       } else {
         return _buildRightOrWrongComponent("Correto", "Incorreto");
       }
     }
 
-    if ([6, 8].contains(widget.subCategoryId)) {
+    if ([5, 7, 9].contains(widget.subCategoryId)) {
       return _buildTextComponent(widget.gameComponents);
     }
 
-    if ([12, 13, 14].contains(widget.subCategoryId)) {
+    if ([15, 16, 17].contains(widget.subCategoryId)) {
       return _buildTextInputComponent();
     }
 
@@ -130,7 +130,7 @@ class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: responsiveSize.scaleSize(50),
-        horizontal: responsiveSize.scaleSize(150),
+        horizontal: responsiveSize.scaleSize(100),
       ),
       child: TextField(
         controller: textEditingController,

@@ -58,7 +58,7 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
           fontSize: responsiveSize.scaleSize(TextStyles.titleDialog.fontSize!),
         ),
       ),
-      content: [1, 4, 5, 6, 8].contains(_subCategoryId)
+      content: [1, 4, 5, 6 ,7, 10].contains(_subCategoryId)
           ? Column(
               mainAxisSize: MainAxisSize.min,
               children: [

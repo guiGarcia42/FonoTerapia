@@ -32,8 +32,7 @@ class FonoTerapiaApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'FonoTerapia',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
-        primaryColor: AppColors.lightOrange,
+        primaryColor: AppColors.background,
       ),
       locale: Locale('pt', 'BR'),
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
