@@ -21,16 +21,12 @@ class BuildGameQuestion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if ([1, 2, 3, 4, 8, 13, 14].contains(subCategoryId)) {
+    if ([1, 2, 3, 4, 8, 11, 13, 14].contains(subCategoryId)) {
       return _buildAudioButton();
     }
 
-    if ([5, 7, 11].contains(subCategoryId)) {
-      if ([11].contains(subCategoryId)) {
-        return _buildTextContainer(true);
-      } else {
-        return _buildTextContainer(false);
-      }
+    if ([5, 7, ].contains(subCategoryId)) {
+      return _buildTextContainer();
     }
 
     if ([6, 9, 10, 12].contains(subCategoryId)) {
@@ -55,30 +51,8 @@ class BuildGameQuestion extends StatelessWidget {
     );
   }
 
-  Widget _buildTextContainer(bool playAudio) {
-    if (playAudio) {
-      player.play(AssetSource(rightAnswer.audioPath));
-
-      return InkWell(
-        onTap: () => player.play(AssetSource(rightAnswer.audioPath)),
-        child: Container(
-          height: responsiveSize.scaleSize(250),
-          decoration: _customBoxDecoration(),
-          child: Center(
-            child: Text(
-              rightAnswer.name,
-              style: TextStyles.textLargeRegular.copyWith(
-                fontSize: responsiveSize
-                    .scaleSize(TextStyles.textLargeRegular.fontSize!),
-              ),
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ),
-      );
-    } else if ([7].contains(subCategoryId)) {
+  Widget _buildTextContainer() {
+    if ([7].contains(subCategoryId)) {
       return Padding(
         padding: EdgeInsets.symmetric(
           horizontal: responsiveSize.scaleSize(100),

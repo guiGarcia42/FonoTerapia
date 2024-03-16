@@ -18,39 +18,81 @@ class SubCategoryDao {
     'Ouvir e responder sim ou não',
     'Pares Mínimos: Ouvir e escolher a imagem',
     'Sentenças: Ouvir e escolher a imagem',
-    'Ler e escolher a imagem',
-    'Ver a imagem e escolher a palavra',
-    'Ler e responder sim ou não',
     'Ouvir e escolher a palavra',
+    'Ler e escolher a imagem',
+    'Ver e escolher a palavra',
+    'Ler e responder sim ou não',
+    'Pares Mínimos: Ver e escolher a palavra',
+    'Sentenças: Ler e escolher a imagem',
     'Falar o nome da imagem',
-    'Sentenças: Descrever imagem',
+    'Sentenças: Descrever a imagem',
     'Repetição de palavras',
+    'Repetição de letras',
     'Escrever o nome da imagem',
     'Ouvir e escrever a palavra',
     'Ouvir e escrever a letra',
   ];
 
   // TO-DO Atualizar lista com o path dos icones da subCategory
-  static const imagePathList = [
-    'assets/app_images/cafe.jpg',
-    'assets/app_images/pao.jpg',
-    'assets/app_images/leite.jpg',
-    'assets/app_images/carro.jpg',
-    'assets/app_images/pato.jpg',
-    'assets/app_images/gato.jpg',
-    'assets/app_images/cafe.jpg',
-    'assets/app_images/pao.jpg',
-    'assets/app_images/leite.jpg',
-    'assets/app_images/carro.jpg',
-    'assets/app_images/pato.jpg',
-    'assets/app_images/gato.jpg',
-    'assets/app_images/cafe.jpg',
-    'assets/app_images/pao.jpg',
+  // static const imagePathList = [
+  //   'assets/app_images/cafe.jpg',
+  //   'assets/app_images/pao.jpg',
+  //   'assets/app_images/leite.jpg',
+  //   'assets/app_images/carro.jpg',
+  //   'assets/app_images/pato.jpg',
+  //   'assets/app_images/gato.jpg',
+  //   'assets/app_images/cafe.jpg',
+  //   'assets/app_images/pao.jpg',
+  //   'assets/app_images/leite.jpg',
+  //   'assets/app_images/carro.jpg',
+  //   'assets/app_images/pato.jpg',
+  //   'assets/app_images/gato.jpg',
+  //   'assets/app_images/cafe.jpg',
+  //   'assets/app_images/pao.jpg',
+  //   'assets/app_images/pao.jpg',
+  //   'assets/app_images/pao.jpg',
+  //   'assets/app_images/pao.jpg',
+  // ];
+
+  static const sectionList = [
+    1,
+    4,
+    3,
+    2,
+    1,
+    1,
+    1,
+    4,
+    3,
+    2,
+    1,
+    2,
+    1,
+    5,
+    1,
+    1,
+    5
   ];
 
-  static const sectionList = [1, 4, 3, 2, 1, 1, 4, 1, 1, 2, 1, 1, 1, 5];
-
-  static const categoryIDs = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4];
+  static const categoryIDs = [
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    2,
+    2,
+    2,
+    2,
+    3,
+    3,
+    3,
+    3,
+    4,
+    4,
+    4
+  ];
 
   static String get tableSql {
     return '''CREATE TABLE $tableName(
@@ -82,21 +124,26 @@ class SubCategoryDao {
   // }
 
   static String get tableData {
-    return "INSERT INTO $tableName ($_name, $_imagePath, $_section, $_categoryId) VALUES "
-        "('${subCategoryNames[0]}', '${CategoryDao.imagePathList[0]}', ${sectionList[0]}, ${categoryIDs[0]}), "
-        "('${subCategoryNames[1]}', '${CategoryDao.imagePathList[0]}', ${sectionList[1]}, ${categoryIDs[1]}), "
-        "('${subCategoryNames[2]}', '${CategoryDao.imagePathList[0]}', ${sectionList[2]}, ${categoryIDs[2]}), "
-        "('${subCategoryNames[3]}', '${CategoryDao.imagePathList[0]}', ${sectionList[3]}, ${categoryIDs[3]}), "
-        "('${subCategoryNames[4]}', '${CategoryDao.imagePathList[1]}', ${sectionList[4]}, ${categoryIDs[4]}), "
-        "('${subCategoryNames[5]}', '${CategoryDao.imagePathList[1]}', ${sectionList[5]}, ${categoryIDs[5]}), "
-        "('${subCategoryNames[6]}', '${CategoryDao.imagePathList[1]}', ${sectionList[6]}, ${categoryIDs[6]}), "
-        "('${subCategoryNames[7]}', '${CategoryDao.imagePathList[1]}', ${sectionList[7]}, ${categoryIDs[7]}), "
-        "('${subCategoryNames[8]}', '${CategoryDao.imagePathList[2]}', ${sectionList[8]}, ${categoryIDs[8]}), "
-        "('${subCategoryNames[9]}', '${CategoryDao.imagePathList[2]}', ${sectionList[9]}, ${categoryIDs[9]}), "
-        "('${subCategoryNames[10]}', '${CategoryDao.imagePathList[2]}', ${sectionList[10]}, ${categoryIDs[10]}), "
-        "('${subCategoryNames[11]}', '${CategoryDao.imagePathList[3]}', ${sectionList[11]}, ${categoryIDs[11]}), "
-        "('${subCategoryNames[12]}', '${CategoryDao.imagePathList[3]}', ${sectionList[12]}, ${categoryIDs[12]}), "
-        "('${subCategoryNames[13]}', '${CategoryDao.imagePathList[3]}', ${sectionList[13]}, ${categoryIDs[13]}); ";
+    if (subCategoryNames.length != sectionList.length ||
+        subCategoryNames.length != categoryIDs.length) {
+      throw Exception('Arrays têm tamanhos diferentes');
+    }
+
+    StringBuffer buffer = StringBuffer();
+    buffer.write(
+        "INSERT INTO $tableName ($_name, $_imagePath, $_section, $_categoryId) VALUES ");
+
+    for (int i = 0; i < subCategoryNames.length; i++) {
+      buffer.write(
+          "('${subCategoryNames[i]}', '${CategoryDao.imagePathList[0]}', ${sectionList[i]}, ${categoryIDs[i]})");
+      if (i < subCategoryNames.length - 1) {
+        buffer.write(", ");
+        // Adiciona uma vírgula entre os valores, exceto para o último
+      }
+    }
+
+    buffer.write(";");
+    return buffer.toString();
   }
 
   Future<SubCategory> findSubCategory(Database db, int subCategoryId) async {
@@ -107,11 +154,7 @@ class SubCategoryDao {
     final Map<String, dynamic> row = result.first;
 
     return SubCategory.withoutCategory(
-      row[_id],
-      row[_name],
-      row[_imagePath],
-      row[_section]
-    );
+        row[_id], row[_name], row[_imagePath], row[_section]);
   }
 
   Future<List<SubCategory>> findAllSubCategories(

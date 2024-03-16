@@ -23,23 +23,26 @@ class GameComponentDao {
     if (nameList.length != imagePathList.length ||
         nameList.length != audioPathList.length ||
         nameList.length != sectionList.length) {
-          print("Nomes ${nameList.length}");
-          print("Imagens ${imagePathList.length}");
-          print("Audios ${audioPathList.length}");
-          print("Seção ${sectionList.length}");
       throw Exception('Arrays têm tamanhos diferentes');
     }
-    String insertQuery =
-        "INSERT INTO $_tableName ($_name, $_imagePath, $_audioPath, $_section) VALUES ";
+
+    StringBuffer buffer = StringBuffer();
+    buffer.write(
+        "INSERT INTO $_tableName ($_name, $_imagePath, $_audioPath, $_section) VALUES ");
 
     for (int i = 0; i < nameList.length; i++) {
-      insertQuery +=
-          "('${nameList[i]}', '${imagePathList[i]}', '${audioPathList[i]}', ${sectionList[i]}), ";
+      buffer.write(
+          "('${nameList[i]}', '${imagePathList[i]}', '${audioPathList[i]}', ${sectionList[i]}) ");
+      if (i < nameList.length - 1) {
+        buffer.write(", ");
+        // Adiciona uma vírgula entre os valores, exceto para o último
+      }
     }
 
     // Remover a vírgula extra no final
-    insertQuery = insertQuery.substring(0, insertQuery.length - 2);
-    return insertQuery;
+    buffer.write(";");
+
+    return buffer.toString();
   }
 
   Future<List<GameComponent>> findRandomComponents(

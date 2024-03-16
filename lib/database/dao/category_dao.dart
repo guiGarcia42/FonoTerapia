@@ -30,11 +30,24 @@ class CategoryDao {
   }
 
   static String get tableData {
-    return "INSERT INTO $tableName ($_name, $_imagePath) VALUES "
-        "('${categoryNames[0]}', '${imagePathList[0]}'),"
-        "('${categoryNames[1]}', '${imagePathList[1]}'),"
-        "('${categoryNames[2]}', '${imagePathList[2]}'),"
-        "('${categoryNames[3]}', '${imagePathList[3]}');";
+    if (categoryNames.length != imagePathList.length) {
+      throw Exception('Arrays têm tamanhos diferentes');
+    }
+
+    StringBuffer buffer = StringBuffer();
+    buffer.write("INSERT INTO $tableName ($_name, $_imagePath) VALUES ");
+
+    for (int i = 0; i < categoryNames.length; i++) {
+      buffer.write("('${categoryNames[i]}', '${imagePathList[i]}')");
+      if (i < categoryNames.length - 1) {
+        buffer.write(", ");
+      }
+    }
+
+    // Remover a vírgula extra no final
+    buffer.write(";");
+
+    return buffer.toString();
   }
 
   Future<List<Category>> findAllCategories(Database db) async {
