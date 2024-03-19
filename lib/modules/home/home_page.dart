@@ -1,11 +1,9 @@
-import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
 import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_assets.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 
-import '../../shared/widgets/floating_icon_card.dart';
 import '../../shared/widgets/icon_button_with_description.dart';
 
 class HomePage extends StatelessWidget {
@@ -42,16 +40,6 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: responsiveSize.scaleSize(425),
-                left: responsiveSize.scaleSize(75),
-                child: FloatingIconCard(icon: Icons.hearing_outlined),
-              ),
-              Positioned(
-                top: responsiveSize.scaleSize(250),
-                right: responsiveSize.scaleSize(75),
-                child: FloatingIconCard(icon: Icons.wechat_rounded),
-              ),
-              Positioned(
                 bottom: responsiveSize.scaleSize(50),
                 child: SizedBox(
                   width: responsiveSize.scaleSize(350),
@@ -66,20 +54,17 @@ class HomePage extends StatelessWidget {
                           fit: BoxFit.fill,
                         ),
                       ),
-                      AnimatedCard(
-                        direction: AnimatedCardDirection.bottom,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: responsiveSize.scaleSize(50),
-                          ),
-                          child: Text(
-                            "Atividades Terapêuticas para a Afasia",
-                            textAlign: TextAlign.center,
-                            style: TextStyles.title.copyWith(
-                              fontSize: responsiveSize
-                                  .scaleSize(TextStyles.title.fontSize!),
-                              color: AppColors.darkGray,
-                            ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: responsiveSize.scaleSize(50),
+                        ),
+                        child: Text(
+                          "Atividades Terapêuticas para a Afasia",
+                          textAlign: TextAlign.center,
+                          style: TextStyles.title.copyWith(
+                            fontSize: responsiveSize
+                                .scaleSize(TextStyles.title.fontSize!),
+                            color: AppColors.darkGray,
                           ),
                         ),
                       ),

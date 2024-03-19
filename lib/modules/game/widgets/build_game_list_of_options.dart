@@ -36,11 +36,7 @@ class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
     }
 
     if ([2, 8, 11, 12, 13, 14].contains(widget.subCategoryId)) {
-      if ([2, 8].contains(widget.subCategoryId)) {
-        return _buildRightOrWrongComponent("Sim", "Não");
-      } else {
-        return _buildRightOrWrongComponent("Correto", "Incorreto");
-      }
+      return _buildRightOrWrongComponent();
     }
 
     if ([5, 7, 9].contains(widget.subCategoryId)) {
@@ -98,30 +94,57 @@ class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
     );
   }
 
-  Padding _buildRightOrWrongComponent(String right, String wrong) {
+  Padding _buildRightOrWrongComponent() {
+
+
     GameComponent? wrongAnswer;
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: responsiveSize.scaleSize(50),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          IconButtonWithDescription(
-            icon: Icons.check_circle,
-            description: right,
-            color: AppColors.right,
-            onPressed: () => widget.onTap(widget.rightAnswer),
-          ),
-          IconButtonWithDescription(
-            icon: Icons.cancel,
-            description: wrong,
-            color: AppColors.wrong,
-            onPressed: () => widget.onTap(wrongAnswer),
-          ),
-        ],
-      ),
-    );
+    if ([2, 8].contains(widget.subCategoryId)) {
+      return Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: responsiveSize.scaleSize(50),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButtonWithDescription(
+              icon: Icons.check_circle,
+              description: "Sim",
+              color: AppColors.right,
+              onPressed: () => widget.onTap(widget.rightAnswer),
+            ),
+            IconButtonWithDescription(
+              icon: Icons.cancel,
+              description: "Não",
+              color: AppColors.wrong,
+              onPressed: () => widget.onTap(wrongAnswer),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: responsiveSize.scaleSize(50),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButtonWithDescription(
+              icon: Icons.check_circle,
+              description: "Correto",
+              color: AppColors.right,
+              onPressed: () => widget.onTap(widget.rightAnswer),
+            ),
+            IconButtonWithDescription(
+              icon: Icons.cancel,
+              description: "Incorreto",
+              color: AppColors.wrong,
+              onPressed: () => widget.onTap(wrongAnswer),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   Padding _buildTextInputComponent() {
