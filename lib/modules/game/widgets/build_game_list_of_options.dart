@@ -1,9 +1,11 @@
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:fono_terapia/app_startup.dart';
+import 'package:fono_terapia/database/dao/game_component_dao.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/model/game_component.dart';
+import 'package:fono_terapia/shared/utils/data.dart';
 import 'package:fono_terapia/shared/widgets/icon_button_with_description.dart';
 
 import 'error_text_container.dart';
@@ -95,10 +97,12 @@ class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
   }
 
   Padding _buildRightOrWrongComponent() {
-
-
     GameComponent? wrongAnswer;
     if ([2, 8].contains(widget.subCategoryId)) {
+      // 190 é onde inicia as perguntas no array de palavras.
+      final isCorrect =
+          questionsAnswerList.elementAt(widget.rightAnswer.id - 190);
+
       return Padding(
         padding: EdgeInsets.symmetric(
           vertical: responsiveSize.scaleSize(50),
@@ -110,13 +114,14 @@ class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
               icon: Icons.check_circle,
               description: "Sim",
               color: AppColors.right,
-              onPressed: () => widget.onTap(widget.rightAnswer),
+              onPressed: () =>
+                  widget.onTap(isCorrect ? widget.rightAnswer : wrongAnswer),
             ),
             IconButtonWithDescription(
               icon: Icons.cancel,
               description: "Não",
               color: AppColors.wrong,
-              onPressed: () => widget.onTap(wrongAnswer),
+              onPressed: () => widget.onTap(!isCorrect ? widget.rightAnswer : wrongAnswer),
             ),
           ],
         ),

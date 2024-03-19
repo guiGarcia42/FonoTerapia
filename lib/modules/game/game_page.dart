@@ -38,6 +38,7 @@ class GamePage extends StatefulWidget {
 
 class _GamePageState extends State<GamePage> {
   AudioPlayer player = AudioPlayer();
+  GameComponentDao gameComponentDao = GameComponentDao(); 
   String _hintText = "";
   int questionsAnswered = 0;
   int answeredCorrectly = 0;
@@ -59,7 +60,7 @@ class _GamePageState extends State<GamePage> {
     _getGameComponents().then((components) {
       setState(() {
         gameComponents = components;
-        rightAnswer = GameComponentDao().getRightAnswer(gameComponents);
+        rightAnswer = gameComponentDao.getRightAnswer(gameComponents);
         _isLoading = false; // Aqui desativamos o estado de carregamento
       });
     });
@@ -83,7 +84,7 @@ class _GamePageState extends State<GamePage> {
   }
 
   Future<List<GameComponent>> _getGameComponents() async {
-    return await GameComponentDao().findRandomComponents(
+    return await gameComponentDao.findRandomComponents(
       database,
       _subCategory.section,
       configuration.numberOfOptions,
@@ -109,7 +110,7 @@ class _GamePageState extends State<GamePage> {
       List<GameComponent> components = await _getGameComponents();
       setState(() {
         gameComponents = components;
-        rightAnswer = GameComponentDao().getRightAnswer(gameComponents);
+        rightAnswer = gameComponentDao.getRightAnswer(gameComponents);
         _isLoading = false; // Desativando o indicador de carregamento
       });
     }
@@ -153,7 +154,7 @@ class _GamePageState extends State<GamePage> {
     List<GameComponent> components = await _getGameComponents();
     setState(() {
       gameComponents = components;
-      rightAnswer = GameComponentDao().getRightAnswer(gameComponents);
+      rightAnswer = gameComponentDao.getRightAnswer(gameComponents);
       _isLoading = false; // Desativando o indicador de carregamento
     });
   }
