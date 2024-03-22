@@ -8,7 +8,7 @@ class AppAssets {
 
   // Menu Icons
   static const logoCompreensaoAuditiva = "assets/app_assets/logo_compreensao_auditiva.png";
-  static const logoCompreensaoEscrita = "assets/app_assets/logo_compreensao_escrita.png";
+  static const logoLeitura = "assets/app_assets/logo_leitura.png";
   static const logoNomeacaoOral = "assets/app_assets/logo_nomeacao_oral.png";
   static const logoEscrita = "assets/app_assets/logo_escrita.png";
   

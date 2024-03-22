@@ -44,7 +44,7 @@ class BuildGameQuestion extends StatelessWidget {
         decoration: _customBoxDecoration(),
         child: Icon(
           Icons.volume_up_rounded,
-          size: responsiveSize.scaleSize(250),
+          size: responsiveSize.scaleSize(200),
           color: AppColors.darkGray,
         ),
       ),
@@ -58,7 +58,7 @@ class BuildGameQuestion extends StatelessWidget {
           horizontal: responsiveSize.scaleSize(100),
         ),
         child: Container(
-          height: responsiveSize.scaleSize(250),
+          height: responsiveSize.scaleSize(200),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
             color: AppColors.lightOrange,
@@ -83,7 +83,7 @@ class BuildGameQuestion extends StatelessWidget {
       );
     } else {
       return Container(
-        height: responsiveSize.scaleSize(250),
+        height: responsiveSize.scaleSize(200),
         decoration: _customBoxDecoration(),
         child: Center(
           child: Text(
@@ -103,7 +103,7 @@ class BuildGameQuestion extends StatelessWidget {
 
   Widget _buildImageContainer() {
     return Container(
-      height: responsiveSize.scaleSize(250),
+      height: responsiveSize.scaleSize(200),
       decoration: _customBoxDecoration(),
       child: ClipOval(
         child: Image.asset(

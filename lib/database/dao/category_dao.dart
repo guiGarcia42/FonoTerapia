@@ -10,14 +10,14 @@ class CategoryDao {
 
   static const categoryNames = [
     'Compreensão Auditiva',
-    'Compreensão Escrita',
+    'Leitura',
     'Nomeação Oral',
     'Escrita'
   ];
 
   static const imagePathList = [
     AppAssets.logoCompreensaoAuditiva,
-    AppAssets.logoCompreensaoEscrita,
+    AppAssets.logoLeitura,
     AppAssets.logoNomeacaoOral,
     AppAssets.logoEscrita,
   ];
