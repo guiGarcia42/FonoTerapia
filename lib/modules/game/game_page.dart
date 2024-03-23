@@ -262,16 +262,11 @@ class _GamePageState extends State<GamePage> {
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: responsiveSize.scaleSize(20),
-              ),
-              child: BuildGameListOfOptions(
-                gameComponents: gameComponents,
-                subCategoryId: _subCategory.id,
-                rightAnswer: rightAnswer,
-                onTap: _optionSelected,
-              ),
+            child: BuildGameListOfOptions(
+              gameComponents: gameComponents,
+              subCategoryId: _subCategory.id,
+              rightAnswer: rightAnswer,
+              onTap: _optionSelected,
             ),
           ),
         ],

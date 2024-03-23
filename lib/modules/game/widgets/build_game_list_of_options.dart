@@ -1,14 +1,15 @@
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:fono_terapia/app_startup.dart';
+import 'package:fono_terapia/modules/game/widgets/tablet_grid_view_component.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/model/game_component.dart';
 import 'package:fono_terapia/shared/utils/data.dart';
 import 'package:fono_terapia/shared/widgets/icon_button_with_description.dart';
 
-import 'error_text_container.dart';
-import 'text_container_button.dart';
+import '../../../shared/widgets/error_text_container.dart';
+import 'phone_grid_view_component.dart';
 
 class BuildGameListOfOptions extends StatefulWidget {
   final List<GameComponent> gameComponents;
@@ -32,16 +33,16 @@ class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
 
   @override
   Widget build(BuildContext context) {
-    if ([1, 3, 4, 6, 10].contains(widget.subCategoryId)) {
-      return _buildImageComponent(widget.gameComponents);
+    if ([1, 3, 4, 5, 6, 7, 9, 10].contains(widget.subCategoryId)) {
+      if ([5, 7, 9].contains(widget.subCategoryId)) {
+        return _buildGridComponent(widget.gameComponents, false);
+      } else {
+        return _buildGridComponent(widget.gameComponents, true);
+      }
     }
 
     if ([2, 8, 11, 12, 13, 14].contains(widget.subCategoryId)) {
       return _buildRightOrWrongComponent();
-    }
-
-    if ([5, 7, 9].contains(widget.subCategoryId)) {
-      return _buildTextComponent(widget.gameComponents);
     }
 
     if ([15, 16, 17].contains(widget.subCategoryId)) {
@@ -51,48 +52,18 @@ class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
     return ErrorTextContainer();
   }
 
-  GridView _buildImageComponent(List<GameComponent> gameComponents) {
-    return GridView.builder(
-      itemCount: gameComponents.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: responsiveSize.scaleSize(40),
-        mainAxisSpacing: responsiveSize.scaleSize(40),
-      ),
-      itemBuilder: (context, index) {
-        final component = gameComponents[index];
-
-        return InkWell(
-          onTap: () => widget.onTap(component),
-          child: SizedBox(
-            height: responsiveSize.scaleSize(250),
-            child: Image.asset(
-              component.imagePath,
-              fit: BoxFit.fill,
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  GridView _buildTextComponent(List<GameComponent> gameComponents) {
-    return GridView.builder(
-      itemCount: gameComponents.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: responsiveSize.scaleSize(40),
-        mainAxisSpacing: responsiveSize.scaleSize(40),
-      ),
-      itemBuilder: (context, index) {
-        final component = gameComponents[index];
-
-        return TextContainerButton(
-          text: component.name,
-          onTap: () => widget.onTap(component),
-        );
-      },
-    );
+  Widget _buildGridComponent(List<GameComponent> gameComponents, bool isImage) {
+    return responsiveSize.isTablet()
+        ? TabletGridViewComponent(
+            gameComponents: gameComponents,
+            onTap: widget.onTap,
+            isImage: isImage,
+          )
+        : PhoneGridViewComponent(
+            gameComponents: gameComponents,
+            onTap: widget.onTap,
+            isImage: isImage,
+          );
   }
 
   Padding _buildRightOrWrongComponent() {
@@ -120,7 +91,8 @@ class _BuildGameListOfOptionsState extends State<BuildGameListOfOptions> {
               icon: Icons.cancel,
               description: "Não",
               color: AppColors.wrong,
-              onPressed: () => widget.onTap(!isCorrect ? widget.rightAnswer : wrongAnswer),
+              onPressed: () =>
+                  widget.onTap(!isCorrect ? widget.rightAnswer : wrongAnswer),
             ),
           ],
         ),
