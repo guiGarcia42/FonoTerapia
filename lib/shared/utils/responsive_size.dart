@@ -10,7 +10,6 @@ class ResponsiveSize {
 
   double scaleSize(double size) {
     double longestSide = mediaQueryData.longestSide;
-    print(longestSide);
 
     const tabletL = 1300;
     const tabletM = 1100;

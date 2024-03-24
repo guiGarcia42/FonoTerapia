@@ -63,6 +63,7 @@ class BuildGameQuestion extends StatelessWidget {
             shape: BoxShape.rectangle,
             color: AppColors.lightOrange,
             border: Border.all(color: AppColors.darkGray, width: 3),
+            borderRadius: BorderRadius.circular(50),
           ),
           child: Center(
             child: Padding(

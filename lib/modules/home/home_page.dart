@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
               Positioned(
                 top: responsiveSize.scaleSize(100),
                 child: SizedBox(
-                  height: responsiveSize.scaleSize(450),
+                  height: responsiveSize.scaleSize(500),
                   child: Image.asset(
                     AppAssets.person,
                     fit: BoxFit.fill,
@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: responsiveSize.scaleSize(150),
+                        width: responsiveSize.scaleSize(160),
                         child: Image.asset(
                           AppAssets.logoMini,
                           fit: BoxFit.fill,

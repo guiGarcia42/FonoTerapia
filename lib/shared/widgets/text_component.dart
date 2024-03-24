@@ -19,8 +19,8 @@ class TextComponent extends StatelessWidget {
     return InkWell(
       onTap: () => onTap(component),
       child: Container(
-        height: responsiveSize.scaleSize(200),
-        width: responsiveSize.scaleSize(200),
+        height: responsiveSize.scaleSize(100),
+        width: responsiveSize.scaleSize(150),
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           color: AppColors.lightOrange,
