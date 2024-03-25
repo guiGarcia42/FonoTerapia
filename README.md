@@ -8,6 +8,6 @@ The app features a variety of carefully crafted therapeutic activities, each foc
 
 One of the distinctive features of FonoTerapia is its emphasis on using clear and easily visible images, depicting everyday objects and activities. This makes therapy more appealing and engaging for patients, facilitating the association between words and common everyday concepts.
 
-With an intuitive and user-friendly interface, the app offers a simple and accessible user experience for people of all ages. Whether in the fonoaudiólogo's office or in the comfort of home, FonoTerapia is a versatile and effective tool to promote language development and improve the quality of life for users.
+With an intuitive and user-friendly interface, the app offers a simple and accessible user experience for people of all ages. Whether in the Speech therapist's office or in the comfort of home, FonoTerapia is a versatile and effective tool to promote language development and improve the quality of life for users.
 
 Try FonoTerapia today and embark on a language rehabilitation journey tailored to your individual needs.
