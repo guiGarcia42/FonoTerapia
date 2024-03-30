@@ -12,7 +12,7 @@ class ResponsiveSize {
     double longestSide = mediaQueryData.longestSide;
 
     const tabletL = 1300;
-    const tabletM = 1100;
+    const tabletM = 1000;
     const phoneL = 900;
     const phoneM = 700;
 
@@ -35,10 +35,10 @@ class ResponsiveSize {
 
   bool isTablet() {
     final longestSide = mediaQueryData.longestSide;
-    return longestSide > 1100;
+    return longestSide > 1000;
   }
 
-    bool isMini() {
+  bool isMini() {
     final longestSide = mediaQueryData.longestSide;
     return longestSide < 700;
   }
