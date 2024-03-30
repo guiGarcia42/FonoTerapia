@@ -1,16 +1,13 @@
-# fono_terapia
+# FonoTerapia - Available at Play Store
 
-A new Flutter project.
+![logo_full](https://github.com/guiGarcia42/FonoTerapia/assets/81885816/cf7520a5-0739-43cc-87c4-564a8aa02a46)
 
-## Getting Started
+FonoTerapia is an innovative tool designed to assist in the language rehabilitation of adults and seniors. Developed by an experienced Speech therapist with more than 20 years of clinical practice, this application offers a comprehensive and personalized approach to help patients improve their oral comprehension, oral expression, reading, and writing skills.
 
-This project is a starting point for a Flutter application.
+The app features a variety of carefully crafted therapeutic activities, each focusing on one of the four key language areas. The games are designed with different levels of difficulty, aiming to meet the individual needs of each patient. From identifying and pronouncing letters to forming complete words and sentences, the activities are carefully tailored to promote a gradual and effective progression in language rehabilitation.
 
-A few resources to get you started if this is your first Flutter project:
+One of the distinctive features of FonoTerapia is its emphasis on using clear and easily visible images, depicting everyday objects and activities. This makes therapy more appealing and engaging for patients, facilitating the association between words and common everyday concepts.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+With an intuitive and user-friendly interface, the app offers a simple and accessible user experience for people of all ages. Whether in the Speech therapist's office or in the comfort of home, FonoTerapia is a versatile and effective tool to promote language development and improve the quality of life for users.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Try FonoTerapia today and embark on a language rehabilitation journey tailored to your individual needs.
