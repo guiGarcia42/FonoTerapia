@@ -1,9 +1,9 @@
 name: fono_terapia
 description: Um aplicativo para pacientes treinar a fala.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
 
-version: 0.0.2+1
+version: 0.0.1+2
 
 environment:
   sdk: '>=2.19.4 <4.0.0'
@@ -15,7 +15,6 @@ dependencies:
     sdk: flutter
 
   shared_preferences: ^2.2.2
-  google_fonts: ^6.2.0
   path: ^1.8.3
   sqflite: ^2.3.2
   audioplayers: ^5.2.1
@@ -46,3 +45,8 @@ flutter:
   - assets/app_assets/sub_categories/
   - assets/db_images/
   - assets/db_audios/
+
+  fonts:
+    - family: LexendDeca
+      fonts:
+        - asset: assets/fonts/LexendDeca-Regular.ttf

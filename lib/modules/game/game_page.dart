@@ -169,13 +169,11 @@ class _GamePageState extends State<GamePage> {
       player.play(AssetSource(AppAssets.wrongSound));
     }
     questionsAnswered++;
-    Timer(Duration(seconds: 2), () {
-      if (questionsAnswered == configuration.totalNumberOfQuestions) {
-        _openGameResultDialog();
-      } else {
-        _buildNextQuestionPage();
-      }
-    });
+    if (questionsAnswered == configuration.totalNumberOfQuestions) {
+      _openGameResultDialog();
+    } else {
+    _buildNextQuestionPage();
+    }
   }
 
   @override

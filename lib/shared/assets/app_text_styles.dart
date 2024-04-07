@@ -1,63 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TextStyles {
-  static final title = GoogleFonts.lexendDeca(
+  static final TextStyle title = TextStyle(
     fontSize: 35,
     fontWeight: FontWeight.w600,
     color: AppColors.background,
+    fontFamily: 'LexendDeca',
   );
-  static final titleDialog = GoogleFonts.lexendDeca(
+  static final TextStyle titleDialog = TextStyle(
     fontSize: 25,
     fontWeight: FontWeight.w500,
     color: AppColors.darkGray,
+    fontFamily: 'LexendDeca',
   );
-  static final buttonLargeText = GoogleFonts.lexendDeca(
+  static final TextStyle buttonLargeText = TextStyle(
     fontSize: 30,
     fontWeight: FontWeight.w600,
     color: AppColors.background,
+    fontFamily: 'LexendDeca',
   );
-  static final buttonMediumText = GoogleFonts.lexendDeca(
+  static final TextStyle buttonMediumText = TextStyle(
     fontSize: 25,
     fontWeight: FontWeight.w600,
     color: AppColors.background,
+    fontFamily: 'LexendDeca',
   );
-  static final buttonTextDialog = GoogleFonts.lexendDeca(
+  static final TextStyle buttonTextDialog = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w600,
     color: AppColors.background,
+    fontFamily: 'LexendDeca',
   );
-  static final buttonDescription = GoogleFonts.lexendDeca(
+  static final TextStyle buttonDescription = TextStyle(
     fontSize: 15,
     fontWeight: FontWeight.w700,
     color: AppColors.darkGray,
+    fontFamily: 'LexendDeca',
   );
-    static final textLargeRegular = GoogleFonts.lexendDeca(
+  static final TextStyle textLargeRegular = TextStyle(
     fontSize: 25,
     fontWeight: FontWeight.w500,
     color: AppColors.darkGray,
+    fontFamily: 'LexendDeca',
   );
-  static final textRegular = GoogleFonts.lexendDeca(
+  static final TextStyle textRegular = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w500,
     color: AppColors.darkGray,
+    fontFamily: 'LexendDeca',
   );
-  static final textSmallRegular = GoogleFonts.lexendDeca(
+  static final TextStyle textSmallRegular = TextStyle(
     fontSize: 14.5,
     fontWeight: FontWeight.w600,
-    color: Colors.black
+    color: Colors.black,
+    fontFamily: 'LexendDeca',
   );
-  static final textField = GoogleFonts.lexendDeca(
+  static final TextStyle textField = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w600,
     color: AppColors.background,
+    fontFamily: 'LexendDeca',
   );
-  static final titleListTile = GoogleFonts.lexendDeca(
+  static final TextStyle titleListTile = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w700,
     color: AppColors.background,
+    fontFamily: 'LexendDeca',
   );
-
-
 }

@@ -4,7 +4,6 @@ class AppAssets {
   static const logoMini = "assets/app_assets/logo_mini.png";
   static const union = "assets/app_assets/union.png";
   static const person = "assets/app_assets/person.png";
-  static const gradient = "assets/app_assets/gradient.png";
 
   // Menu Icons
   static const logoCompreensaoAuditiva = "assets/app_assets/logo_compreensao_auditiva.png";

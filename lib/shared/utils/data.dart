@@ -211,7 +211,7 @@ const nameList = [
   "Bibliotecas são silenciosas?",
   "Carros são mais rápidos do que os aviões?",
   "Cavalos são mais rápidos do que tartarugas?",
-  "Elefantes são mais leves do que os patos?",
+  "Elefantes são mais leves do que patos?",
   "Idosos são mais novos do que crianças?",
   "Maçã é uma fruta?",
   "Na padaria vende televisão?",
@@ -479,13 +479,13 @@ const imagePathList = [
   "assets/db_images/Bibliotecas_sao_silenciosas.png",
   "assets/db_images/Carros_sao_mais_rapidos_do_que_os_avioes.png",
   "assets/db_images/Cavalos_sao_mais_rapidos_do_que_tartarugas.png",
-  "assets/db_images/Elefantes_sao_mais_leves_do_que_os_patos.png",
+  "assets/db_images/Elefantes_sao_mais_leves_do_que_patos.png",
   "assets/db_images/Idosos_sao_mais_novos_do_que_criancas.png",
   "assets/db_images/Maca_e_uma_fruta.png",
   "assets/db_images/Na_padaria_vende_televisao.png",
   "assets/db_images/No_acougue_vende_carne.png",
   "assets/db_images/No_futebol_ganha_quem_fizer_mais_gols.png",
-  "assets/db_images/O_Brasil_fica_na_Europa.png",
+  "assets/db_images/O_brasil_fica_na_europa.png",
   "assets/db_images/O_cafe_e_branco.png",
   "assets/db_images/O_carro_e_dirigido_pelo_homem.png",
   "assets/db_images/O_ceu_e_azul.png",
@@ -499,7 +499,7 @@ const imagePathList = [
   "assets/db_images/O_verao_e_quente.png",
   "assets/db_images/O_volei_e_jogado_com_as_maos.png",
   "assets/db_images/Oculos_ajudam_a_enxergar_melhor.png",
-  "assets/db_images/Onibus_sao_menores_do_que_carros.png",
+  "assets/db_images/Onibus_sao_menores_do_que_os_carros.png",
   "assets/db_images/Os_cavalos_voam.png",
   "assets/db_images/Os_gatos_latem.png",
   "assets/db_images/Os_gatos_poem_ovos.png",
@@ -747,7 +747,7 @@ const audioPathList = [
   "db_audios/Bibliotecas_sao_silenciosas.mp3",
   "db_audios/Carros_sao_mais_rapidos_do_que_os_avioes.mp3",
   "db_audios/Cavalos_sao_mais_rapidos_do_que_tartarugas.mp3",
-  "db_audios/Elefantes_sao_mais_leves_do_que_os_patos.mp3",
+  "db_audios/Elefantes_sao_mais_leves_do_que_patos.mp3",
   "db_audios/Idosos_sao_mais_novos_do_que_criancas.mp3",
   "db_audios/Maca_e_uma_fruta.mp3",
   "db_audios/Na_padaria_vende_televisao.mp3",
@@ -767,7 +767,7 @@ const audioPathList = [
   "db_audios/O_verao_e_quente.mp3",
   "db_audios/O_volei_e_jogado_com_as_maos.mp3",
   "db_audios/Oculos_ajudam_a_enxergar_melhor.mp3",
-  "db_audios/Onibus_sao_menores_do_que_carros.mp3",
+  "db_audios/Onibus_sao_menores_do_que_os_carros.mp3",
   "db_audios/Os_cavalos_voam.mp3",
   "db_audios/Os_gatos_latem.mp3",
   "db_audios/Os_gatos_poem_ovos.mp3",
@@ -1100,7 +1100,7 @@ const questionsAnswerList = [
   false, // "Na padaria vende televisão?"
   true, // "No açougue vende carne?"
   true, // "No futebol ganha quem fizer mais gols?"
-  false, // "O Brasil fica na Europa?"
+  false, // "O brasil fica na europa?"
   false, // "O café é branco?"
   true, // "O carro é dirigido pelo homem?"
   true, // "O céu é azul?"
