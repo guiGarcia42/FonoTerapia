@@ -161,12 +161,12 @@ class _GamePageState extends State<GamePage> {
 
   void _optionSelected(GameComponent? selectedOption) {
     if (selectedOption == rightAnswer) {
-      player.play(AssetSource(AppAssets.correctSound));
+      player.play(AssetSource(AppAssets.correctSound), volume: 0.1);
       answeredCorrectly++;
       percentage =
           (answeredCorrectly / configuration.totalNumberOfQuestions) * 100;
     } else {
-      player.play(AssetSource(AppAssets.wrongSound));
+      player.play(AssetSource(AppAssets.wrongSound), volume: 0.1);
     }
     questionsAnswered++;
     if (questionsAnswered == configuration.totalNumberOfQuestions) {

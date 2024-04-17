@@ -128,7 +128,7 @@ const nameList = [
   "A mulher está varrendo a casa",
   "A mulher passou a roupa",
   "As crianças estão brincando",
-  "As crianças estão jogando futebol",
+  "O menino está estudando",
   "As luzes estão acesas",
   "Elas estão conversando",
   "Elas estão fazendo exercícios",
@@ -396,7 +396,7 @@ const imagePathList = [
   "assets/db_images/A_mulher_esta_varrendo_a_casa.png",
   "assets/db_images/A_mulher_passou_a_roupa.png",
   "assets/db_images/As_criancas_estao_brincando.png",
-  "assets/db_images/As_criancas_estao_jogando_futebol.png",
+  "assets/db_images/O_menino_esta_estudando.png",
   "assets/db_images/As_luzes_estao_acesas.png",
   "assets/db_images/Elas_estao_conversando.png",
   "assets/db_images/Elas_estao_fazendo_exercicios.png",
@@ -664,7 +664,7 @@ const audioPathList = [
   "db_audios/A_mulher_esta_varrendo_a_casa.mp3",
   "db_audios/A_mulher_passou_a_roupa.mp3",
   "db_audios/As_criancas_estao_brincando.mp3",
-  "db_audios/As_criancas_estao_jogando_futebol.mp3",
+  "db_audios/O_menino_esta_estudando.mp3",
   "db_audios/As_luzes_estao_acesas.mp3",
   "db_audios/Elas_estao_conversando.mp3",
   "db_audios/Elas_estao_fazendo_exercicios.mp3",
@@ -1093,7 +1093,7 @@ const questionsAnswerList = [
   false, // "As tartarugas voam?"
   true, // "Bibliotecas são silenciosas?"
   false, // "Carros são mais rápidos do que os aviões?"
-  false, // "Cavalos são mais rápidos do que tartarugas?"
+  true, // "Cavalos são mais rápidos do que tartarugas?"
   false, // "Elefantes são mais leves do que os patos?"
   false, // "Idosos são mais novos do que crianças?"
   true, // "Maçã é uma fruta?"
@@ -1124,7 +1124,7 @@ const questionsAnswerList = [
   false, // "Os pés tem dentes?"
   true, // "Os relógios mostram as horas?"
   false, // "Podemos comer portas?"
-  true, // "Portas trancam as chaves?"
+  false, // "Portas trancam as chaves?"
   true, // "Quando estamos doentes vamos ao médico?"
   false, // "Sapatos são usados nas mãos?"
   false, // "Tecidos são mais duros do que madeira?"

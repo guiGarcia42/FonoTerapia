@@ -31,6 +31,7 @@ class TextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.background,
     fontFamily: 'LexendDeca',
+
   );
   static final TextStyle buttonDescription = TextStyle(
     fontSize: 15,

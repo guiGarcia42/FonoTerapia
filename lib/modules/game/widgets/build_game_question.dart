@@ -38,7 +38,7 @@ class BuildGameQuestion extends StatelessWidget {
   GestureDetector _buildAudioButton() {
     return GestureDetector(
       onTap: () {
-        player.play(AssetSource(rightAnswer.audioPath));
+        player.play(AssetSource(rightAnswer.audioPath), volume: 1);
       },
       child: Container(
         decoration: _customBoxDecoration(),
