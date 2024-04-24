@@ -6,6 +6,7 @@ import 'package:fono_terapia/shared/model/category.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 import '../../shared/widgets/picture_button_with_description.dart';
 import '../../shared/widgets/custom_header.dart';
+import 'package:fono_terapia/shared/widgets/my_text.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
@@ -25,7 +26,7 @@ class MenuPage extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return Center(child: Text('Erro ao carregar dados'));
+                return Center(child: MyText('Erro ao carregar dados'));
               } else {
                 final categories = snapshot.data!;
 

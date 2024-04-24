@@ -28,7 +28,7 @@ class _AppStartupState extends State<AppStartup> {
     await Future.delayed(Duration(seconds: 3));
 
     responsiveSize =
-        ResponsiveSize(mediaQueryData: MediaQuery.of(context).size);
+        ResponsiveSize(mediaQueryData: MediaQuery.of(context));
 
     Navigator.pushReplacementNamed(context, "/home");
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
+import 'package:fono_terapia/shared/widgets/my_text.dart';
 
 class ProgressIndicatorWithText extends StatelessWidget {
   const ProgressIndicatorWithText({
@@ -36,7 +37,7 @@ class ProgressIndicatorWithText extends StatelessWidget {
               backgroundColor: AppColors.background,
             ),
           ),
-          Text(
+          MyText(
             '$answeredCorrectly/$totalNumberOfQuestions Acertos',
             style: TextStyles.textRegular,
             maxLines: 1,

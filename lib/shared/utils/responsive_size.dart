@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ResponsiveSize {
-  final Size mediaQueryData;
+  final MediaQueryData mediaQueryData;
 
   const ResponsiveSize({required this.mediaQueryData});
 
   static ResponsiveSize of(BuildContext context) =>
-      ResponsiveSize(mediaQueryData: MediaQuery.sizeOf(context));
+      ResponsiveSize(mediaQueryData: MediaQuery.of(context));
 
   double scaleSize(double size) {
-    double longestSide = mediaQueryData.longestSide;
+    double longestSide = mediaQueryData.size.longestSide;
 
     const tabletL = 1300;
     const tabletM = 1000;
@@ -30,16 +30,16 @@ class ResponsiveSize {
     }
   }
 
-  double get height => mediaQueryData.height;
-  double get width => mediaQueryData.width;
+  double get height => mediaQueryData.size.height;
+  double get width => mediaQueryData.size.width;
 
   bool isTablet() {
-    final longestSide = mediaQueryData.longestSide;
+    final longestSide = mediaQueryData.size.longestSide;
     return longestSide > 1000;
   }
 
   bool isMini() {
-    final longestSide = mediaQueryData.longestSide;
+    final longestSide = mediaQueryData.size.longestSide;
     return longestSide < 700;
   }
 }

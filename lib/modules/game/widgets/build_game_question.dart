@@ -4,6 +4,7 @@ import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/model/game_component.dart';
+import 'package:fono_terapia/shared/widgets/my_text.dart';
 
 import '../../../shared/widgets/error_text_container.dart';
 
@@ -70,7 +71,7 @@ class BuildGameQuestion extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                 horizontal: responsiveSize.scaleSize(30),
               ),
-              child: Text(
+              child: MyText(
                 rightAnswer.name,
                 style: TextStyles.textLargeRegular.copyWith(
                   fontSize: responsiveSize
@@ -87,7 +88,7 @@ class BuildGameQuestion extends StatelessWidget {
         height: responsiveSize.scaleSize(200),
         decoration: _customBoxDecoration(),
         child: Center(
-          child: Text(
+          child: MyText(
             rightAnswer.name,
             style: TextStyles.textLargeRegular.copyWith(
               fontSize: responsiveSize

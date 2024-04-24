@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
+import 'package:fono_terapia/shared/widgets/my_text.dart';
 
 class ErrorTextContainer extends StatelessWidget {
   const ErrorTextContainer({
@@ -20,7 +21,7 @@ class ErrorTextContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(50),
       ),
       child: Center(
-        child: Text(
+        child: MyText(
           "Erro ao carregar",
           style: TextStyles.textLargeRegular.copyWith(
             fontSize:

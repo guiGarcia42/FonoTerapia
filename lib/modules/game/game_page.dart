@@ -19,6 +19,7 @@ import 'package:fono_terapia/shared/model/game_result.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:fono_terapia/shared/widgets/custom_header.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
+import 'package:fono_terapia/shared/widgets/my_text.dart';
 
 import 'widgets/build_game_list_of_options.dart';
 import 'widgets/game_configuration_dialog.dart';
@@ -232,7 +233,7 @@ class _GamePageState extends State<GamePage> {
               ),
             ),
             if ([15, 16, 17].contains(_subCategory.id))
-              Text(
+              MyText(
                 _buildHintText(),
                 style: TextStyles.textLargeRegular,
               ),

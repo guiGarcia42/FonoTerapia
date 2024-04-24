@@ -5,6 +5,7 @@ import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/utils/data.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 import '../../../shared/model/game_configuration.dart';
+import 'package:fono_terapia/shared/widgets/my_text.dart';
 
 class GameConfigurationDialog extends StatefulWidget {
   const GameConfigurationDialog({
@@ -52,7 +53,7 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
       actionsAlignment: MainAxisAlignment.spaceEvenly,
       actionsOverflowAlignment: OverflowBarAlignment.center,
       actionsOverflowButtonSpacing: responsiveSize.scaleSize(20),
-      title: Text(
+      title: MyText(
         "Configurações:",
         style: TextStyles.titleDialog.copyWith(
           fontSize: responsiveSize.scaleSize(TextStyles.titleDialog.fontSize!),
@@ -121,14 +122,14 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
+        MyText(
           "Número de Questões:",
           style: TextStyles.textRegular.copyWith(
             fontSize:
                 responsiveSize.scaleSize(TextStyles.textRegular.fontSize!),
           ),
         ),
-        Text(
+        MyText(
           "$_selectedNumberOsQuestions",
           style: TextStyles.textLargeRegular.copyWith(
             fontSize:
@@ -154,7 +155,7 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
+        MyText(
           "Dificuldade:",
           style: TextStyles.textRegular.copyWith(
             fontSize:
@@ -180,7 +181,7 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
                     _selectedLevelOfDifficulty = Levels.facil;
                   });
                 },
-                child: Text(
+                child: MyText(
                   "Fácil",
                   style: TextStyles.textRegular,
                 ),
@@ -192,7 +193,7 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
                     _selectedLevelOfDifficulty = Levels.medio;
                   });
                 },
-                child: Text(
+                child: MyText(
                   "Médio",
                   style: TextStyles.textRegular,
                 ),
@@ -204,7 +205,7 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
                     _selectedLevelOfDifficulty = Levels.dificil;
                   });
                 },
-                child: Text(
+                child: MyText(
                   "Difícil",
                   style: TextStyles.textRegular,
                 ),

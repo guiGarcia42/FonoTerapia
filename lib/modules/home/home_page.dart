@@ -3,6 +3,7 @@ import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_assets.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
+import 'package:fono_terapia/shared/widgets/my_text.dart';
 
 import '../../shared/widgets/icon_button_with_description.dart';
 
@@ -58,7 +59,7 @@ class HomePage extends StatelessWidget {
                         padding: EdgeInsets.symmetric(
                           vertical: responsiveSize.scaleSize(50),
                         ),
-                        child: Text(
+                        child: MyText(
                           "Atividades Terapêuticas para a Afasia",
                           textAlign: TextAlign.center,
                           style: TextStyles.title.copyWith(

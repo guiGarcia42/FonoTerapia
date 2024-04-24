@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
+import 'package:fono_terapia/shared/widgets/my_text.dart';
 
 class ElevatedTextButton extends StatelessWidget {
   final String text;
@@ -34,7 +35,7 @@ class ElevatedTextButton extends StatelessWidget {
         width: widthRatio, 
         height: 50,
         child: Center(
-          child: Text(
+          child: MyText(
             text,
             style: textStyle,
             maxLines: 1,

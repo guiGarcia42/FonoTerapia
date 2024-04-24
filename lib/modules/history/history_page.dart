@@ -10,6 +10,7 @@ import 'package:fono_terapia/shared/model/game_result.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 import 'package:fono_terapia/shared/widgets/progress_indicator_with_text.dart';
+import 'package:fono_terapia/shared/widgets/my_text.dart';
 
 import 'widgets/category_filter_dialog.dart';
 
@@ -146,7 +147,7 @@ class _HistoryPageState extends State<HistoryPage> {
               : responsiveSize.scaleSize(50),
         ),
         title: SafeArea(
-          child: Text(
+          child: MyText(
             "Histórico",
             style: TextStyles.title.copyWith(
               fontSize: responsiveSize.scaleSize(TextStyles.title.fontSize!),
@@ -176,7 +177,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         return Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
                         return Center(
-                            child: Text('Erro ao carregar dados $snapshot'));
+                            child: MyText('Erro ao carregar dados $snapshot'));
                       } else {
                         final gameResults = snapshot.data!;
 
@@ -186,7 +187,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               padding: EdgeInsets.symmetric(
                                 horizontal: responsiveSize.scaleSize(30),
                               ),
-                              child: Text(
+                              child: MyText(
                                 "Histórico não encontrado.",
                                 style: TextStyles.title.copyWith(
                                   fontSize: responsiveSize
@@ -215,7 +216,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                     color: AppColors.lightGray,
                                   ),
                                   child: ListTile(
-                                    title: Text(
+                                    title: MyText(
                                       gameResult.subCategory.name,
                                       style: TextStyles.titleListTile.copyWith(
                                         fontSize: responsiveSize.scaleSize(
@@ -224,7 +225,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    subtitle: Text(
+                                    subtitle: MyText(
                                       _formatDate(gameResult.date),
                                       style: TextStyles.textField.copyWith(
                                         fontSize: responsiveSize.scaleSize(
@@ -261,7 +262,7 @@ class _HistoryPageState extends State<HistoryPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
+        MyText(
           "Filtros:",
           style: TextStyles.textLargeRegular.copyWith(
             fontSize:

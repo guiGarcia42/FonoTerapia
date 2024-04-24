@@ -6,6 +6,7 @@ import 'package:fono_terapia/shared/model/game_result.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:fono_terapia/shared/widgets/icon_button_with_description.dart';
 import 'package:fono_terapia/shared/widgets/progress_indicator_with_text.dart';
+import 'package:fono_terapia/shared/widgets/my_text.dart';
 
 class GameResultDialog extends StatefulWidget {
   const GameResultDialog({
@@ -41,7 +42,7 @@ class _GameConfigurationDialogState extends State<GameResultDialog> {
         actionsAlignment: MainAxisAlignment.spaceEvenly,
         actionsOverflowAlignment: OverflowBarAlignment.center,
         actionsOverflowButtonSpacing: responsiveSize.scaleSize(20),
-        title: Text(
+        title: MyText(
           "Resultado",
           style: TextStyles.titleDialog.copyWith(
             fontSize:
@@ -61,7 +62,7 @@ class _GameConfigurationDialogState extends State<GameResultDialog> {
               padding: EdgeInsets.symmetric(
                 vertical: responsiveSize.height * 0.01,
               ),
-              child: Text(
+              child: MyText(
                 "Você acertou ${percentage.toInt()}% de ${widget.gameResult.totalQuestions} exercício(s)!",
                 style: TextStyles.textRegular.copyWith(
                   fontSize: responsiveSize

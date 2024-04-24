@@ -6,6 +6,7 @@ import 'package:fono_terapia/shared/model/category.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 import 'package:fono_terapia/shared/widgets/picture_button_with_description.dart';
+import 'package:fono_terapia/shared/widgets/my_text.dart';
 
 import '../../shared/widgets/custom_header.dart';
 
@@ -34,7 +35,7 @@ class OptionPage extends StatelessWidget {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(
-                    child: Text('Erro ao carregar dados AQUI $snapshot'));
+                    child: MyText('Erro ao carregar dados AQUI $snapshot'));
               } else {
                 final subCategories = snapshot.data!;
 

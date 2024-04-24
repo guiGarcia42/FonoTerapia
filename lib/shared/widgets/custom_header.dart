@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fono_terapia/app_startup.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
+import 'package:fono_terapia/shared/widgets/my_text.dart';
 
 class CustomHeader extends StatelessWidget {
   const CustomHeader({
@@ -29,7 +30,7 @@ class CustomHeader extends StatelessWidget {
             horizontal: responsiveSize.scaleSize(50),
           ),
           child: Center(
-            child: Text(
+            child: MyText(
               text,
               style: TextStyles.title.copyWith(
                 fontSize: responsiveSize.scaleSize(TextStyles.title.fontSize!),
