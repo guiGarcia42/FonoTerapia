@@ -312,8 +312,6 @@ class _GamePageState extends State<GamePage> {
     return Padding(
       padding: EdgeInsets.only(
         bottom: responsiveSize.scaleSize(20),
-        left: responsiveSize.scaleSize(20),
-        right: responsiveSize.scaleSize(20),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
