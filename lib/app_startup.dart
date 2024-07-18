@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fono_terapia/database/app_database.dart';
+import 'package:fono_terapia/firebase_options.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_assets.dart';
 import 'package:fono_terapia/shared/utils/responsive_size.dart';
@@ -24,6 +26,9 @@ class _AppStartupState extends State<AppStartup> {
   }
 
   _initApp() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     database = await openOrInitializeDatabase();
     await Future.delayed(Duration(seconds: 3));
 

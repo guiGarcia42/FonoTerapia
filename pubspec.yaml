@@ -22,6 +22,8 @@ dependencies:
   characters: ^1.3.0
   diacritic: ^0.1.5
 
+  firebase_core: ^2.27.0
+
 flutter_launcher_icons:
   image_path: "assets/app_assets/app_icon.png"
   ios: false

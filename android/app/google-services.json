@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "664384526473",
+    "project_id": "fono-terapia",
+    "storage_bucket": "fono-terapia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664384526473:android:1ced78b5fe061ac4870e58",
+        "android_client_info": {
+          "package_name": "br.com.guigarcia42.fono_terapia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzzVgi2dsZ1P71NXUxxKbhawZZp6WlWNg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
