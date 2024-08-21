@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fono_terapia/modules/about/about_page.dart';
 import 'package:fono_terapia/modules/game/game_page.dart';
+import 'package:fono_terapia/modules/goPremium/go_premium_view.dart';
 import 'package:fono_terapia/modules/history/history_page.dart';
-import 'package:fono_terapia/modules/home/home_page.dart';
 import 'package:fono_terapia/modules/menu/menu_page.dart';
 import 'package:fono_terapia/modules/option/option_page.dart';
+import 'package:fono_terapia/modules/register/register_view.dart';
+import 'package:fono_terapia/modules/startup/loading_view.dart';
+import 'package:fono_terapia/modules/startup/startup_view.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/model/category.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'app_startup.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -39,15 +41,19 @@ class FonoTerapiaApp extends StatelessWidget {
       supportedLocales: <Locale>[
         Locale('pt', 'BR')
       ],
-      initialRoute: "/start",
+      initialRoute: "/load",
       onGenerateRoute: (settings) {
         final args = settings.arguments;
 
         switch (settings.name) {
-          case '/start':
-            return MaterialPageRoute(builder: (_) => AppStartup());
-          case '/home':
-            return MaterialPageRoute(builder: (_) => HomePage());
+          case '/load':
+            return MaterialPageRoute(builder: (_) => LoadingView());
+          case '/startup':
+            return MaterialPageRoute(builder: (_) => StartupView());
+          case '/goPremium':
+            return MaterialPageRoute(builder: (_) => GoPremiumView());
+          case '/register':
+            return MaterialPageRoute(builder: (_) => RegisterView());
           case '/about':
             return MaterialPageRoute(builder: (_) => AboutPage());
           case '/menu':

@@ -5,7 +5,7 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:fono_terapia/app_startup.dart';
+import 'package:fono_terapia/modules/startup/loading_view.dart';
 import 'package:fono_terapia/database/dao/category_dao.dart';
 import 'package:fono_terapia/database/dao/game_component_dao.dart';
 import 'package:fono_terapia/database/dao/game_result_dao.dart';

@@ -2,8 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 
 class TextStyles {
+
   static final TextStyle title = TextStyle(
     fontSize: 35,
+    fontWeight: FontWeight.w600,
+    color: AppColors.background,
+    fontFamily: 'LexendDeca',
+  );
+  static final TextStyle googleButton = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: AppColors.gray,
+    fontFamily: 'LexendDeca',
+  );
+  static final TextStyle profileName = TextStyle(
+    fontSize: 24,
     fontWeight: FontWeight.w600,
     color: AppColors.background,
     fontFamily: 'LexendDeca',

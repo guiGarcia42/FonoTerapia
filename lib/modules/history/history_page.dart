@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fono_terapia/app_startup.dart';
+import 'package:fono_terapia/modules/startup/loading_view.dart';
 import 'package:fono_terapia/database/dao/game_result_dao.dart';
 import 'package:fono_terapia/database/dao/sub_category_dao.dart';
 import 'package:fono_terapia/modules/history/widgets/calendar_date_picker_dialog.dart';

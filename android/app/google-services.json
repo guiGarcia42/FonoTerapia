@@ -12,7 +12,20 @@
           "package_name": "br.com.guigarcia42.fono_terapia"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "664384526473-inm8s70pqc340dc844jdrd8l7ndkeprj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.guigarcia42.fono_terapia",
+            "certificate_hash": "09326728a68b32d5bd6d501ae79ff2f13f478cb8"
+          }
+        },
+        {
+          "client_id": "664384526473-kt3uat8vbqevdnoj456b7cckk88mbrlq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAzzVgi2dsZ1P71NXUxxKbhawZZp6WlWNg"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "664384526473-kt3uat8vbqevdnoj456b7cckk88mbrlq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "664384526473-ubjfoj39n87mlcl3pk667cgjlocasdsd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.guigarcia42.fono-terapia"
+              }
+            }
+          ]
         }
       }
     }

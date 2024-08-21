@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fono_terapia/app_startup.dart';
+import 'package:fono_terapia/modules/startup/loading_view.dart';
 import 'package:fono_terapia/shared/model/game_component.dart';
 
 import '../../../shared/widgets/image_component.dart';
