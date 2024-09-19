@@ -75,7 +75,7 @@ class OptionPage extends StatelessWidget {
           ),
           Padding(
             padding:
-                EdgeInsets.symmetric(vertical: responsiveSize.height * 0.02),
+                EdgeInsets.symmetric(vertical: responsiveSize.height * 0.04),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

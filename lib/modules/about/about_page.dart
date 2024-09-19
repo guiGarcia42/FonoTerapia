@@ -73,7 +73,7 @@ class AboutPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: responsiveSize.height * 0.02),
+            padding: EdgeInsets.only(bottom: responsiveSize.height * 0.04),
             child: ElevatedTextButton(
               widthRatio: responsiveSize.scaleSize(200),
               textStyle: TextStyles.buttonLargeText.copyWith(

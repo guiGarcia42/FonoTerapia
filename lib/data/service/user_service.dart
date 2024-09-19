@@ -46,6 +46,6 @@ class UserService {
 
   Future<bool> _checkSubscriptionWithProvider(User user) async {
     // Implement the logic to check the user's subscription status with your payment provider
-    return true; // Replace with actual subscription validation logic
+    return false; // Replace with actual subscription validation logic
   }
 }

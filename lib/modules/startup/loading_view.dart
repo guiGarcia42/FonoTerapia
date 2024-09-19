@@ -9,7 +9,6 @@ import 'package:fono_terapia/database/app_database.dart';
 import 'package:fono_terapia/firebase_options.dart';
 import 'package:fono_terapia/shared/assets/app_assets.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
-import 'package:fono_terapia/shared/model/user_data.dart';
 import 'package:fono_terapia/shared/utils/responsive_size.dart';
 import 'package:sqflite/sqflite.dart';
 
