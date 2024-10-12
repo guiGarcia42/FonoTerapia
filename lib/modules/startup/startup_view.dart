@@ -1,14 +1,17 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fono_terapia/app_initializer.dart';
 import 'package:fono_terapia/data/auth_repository.dart';
 import 'package:fono_terapia/data/service/user_service.dart';
 import 'package:fono_terapia/data/user_data_storage.dart';
-import 'package:fono_terapia/modules/startup/loading_view.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_assets.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/model/user_data.dart';
+import 'package:fono_terapia/shared/utils/responsive_size.dart';
 import 'package:fono_terapia/shared/widgets/sign_in_button.dart';
 import 'package:fono_terapia/shared/widgets/my_text.dart';
 
@@ -17,10 +20,11 @@ class StartupView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthRepository authRepo =
-        AuthRepository(); // Assuming AuthRepository is properly instantiated
-    final UserDataStorage userDataStorage = UserDataStorage();
-    final UserService userService = UserService(userDataStorage);
+    // Access the global instances of authRepository and userService
+    final AuthRepository authRepo = AppInitializer.authRepository;
+    final UserService userService = AppInitializer.userService;
+    final UserDataStorage userDataStorage = AppInitializer.userDataStorage;
+    final responsiveSize = AppInitializer.responsiveSize;
 
     return Scaffold(
       body: Stack(
@@ -79,144 +83,21 @@ class StartupView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: responsiveSize.scaleSize(10),
-                        ),
-                        child: SignInButton(
-                          image: AppAssets.google,
-                          name: "Google",
-                          onPressed: () async {
-                            try {
-                              User? user = await authRepo.signInWithGoogle();
-
-                              if (user != null) {
-                                bool isNewUser =
-                                await userService.isNewUser(user);
-
-                                if (isNewUser) {
-                                  Navigator.pushReplacementNamed(
-                                      context, "/register");
-                                } else {
-                                  // Fetch user data from Firestore
-                                  DocumentSnapshot userDoc = await FirebaseFirestore.instance
-                                      .collection('Users')
-                                      .doc(user.uid)
-                                      .get();
-
-                                  if (userDoc.exists) {
-                                    // Create UserData object from Firestore document
-                                    UserData userData = UserData(
-                                      name: userDoc['name'],
-                                      isPremium: userDoc['isPremium'],
-                                    );
-
-                                    // Save user data locally
-                                    await userDataStorage.saveUserData(userData);
-
-                                    // Check subscription validity and navigate
-                                    String navigationRoute = await userService
-                                        .checkSubscriptionValidity(user);
-                                    Navigator.pushReplacementNamed(
-                                        context, navigationRoute);
-                                  } else {
-                                    // Handle the case where user data does not exist in Firestore
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                            "User data not found in Firestore."),
-                                      ),
-                                    );
-                                  }
-                                }
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content:
-                                    Text("Failed to sign in with Google."),
-                                  ),
-                                );
-                              }
-                            } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      "An error occurred during Google Sign-In."),
-                                ),
-                              );
-                            }
-                          },
-                        ),
+                      _googleSignInButton(
+                        context,
+                        userDataStorage,
+                        userService,
+                        authRepo,
+                        responsiveSize,
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: responsiveSize.scaleSize(10),
+                      if (Platform.isIOS)
+                        _appleSignInButton(
+                          context,
+                          userDataStorage,
+                          userService,
+                          authRepo,
+                          responsiveSize,
                         ),
-                        child: SignInButton(
-                          image: AppAssets.apple,
-                          name: "Apple",
-                          onPressed: () async {
-                            try {
-                              User? user = await authRepo.signInWithApple();
-
-                              if (user != null) {
-                                bool isNewUser =
-                                await userService.isNewUser(user);
-
-                                if (isNewUser) {
-                                  Navigator.pushReplacementNamed(
-                                      context, "/register");
-                                } else {
-                                  // Fetch user data from Firestore
-                                  DocumentSnapshot userDoc = await FirebaseFirestore.instance
-                                      .collection('Users')
-                                      .doc(user.uid)
-                                      .get();
-
-                                  if (userDoc.exists) {
-                                    // Create UserData object from Firestore document
-                                    UserData userData = UserData(
-                                      name: userDoc['name'],
-                                      isPremium: userDoc['isPremium'],
-                                    );
-
-                                    // Save user data locally
-                                    await userDataStorage.saveUserData(userData);
-
-                                    // Check subscription validity and navigate
-                                    String navigationRoute = await userService
-                                        .checkSubscriptionValidity(user);
-                                    Navigator.pushReplacementNamed(
-                                        context, navigationRoute);
-                                  } else {
-                                    // Handle the case where user data does not exist in Firestore
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                            "User data not found in Firestore."),
-                                      ),
-                                    );
-                                  }
-                                }
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content:
-                                    Text("Failed to sign in with Apple."),
-                                  ),
-                                );
-                              }
-                            } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      "An error occurred during Apple Sign-In."),
-                                ),
-                              );
-                            }
-                          },
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -224,6 +105,150 @@ class StartupView extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _googleSignInButton(
+    BuildContext context,
+    UserDataStorage userDataStorage,
+    UserService userService,
+    AuthRepository authRepo,
+    ResponsiveSize responsiveSize,
+  ) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: responsiveSize.scaleSize(10),
+      ),
+      child: SignInButton(
+        image: AppAssets.google,
+        name: "Google",
+        onPressed: () async {
+          try {
+            User? user = await authRepo.signInWithGoogle();
+
+            if (user != null) {
+              bool isNewUser = await userService.isNewUser(user);
+
+              if (isNewUser) {
+                Navigator.pushReplacementNamed(context, "/register");
+              } else {
+                // Fetch user data from Firestore
+                DocumentSnapshot userDoc = await FirebaseFirestore.instance
+                    .collection('Users')
+                    .doc(user.uid)
+                    .get();
+
+                if (userDoc.exists) {
+                  // Create UserData object from Firestore document
+                  UserData userData = UserData(
+                    name: userDoc['name'],
+                    isPremium: userDoc['isPremium'],
+                  );
+
+                  // Save user data locally
+                  await userDataStorage.saveUserData(userData);
+
+                  // Check subscription validity and navigate
+                  String navigationRoute =
+                      await userService.checkSubscriptionValidity(user);
+                  Navigator.pushReplacementNamed(context, navigationRoute);
+                } else {
+                  // Handle the case where user data does not exist in Firestore
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("User data not found in Firestore."),
+                    ),
+                  );
+                }
+              }
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Failed to sign in with Google."),
+                ),
+              );
+            }
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("An error occurred during Google Sign-In."),
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _appleSignInButton(
+    BuildContext context,
+    UserDataStorage userDataStorage,
+    UserService userService,
+    AuthRepository authRepo,
+    ResponsiveSize responsiveSize,
+  ) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: responsiveSize.scaleSize(10),
+      ),
+      child: SignInButton(
+        image: AppAssets.apple,
+        name: "Apple",
+        onPressed: () async {
+          try {
+            User? user = await authRepo.signInWithApple();
+
+            if (user != null) {
+              bool isNewUser = await userService.isNewUser(user);
+
+              if (isNewUser) {
+                Navigator.pushReplacementNamed(context, "/register");
+              } else {
+                // Fetch user data from Firestore
+                DocumentSnapshot userDoc = await FirebaseFirestore.instance
+                    .collection('Users')
+                    .doc(user.uid)
+                    .get();
+
+                if (userDoc.exists) {
+                  // Create UserData object from Firestore document
+                  UserData userData = UserData(
+                    name: userDoc['name'],
+                    isPremium: userDoc['isPremium'],
+                  );
+
+                  // Save user data locally
+                  await userDataStorage.saveUserData(userData);
+
+                  // Check subscription validity and navigate
+                  String navigationRoute =
+                      await userService.checkSubscriptionValidity(user);
+                  Navigator.pushReplacementNamed(context, navigationRoute);
+                } else {
+                  // Handle the case where user data does not exist in Firestore
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("User data not found in Firestore."),
+                    ),
+                  );
+                }
+              }
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Failed to sign in with Apple."),
+                ),
+              );
+            }
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("An error occurred during Apple Sign-In."),
+              ),
+            );
+          }
+        },
       ),
     );
   }

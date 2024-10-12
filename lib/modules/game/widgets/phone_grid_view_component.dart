@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fono_terapia/modules/startup/loading_view.dart';
+import 'package:fono_terapia/shared/utils/responsive_size.dart';
 import 'package:fono_terapia/shared/widgets/image_component.dart';
 import 'package:fono_terapia/shared/widgets/text_component.dart';
 import 'package:fono_terapia/shared/model/game_component.dart';
@@ -9,11 +9,13 @@ class PhoneGridViewComponent extends StatelessWidget {
       {super.key,
       required this.gameComponents,
       required this.onTap,
-      required this.isImage});
+      required this.isImage,
+      required this.responsiveSize});
 
   final List<GameComponent> gameComponents;
   final Function(GameComponent?) onTap;
   final bool isImage;
+  final ResponsiveSize responsiveSize;
 
   @override
   Widget build(BuildContext context) {

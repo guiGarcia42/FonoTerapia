@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fono_terapia/app_initializer.dart';
 import 'package:fono_terapia/data/auth_repository.dart';
 import 'package:fono_terapia/data/user_data_storage.dart';
 import 'package:fono_terapia/database/dao/category_dao.dart';
-import 'package:fono_terapia/modules/startup/loading_view.dart';
 import 'package:fono_terapia/shared/model/category.dart';
 import 'package:fono_terapia/shared/model/user_data.dart';
 
@@ -13,9 +13,10 @@ class MenuViewModel extends ChangeNotifier {
   UserData? userData;
   List<Category> categories = [];
 
-  MenuViewModel({required this.categoryDao})
-      : authRepository = AuthRepository(),
-        userDataStorage = UserDataStorage() {
+  MenuViewModel({
+    required this.categoryDao,
+    required this.authRepository,
+  }) : userDataStorage = UserDataStorage() {
     _init();
   }
 
@@ -30,12 +31,13 @@ class MenuViewModel extends ChangeNotifier {
   }
 
   Future<void> loadCategories() async {
-    categories = await categoryDao.findAllCategories(database);
+    categories = await categoryDao.findAllCategories(AppInitializer.database); // Use global database
     notifyListeners();
   }
 
   Future<void> signOut() async {
     await authRepository.signOut();
     await userDataStorage.clearUserData(); // Clear user data when signing out
+    notifyListeners();
   }
 }

@@ -1,4 +1,3 @@
-import 'package:fono_terapia/modules/startup/loading_view.dart';
 import 'package:fono_terapia/database/dao/category_dao.dart';
 import 'package:fono_terapia/shared/model/category.dart';
 import 'package:fono_terapia/shared/model/sub_category.dart';
@@ -70,7 +69,7 @@ class SubCategoryDao {
     5,
     1,
     1,
-    5
+    5,
   ];
 
   static const categoryIDs = [
@@ -90,7 +89,7 @@ class SubCategoryDao {
     3,
     4,
     4,
-    4
+    4,
   ];
 
   static String get tableSql {
@@ -103,7 +102,6 @@ class SubCategoryDao {
         FOREIGN KEY ($_categoryId) REFERENCES $_categoryTableName($_id)
         );''';
   }
-
 
   static String get tableData {
     if (subCategoryNames.length != sectionList.length ||
@@ -121,7 +119,6 @@ class SubCategoryDao {
           "('${subCategoryNames[i]}', '${imagePathList[i]}', ${sectionList[i]}, ${categoryIDs[i]})");
       if (i < subCategoryNames.length - 1) {
         buffer.write(", ");
-        // Adiciona uma vírgula entre os valores, exceto para o último
       }
     }
 
@@ -132,43 +129,47 @@ class SubCategoryDao {
   Future<SubCategory> findSubCategory(Database db, int subCategoryId) async {
     final List<Map<String, dynamic>> result = await db.query(
       tableName,
-      where: '$_id = $subCategoryId',
+      where: '$_id = ?',
+      whereArgs: [subCategoryId],
     );
+
     final Map<String, dynamic> row = result.first;
 
     return SubCategory.withoutCategory(
         row[_id], row[_name], row[_imagePath], row[_section]);
   }
 
-  Future<List<SubCategory>> findAllSubCategories(
-      Database db, int categoryId) async {
-    final List<Map<String, dynamic>> result =
-        await db.query(tableName, where: '$_categoryId = $categoryId');
-    return await _toList(result);
+  Future<List<SubCategory>> findAllSubCategories(Database db, int categoryId) async {
+    final List<Map<String, dynamic>> result = await db.query(
+      tableName,
+      where: '$_categoryId = ?',
+      whereArgs: [categoryId],
+    );
+
+    return _toList(result, db);
   }
 
-  Future<List<SubCategory>> _toList(List<Map<String, dynamic>> result) async {
+  Future<List<SubCategory>> _toList(List<Map<String, dynamic>> result, Database db) async {
     final List<SubCategory> subCategories = [];
 
     for (Map<String, dynamic> row in result) {
       final int categoryId = row[_categoryId];
-      final Category category =
-          await CategoryDao().findCategory(database, categoryId);
+      final Category category = await CategoryDao().findCategory(db, categoryId);
       final SubCategory subCategory = await _fromMap(row, category);
       subCategories.add(subCategory);
     }
+
     return subCategories;
   }
 
-  Future<SubCategory> _fromMap(
-      Map<String, dynamic> map, Category category) async {
-    final subCategoryId = map['id'];
+  Future<SubCategory> _fromMap(Map<String, dynamic> map, Category category) async {
+    final subCategoryId = map[_id];
 
     return SubCategory(
       subCategoryId,
-      map['name'],
-      map['image_path'],
-      map['section'],
+      map[_name],
+      map[_imagePath],
+      map[_section],
       category,
     );
   }

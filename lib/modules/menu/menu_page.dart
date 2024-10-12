@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fono_terapia/database/dao/category_dao.dart';
+import 'package:fono_terapia/app_initializer.dart';
 import 'package:fono_terapia/modules/menu/menu_viewmodel.dart';
-import 'package:fono_terapia/modules/startup/loading_view.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
@@ -15,8 +14,10 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => MenuViewModel(categoryDao: CategoryDao())
-        ..loadUserData()
+      create: (_) => MenuViewModel(
+        categoryDao: AppInitializer.categoryDao, // Use categoryDao from AppInitializer
+        authRepository: AppInitializer.authRepository, // Use authRepository from AppInitializer
+      )..loadUserData()
         ..loadCategories(),
       child: Scaffold(
         body: Consumer<MenuViewModel>(
@@ -26,26 +27,25 @@ class MenuPage extends StatelessWidget {
               children: [
                 MenuHeader(
                   text: "Menu de Atividades Terapêuticas",
-                  userName:
-                      viewModel.userData?.name ?? "Usuário não identificado",
+                  userName: viewModel.userData?.name ?? "Usuário não identificado",
                 ),
                 if (viewModel.categories.isEmpty)
-                  Center(child: CircularProgressIndicator())
+                  const Center(child: CircularProgressIndicator())
                 else
                   Expanded(
                     child: Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: responsiveSize.scaleSize(20),
+                        horizontal: AppInitializer.responsiveSize.scaleSize(20),
                       ),
                       child: GridView.builder(
                         itemCount: viewModel.categories.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: responsiveSize.isMini()
-                              ? responsiveSize.scaleSize(1.5)
-                              : responsiveSize.scaleSize(1),
-                          crossAxisSpacing: responsiveSize.scaleSize(25),
-                          mainAxisSpacing: responsiveSize.scaleSize(50),
+                          childAspectRatio: AppInitializer.responsiveSize.isMini()
+                              ? AppInitializer.responsiveSize.scaleSize(1.5)
+                              : AppInitializer.responsiveSize.scaleSize(1),
+                          crossAxisSpacing: AppInitializer.responsiveSize.scaleSize(25),
+                          mainAxisSpacing: AppInitializer.responsiveSize.scaleSize(50),
                         ),
                         itemBuilder: (_, index) {
                           final category = viewModel.categories[index];
@@ -75,8 +75,7 @@ class MenuPage extends StatelessWidget {
                     ),
                     text: "Sair",
                     onPressed: () async {
-                      final viewModel =
-                          Provider.of<MenuViewModel>(context, listen: false);
+                      final viewModel = Provider.of<MenuViewModel>(context, listen: false);
                       await viewModel.signOut();
                       Navigator.pushReplacementNamed(context, '/startup');
                     },
@@ -117,42 +116,39 @@ class MenuHeader extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: responsiveSize.scaleSize(20),
-                vertical: responsiveSize.scaleSize(5),
+                horizontal: AppInitializer.responsiveSize.scaleSize(20),
+                vertical: AppInitializer.responsiveSize.scaleSize(5),
               ),
               child: Row(
                 children: [
                   Expanded(
                     child: Padding(
                       padding: EdgeInsets.only(
-                        left: responsiveSize.scaleSize(10),
-                        right: responsiveSize.scaleSize(20),
+                        left: AppInitializer.responsiveSize.scaleSize(10),
+                        right: AppInitializer.responsiveSize.scaleSize(20),
                       ),
                       child: RichText(
                         text: TextSpan(
-                            style: TextStyles.profileName.copyWith(
-                              fontSize: responsiveSize.scaleSize(
-                                TextStyles.profileName.fontSize!,
-                              ),
+                          style: TextStyles.profileName.copyWith(
+                            fontSize: AppInitializer.responsiveSize.scaleSize(
+                              TextStyles.profileName.fontSize!,
                             ),
-                            children: [
-                              TextSpan(
-                                text: "Olá, ",
-                                style: TextStyle(
-                                  color: AppColors.darkGray,
-                                ),
-                              ),
-                              TextSpan(
-                                text: userName,
-                              ),
-                            ]),
+                          ),
+                          children: [
+                             TextSpan(
+                              text: "Olá, ",
+                              style: TextStyle(color: AppColors.darkGray),
+                            ),
+                            TextSpan(text: userName),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(
-                        horizontal: responsiveSize.scaleSize(20),
+                        horizontal: AppInitializer.responsiveSize.scaleSize(20),
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
@@ -163,7 +159,7 @@ class MenuHeader extends StatelessWidget {
                       'Sobre',
                       maxLines: 1,
                       style: TextStyles.buttonTextDialog.copyWith(
-                        fontSize: responsiveSize.scaleSize(
+                        fontSize: AppInitializer.responsiveSize.scaleSize(
                           TextStyles.buttonTextDialog.fontSize!,
                         ),
                       ),
@@ -177,23 +173,21 @@ class MenuHeader extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: responsiveSize.scaleSize(20),
+                horizontal: AppInitializer.responsiveSize.scaleSize(20),
               ),
-              child: Divider(
-                color: AppColors.background,
-              ),
+              child: Divider(color: AppColors.background),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: responsiveSize.scaleSize(50),
-                vertical: responsiveSize.scaleSize(10),
+                horizontal: AppInitializer.responsiveSize.scaleSize(50),
+                vertical: AppInitializer.responsiveSize.scaleSize(10),
               ),
               child: Center(
                 child: MyText(
                   text,
                   textAlign: TextAlign.center,
                   style: TextStyles.title.copyWith(
-                    fontSize: responsiveSize.scaleSize(
+                    fontSize: AppInitializer.responsiveSize.scaleSize(
                       TextStyles.title.fontSize!,
                     ),
                   ),

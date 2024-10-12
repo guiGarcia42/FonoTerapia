@@ -1,4 +1,3 @@
-import 'package:fono_terapia/modules/startup/loading_view.dart';
 import 'package:fono_terapia/database/dao/category_dao.dart';
 import 'package:fono_terapia/database/dao/sub_category_dao.dart';
 import 'package:fono_terapia/shared/model/category.dart';
@@ -30,9 +29,9 @@ class GameResultDao {
       );''';
   }
 
+  // Insert a new GameResult into the database
   Future<void> insert(GameResult gameResult, Database db) async {
-    // Define o ID como null antes de inserir
-    gameResult.id = null;
+    gameResult.id = null; // Ensure ID is null for auto-increment
     await db.insert(
       tableName,
       _toMap(gameResult),
@@ -40,38 +39,43 @@ class GameResultDao {
     );
   }
 
+  // Find all game results in the database
   Future<List<GameResult>> findAll(Database db) async {
     final List<Map<String, dynamic>> result = await db.query(tableName);
-    List<GameResult> gameResults = await _toList(result);
-    return gameResults;
+    return _toList(result, db);
   }
 
-  Future<List<GameResult>> findAllInCategory(
-      Database db, int categoryId) async {
-    final List<Map<String, dynamic>> result = await db.query(tableName, where: '$_categoryId = $categoryId');
-
-    List<GameResult> gameResults = await _toList(result);
-    return gameResults;
+  // Find all game results in a specific category
+  Future<List<GameResult>> findAllInCategory(Database db, int categoryId) async {
+    final List<Map<String, dynamic>> result = await db.query(
+      tableName,
+      where: '$_categoryId = ?',
+      whereArgs: [categoryId],
+    );
+    return _toList(result, db);
   }
 
-  Future<List<GameResult>> _toList(List<Map<String, dynamic>> result) async {
+  // Convert the query result into a list of GameResult
+  Future<List<GameResult>> _toList(List<Map<String, dynamic>> result, Database db) async {
     final List<GameResult> gameResults = [];
 
     for (Map<String, dynamic> row in result) {
       final int subCategoryId = row[_subCategoryId];
       final int categoryId = row[_categoryId];
 
-      final SubCategory subCategory =
-          await SubCategoryDao().findSubCategory(database, subCategoryId);
-      final Category category =
-          await CategoryDao().findCategory(database, categoryId);
+      // Fetch the SubCategory and Category from their respective DAOs
+      final SubCategory subCategory = await SubCategoryDao().findSubCategory(db, subCategoryId);
+      final Category category = await CategoryDao().findCategory(db, categoryId);
 
+      // Create a GameResult object and add it to the list
       final GameResult gameResult = _fromMap(row, subCategory, category);
       gameResults.add(gameResult);
     }
+
     return gameResults;
   }
 
+  // Convert a GameResult object into a map
   Map<String, dynamic> _toMap(GameResult gameResult) {
     return {
       _id: gameResult.id,
@@ -83,8 +87,8 @@ class GameResultDao {
     };
   }
 
-  GameResult _fromMap(
-      Map<String, dynamic> map, SubCategory subCategory, Category category) {
+  // Create a GameResult object from a map
+  GameResult _fromMap(Map<String, dynamic> map, SubCategory subCategory, Category category) {
     return GameResult(
       map[_id],
       map[_date],

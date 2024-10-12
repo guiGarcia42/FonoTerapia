@@ -7,7 +7,7 @@ import 'package:fono_terapia/modules/history/history_page.dart';
 import 'package:fono_terapia/modules/menu/menu_page.dart';
 import 'package:fono_terapia/modules/option/option_page.dart';
 import 'package:fono_terapia/modules/register/register_view.dart';
-import 'package:fono_terapia/modules/startup/loading_view.dart';
+import 'package:fono_terapia/modules/startup/loading/loading_view.dart';
 import 'package:fono_terapia/modules/startup/startup_view.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/model/category.dart';
@@ -38,8 +38,8 @@ class FonoTerapiaApp extends StatelessWidget {
       ),
       locale: Locale('pt', 'BR'),
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
-      supportedLocales: <Locale>[
-        Locale('pt', 'BR')
+      supportedLocales: const <Locale>[
+        Locale('pt', 'BR'),
       ],
       initialRoute: "/load",
       onGenerateRoute: (settings) {
@@ -47,17 +47,17 @@ class FonoTerapiaApp extends StatelessWidget {
 
         switch (settings.name) {
           case '/load':
-            return MaterialPageRoute(builder: (_) => LoadingView());
+            return MaterialPageRoute(builder: (_) => const LoadingView());
           case '/startup':
-            return MaterialPageRoute(builder: (_) => StartupView());
+            return MaterialPageRoute(builder: (_) => const StartupView());
           case '/goPremium':
-            return MaterialPageRoute(builder: (_) => GoPremiumView());
+            return MaterialPageRoute(builder: (_) => const GoPremiumView());
           case '/register':
-            return MaterialPageRoute(builder: (_) => RegisterView());
+            return MaterialPageRoute(builder: (_) => const RegisterView());
           case '/about':
-            return MaterialPageRoute(builder: (_) => AboutPage());
+            return MaterialPageRoute(builder: (_) => const AboutPage());
           case '/menu':
-            return MaterialPageRoute(builder: (_) => MenuPage());
+            return MaterialPageRoute(builder: (_) => const MenuPage());
           case '/option':
             if (args is Category) {
               return MaterialPageRoute(

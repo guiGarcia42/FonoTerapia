@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fono_terapia/data/auth_repository.dart';
+import 'package:fono_terapia/app_initializer.dart';
 import 'package:fono_terapia/modules/register/register_viewmodel.dart';
-import 'package:fono_terapia/modules/startup/loading_view.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
+import 'package:fono_terapia/shared/utils/responsive_size.dart';
 import 'package:fono_terapia/shared/widgets/custom_header.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 import 'package:fono_terapia/shared/widgets/my_text.dart';
@@ -16,8 +16,15 @@ class RegisterView extends StatelessWidget {
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
 
+    // Accessing global variables from AppInitializer
+    final responsiveSize = AppInitializer.responsiveSize;
+
     return ChangeNotifierProvider(
-      create: (_) => RegisterViewModel(authRepository: AuthRepository()),
+      create: (_) => RegisterViewModel(
+        authRepository: AppInitializer.authRepository,
+        userDataStorage: AppInitializer.userDataStorage,
+        firebaseDatabase: AppInitializer.firebaseDatabase,
+      ),
       child: Scaffold(
         body: Consumer<RegisterViewModel>(
           builder: (context, viewModel, child) {
@@ -26,7 +33,7 @@ class RegisterView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomHeader(text: "Cadastro de usuário"),
+                  const CustomHeader(text: "Cadastro de usuário"),
                   Padding(
                     padding: EdgeInsets.symmetric(
                       vertical: responsiveSize.scaleSize(50),
@@ -58,7 +65,7 @@ class RegisterView extends StatelessWidget {
                                 color: AppColors.darkGray,
                               ),
                             ),
-                            _buildNameField(viewModel),
+                            _buildNameField(viewModel, responsiveSize),
                           ],
                         ),
                       ),
@@ -74,9 +81,7 @@ class RegisterView extends StatelessWidget {
                       children: [
                         ElevatedTextButton(
                           widthRatio: MediaQuery.of(context).size.width * 0.25,
-                          textStyle: TextStyles.buttonLargeText.copyWith(
-                            fontSize: 18,
-                          ),
+                          textStyle: TextStyles.buttonLargeText.copyWith(fontSize: 18),
                           text: "Sair",
                           onPressed: () async {
                             await viewModel.signOut();
@@ -85,9 +90,7 @@ class RegisterView extends StatelessWidget {
                         ),
                         ElevatedTextButton(
                           widthRatio: MediaQuery.of(context).size.width * 0.30,
-                          textStyle: TextStyles.buttonLargeText.copyWith(
-                            fontSize: 18,
-                          ),
+                          textStyle: TextStyles.buttonLargeText.copyWith(fontSize: 18),
                           text: "Cadastrar",
                           onPressed: () async {
                             if (_formKey.currentState?.validate() == true) {
@@ -109,7 +112,7 @@ class RegisterView extends StatelessWidget {
     );
   }
 
-  Widget _buildNameField(RegisterViewModel viewModel) {
+  Widget _buildNameField(RegisterViewModel viewModel, ResponsiveSize responsiveSize) {
     return TextFormField(
       controller: viewModel.nameController,
       keyboardType: TextInputType.text,

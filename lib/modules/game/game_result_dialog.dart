@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fono_terapia/modules/startup/loading_view.dart';
+import 'package:fono_terapia/app_initializer.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/model/game_result.dart';
@@ -33,6 +33,8 @@ class _GameConfigurationDialogState extends State<GameResultDialog> {
     final double percentage = (widget.gameResult.answeredCorrectly /
             widget.gameResult.totalQuestions) *
         100;
+
+    final responsiveSize = AppInitializer.responsiveSize;
 
     return PopScope(
       canPop: false,

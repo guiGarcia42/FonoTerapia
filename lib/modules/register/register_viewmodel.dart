@@ -7,10 +7,16 @@ import 'package:fono_terapia/shared/model/user_data.dart';
 
 class RegisterViewModel extends ChangeNotifier {
   final AuthRepository authRepository;
-  final nameController = TextEditingController();
-  final UserDataStorage userDataStorage = UserDataStorage();
+  final UserDataStorage userDataStorage;
+  final FirebaseDatabase firebaseDatabase;
 
-  RegisterViewModel({required this.authRepository}) {
+  final nameController = TextEditingController();
+
+  RegisterViewModel({
+    required this.authRepository,
+    required this.userDataStorage,
+    required this.firebaseDatabase,
+  }) {
     _init();
   }
 
@@ -32,7 +38,6 @@ class RegisterViewModel extends ChangeNotifier {
   }
 
   Future<void> registerUserInDatabase() async {
-
     Map<String, dynamic> userInfoMap = {
       "id": authRepository.currentUser!.uid,
       "name": nameController.text,
@@ -40,7 +45,7 @@ class RegisterViewModel extends ChangeNotifier {
       "isPremium": false,
     };
 
-    FirebaseDatabase().addUser(
+    await firebaseDatabase.addUser(
       authRepository.currentUser!.uid,
       userInfoMap,
     );

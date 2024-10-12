@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fono_terapia/modules/startup/loading_view.dart';
+import 'package:fono_terapia/app_initializer.dart';
 import 'package:fono_terapia/shared/assets/app_colors.dart';
 import 'package:fono_terapia/shared/assets/app_text_styles.dart';
 import 'package:fono_terapia/shared/utils/data.dart';
+import 'package:fono_terapia/shared/utils/responsive_size.dart';
 import 'package:fono_terapia/shared/widgets/elevated_text_button.dart';
 import '../../../shared/model/game_configuration.dart';
 import 'package:fono_terapia/shared/widgets/my_text.dart';
@@ -47,6 +48,9 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
 
   @override
   Widget build(BuildContext context) {
+
+    final responsiveSize = AppInitializer.responsiveSize;
+
     return AlertDialog(
       backgroundColor: AppColors.orange,
       elevation: 10,
@@ -63,7 +67,7 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
           ? Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                _buildDifficulty(),
+                _buildDifficulty(responsiveSize),
                 Divider(
                   color: AppColors.darkGray,
                   thickness: 2,
@@ -72,16 +76,16 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
                   padding: EdgeInsets.only(
                     top: responsiveSize.scaleSize(10),
                   ),
-                  child: _buildNumberOfQuestions(),
+                  child: _buildNumberOfQuestions(responsiveSize),
                 ),
               ],
             )
-          : _buildNumberOfQuestions(),
-      actions: _buildActions(context),
+          : _buildNumberOfQuestions(responsiveSize),
+      actions: _buildActions(context, responsiveSize),
     );
   }
 
-  List<ElevatedTextButton> _buildActions(BuildContext context) {
+  List<ElevatedTextButton> _buildActions(BuildContext context, ResponsiveSize responsiveSize) {
     return [
       ElevatedTextButton(
         widthRatio: responsiveSize.scaleSize(125),
@@ -117,7 +121,7 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
     ];
   }
 
-  Column _buildNumberOfQuestions() {
+  Column _buildNumberOfQuestions(ResponsiveSize responsiveSize) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
@@ -151,7 +155,7 @@ class _GameConfigurationDialogState extends State<GameConfigurationDialog> {
     );
   }
 
-  Row _buildDifficulty() {
+  Row _buildDifficulty(ResponsiveSize responsiveSize) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
