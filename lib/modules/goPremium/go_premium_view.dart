@@ -17,6 +17,7 @@ class GoPremiumView extends StatelessWidget {
       create: (_) => GoPremiumViewModel(
         authRepository: AppInitializer.authRepository, // Use global authRepository
         userDataStorage: AppInitializer.userDataStorage, // Use global userDataStorage
+        iap: AppInitializer.inAppPurchase,
       ),
       child: Consumer<GoPremiumViewModel>(
         builder: (context, viewModel, child) {
@@ -128,7 +129,7 @@ class GoPremiumView extends StatelessWidget {
                     ),
                     text: "Voltar",
                     onPressed: () async {
-                      await context.read<GoPremiumViewModel>().signOut();
+                      await AppInitializer.logout();
                       Navigator.pushReplacementNamed(context, '/startup');
                     },
                   ),

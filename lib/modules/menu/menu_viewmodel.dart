@@ -34,10 +34,4 @@ class MenuViewModel extends ChangeNotifier {
     categories = await categoryDao.findAllCategories(AppInitializer.database); // Use global database
     notifyListeners();
   }
-
-  Future<void> signOut() async {
-    await authRepository.signOut();
-    await userDataStorage.clearUserData(); // Clear user data when signing out
-    notifyListeners();
-  }
 }

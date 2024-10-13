@@ -75,8 +75,7 @@ class MenuPage extends StatelessWidget {
                     ),
                     text: "Sair",
                     onPressed: () async {
-                      final viewModel = Provider.of<MenuViewModel>(context, listen: false);
-                      await viewModel.signOut();
+                      await AppInitializer.logout();
                       Navigator.pushReplacementNamed(context, '/startup');
                     },
                   ),

@@ -149,9 +149,11 @@ class StartupView extends StatelessWidget {
                   // Save user data locally
                   await userDataStorage.saveUserData(userData);
 
-                  // Check subscription validity and navigate
-                  String navigationRoute =
-                      await userService.checkSubscriptionValidity(user);
+                  // Initialize InAppPurchase services after login
+                  await AppInitializer.initializePurchaseServices();
+
+                  // Validate subscription after login
+                  String navigationRoute = await userService.checkSubscriptionValidity(user);
                   Navigator.pushReplacementNamed(context, navigationRoute);
                 } else {
                   // Handle the case where user data does not exist in Firestore
